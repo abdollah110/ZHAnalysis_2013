@@ -115,13 +115,13 @@ int main(int argc, char** argv) {
     //    To force a memory-resident Tree
     Run_Tree->SetDirectory(0);
 
-    Run_Tree->Branch("Channel", &MyChannel, "Channel/I");
-    Run_Tree->Branch("Run", &MyRun, "Run/I");
-    Run_Tree->Branch("Lumi", &MyLumi, "Lumi/I");
-    Run_Tree->Branch("Event", &MyEvent, "Event/I");
-    Run_Tree->Branch("IMass", &MyIMass, "IMass/F");
-    Run_Tree->Branch("ZMass", &MyZMass, "MyZMass/F");
-    Run_Tree->Branch("HMass", &MyHMass, "MyHMass/F");
+    Run_Tree->Branch("Channel", &Channel, "Channel/I");
+    Run_Tree->Branch("Run", &Run, "Run/I");
+    Run_Tree->Branch("Lumi", &Lumi, "Lumi/I");
+    Run_Tree->Branch("Event", &Event, "Event/I");
+    Run_Tree->Branch("IMass", &IMass, "IMass/F");
+    Run_Tree->Branch("ZMass", &ZMass, "ZMass/F");
+    Run_Tree->Branch("HMass", &HMass, "HMass/F");
     Run_Tree->Branch("met", &met, "met/F");
     Run_Tree->Branch("metPhi", &metPhi, "metPhi/F");
     Run_Tree->Branch("covMet11", &covMet11, "covMet11/F");
@@ -141,6 +141,7 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l1Pt", &l1Pt, "l1Pt/F");
     Run_Tree->Branch("l1Eta", &l1Eta, "l1Eta/F");
     Run_Tree->Branch("l1Phi", &l1Phi, "l1Phi/F");
+    Run_Tree->Branch("l1Charge", &l1Charge, "l1Charge/F");
     Run_Tree->Branch("l1_muId", &l1_muId, "l1_muId/B");
     Run_Tree->Branch("l1_muIso", &l1_muIso, "l1_muIso/F");
     Run_Tree->Branch("l1_eleId", &l1_eleId, "l1_eleId/B");
@@ -156,6 +157,7 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l2Pt", &l2Pt, "l2Pt/F");
     Run_Tree->Branch("l2Eta", &l2Eta, "l2Eta/F");
     Run_Tree->Branch("l2Phi", &l2Phi, "l2Phi/F");
+    Run_Tree->Branch("l2Charge", &l2Charge, "l2Charge/F");
     Run_Tree->Branch("l2_muId", &l2_muId, "l2_muId/B");
     Run_Tree->Branch("l2_muIso", &l2_muIso, "l2_muIso/F");
     Run_Tree->Branch("l2_eleId", &l2_eleId, "l2_eleId/B");
@@ -171,6 +173,7 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l3Pt", &l3Pt, "l3Pt/F");
     Run_Tree->Branch("l3Eta", &l3Eta, "l3Eta/F");
     Run_Tree->Branch("l3Phi", &l3Phi, "l3Phi/F");
+    Run_Tree->Branch("l3Charge", &l3Charge, "l3Charge/F");
     Run_Tree->Branch("l3_muId", &l3_muId, "l3_muId/B");
     Run_Tree->Branch("l3_muIso", &l3_muIso, "l3_muIso/F");
     Run_Tree->Branch("l3_eleId", &l3_eleId, "l3_eleId/B");
@@ -195,6 +198,7 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l4Pt", &l4Pt, "l4Pt/F");
     Run_Tree->Branch("l4Eta", &l4Eta, "l4Eta/F");
     Run_Tree->Branch("l4Phi", &l4Phi, "l4Phi/F");
+    Run_Tree->Branch("l4Charge", &l4Charge, "l4Charge/F");
     Run_Tree->Branch("l4_muId", &l4_muId, "l4_muId/B");
     Run_Tree->Branch("l4_muIso", &l4_muIso, "l4_muIso/F");
     Run_Tree->Branch("l4_eleId", &l4_eleId, "l4_eleId/B");
@@ -291,6 +295,7 @@ int main(int argc, char** argv) {
             }
             double Cor_eff = 1;
             double fake_pt = 0;
+            int MyChannel;
 
 
             //*********************************************************************************************
@@ -888,7 +893,7 @@ int main(int argc, char** argv) {
                                     //***************************Fake Rate Application ***************************
                                     //*********************************************************************************
 
-                                    if (preSelection) {
+                                    if (preSelection && BareTau[k].pt > 10 && BareTau[l].pt > 10) {
                                         fillTree(Run_Tree, m, PU_Weight, Cor_eff, 91, BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
                                     }
                                     if (preSelection && FR_Application) {
@@ -1413,7 +1418,7 @@ int main(int argc, char** argv) {
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
                                     //*********************************************************************************
-                                    if (preSelection) {
+                                    if (preSelection && BareTau[k].pt > 10 && BareTau[l].pt > 10) {
                                         fillTree(Run_Tree, m, PU_Weight, Cor_eff, 95, BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
                                     }
                                     if (preSelection && FR_Application) {

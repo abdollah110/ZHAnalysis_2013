@@ -27,18 +27,18 @@
 
 
 
-unsigned int MyChannel = 0;
-unsigned int MyRun = 0;
-unsigned int MyLumi = 0;
-unsigned int MyEvent = 0;
-float MyIMass = 0;
-float MyZMass = 0;
-float MyHMass = 0;
+unsigned int Channel = 0;
+unsigned int Run = 0;
+unsigned int Lumi = 0;
+unsigned int Event = 0;
+float IMass = 0;
+float ZMass = 0;
+float HMass = 0;
 float met, metPhi;
-float l1M, l1Px, l1Py, l1Pz, l1E, l1Pt, l1Phi, l1Eta, l1_muId, l1_muIso, l1_eleId, l1_eleIso, l1_eleMVANonTrg, l1_eleNumHit;
-float l2M, l2Px, l2Py, l2Pz, l2E, l2Pt, l2Phi, l2Eta, l2_muId, l2_muIso, l2_eleId, l2_eleIso, l2_eleMVANonTrg, l2_eleNumHit;
-float l3M, l3Px, l3Py, l3Pz, l3E, l3Pt, l3Phi, l3Eta, l3_muId, l3_muIso, l3_eleId, l3_eleIso, l3_eleMVANonTrg, l3_eleNumHit, l3_tauIsoL, l3_tauIsoM, l3_tauIsoT, l3_tauRejMuL, l3_tauRejMuM, l3_tauRejMuT, l3_tauRejEleL, l3_tauRejEleM, l3_tauRejEleMVA;
-float l4M, l4Px, l4Py, l4Pz, l4E, l4Pt, l4Phi, l4Eta, l4_muId, l4_muIso, l4_eleId, l4_eleIso, l4_eleMVANonTrg, l4_eleNumHit, l4_tauIsoL, l4_tauIsoM, l4_tauIsoT, l4_tauRejMuL, l4_tauRejMuM, l4_tauRejMuT, l4_tauRejEleL, l4_tauRejEleM, l4_tauRejEleMVA;
+float l1M, l1Px, l1Py, l1Pz, l1E, l1Pt, l1Phi, l1Eta, l1Charge, l1_muId, l1_muIso, l1_eleId, l1_eleIso, l1_eleMVANonTrg, l1_eleNumHit;
+float l2M, l2Px, l2Py, l2Pz, l2E, l2Pt, l2Phi, l2Eta, l2Charge, l2_muId, l2_muIso, l2_eleId, l2_eleIso, l2_eleMVANonTrg, l2_eleNumHit;
+float l3M, l3Px, l3Py, l3Pz, l3E, l3Pt, l3Phi, l3Eta, l3Charge, l3_muId, l3_muIso, l3_eleId, l3_eleIso, l3_eleMVANonTrg, l3_eleNumHit, l3_tauIsoL, l3_tauIsoM, l3_tauIsoT, l3_tauRejMuL, l3_tauRejMuM, l3_tauRejMuT, l3_tauRejEleL, l3_tauRejEleM, l3_tauRejEleMVA;
+float l4M, l4Px, l4Py, l4Pz, l4E, l4Pt, l4Phi, l4Eta, l4Charge, l4_muId, l4_muIso, l4_eleId, l4_eleIso, l4_eleMVANonTrg, l4_eleNumHit, l4_tauIsoL, l4_tauIsoM, l4_tauIsoT, l4_tauRejMuL, l4_tauRejMuM, l4_tauRejMuT, l4_tauRejEleL, l4_tauRejEleM, l4_tauRejEleMVA;
 float covMet11;
 float covMet12;
 float covMet21;
@@ -46,19 +46,18 @@ float covMet22;
 float eff_Correction, pu_Weight;
 int num_PV, num_bjet;
 
-
-void fillTree(TTree * Run_Tree, myevent *m, double cor_eff,float PU_Weight, int channel, myobject obj1, myobject obj2, myobject obj3, myobject obj4) {
+void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int channel, myobject obj1, myobject obj2, myobject obj3, myobject obj4) {
 
 
 
     vector<myobject> Met = m->RecPFMet;
-    MyChannel = channel;
-    MyRun = m->runNumber;
-    MyLumi = m->lumiNumber;
-    MyEvent = m->eventNumber;
-    MyIMass = InvarMass_4(obj1, obj2, obj3, obj4);
-    MyZMass = InvarMass_2(obj1, obj2);
-    MyHMass = InvarMass_2(obj3, obj4);
+    Channel = channel;
+    Run = m->runNumber;
+    Lumi = m->lumiNumber;
+    Event = m->eventNumber;
+    IMass = InvarMass_4(obj1, obj2, obj3, obj4);
+    ZMass = InvarMass_2(obj1, obj2);
+    HMass = InvarMass_2(obj3, obj4);
     covMet11 = m->MET_sigMatrix_00;
     covMet12 = m->MET_sigMatrix_01;
     covMet21 = m->MET_sigMatrix_10;

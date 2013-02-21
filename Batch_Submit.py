@@ -21,8 +21,9 @@ Run_Over = {
 
     ########################################################################################
 def make_submit_form(order, pnfn, data_year, lepton_type, timing):
-    location = "/localgrid/abdollah/CMSSW_4_2_8/src/WORK_DIR/Post_HCP/An5_NewVersion"
-#    location = os.getcwd()
+
+    location = os.getcwd()
+    location = location.replace("/localgrid_mnt", "") #nedd to remove the first part of address while submitting
     Sample = os.popen(("ls " + pnfn + " | sort | grep " + lepton_type))
     if lepton_type == "Tot":
         Sample = os.popen(("ls " + pnfn + " | sort "))
@@ -65,6 +66,6 @@ if __name__ == "__main__":
         R1, R2, R3, R4 = Run_Over[i]
         make_submit_form(str(i), R1, R2, R3, R4)
 
-    rm TotalSubmit.sh; ls Submit_* | xargs -n 1 -I {} echo 'sh {}' >> TotalSubmit.sh 
-    rm TotalHadd.sh;   ls Hadd_* | xargs -n 1 -I {} echo 'sh {}' >> TotalHadd.sh
+#    rm TotalSubmit.sh; ls Submit_* | xargs -n 1 -I {} echo 'sh {}' >> TotalSubmit.sh
+#    rm TotalHadd.sh;   ls Hadd_* | xargs -n 1 -I {} echo 'sh {}' >> TotalHadd.sh
     

@@ -14,9 +14,9 @@ Run_Over = {
     2:("/pnfs/iihe/cms/store/user/jez/FILTER2/ZHttNtuples/42X/Data", "data11", "Mu", "05:00:00"),
     3:("/pnfs/iihe/cms/store/user/jez/FILTER2/ZHttNtuples/53X/Data", "data12", "Ele", "05:00:00"),
     4:("/pnfs/iihe/cms/store/user/jez/FILTER2/ZHttNtuples/53X/Data", "data12", "Mu", "05:00:00"),
-    5:("/pnfs/iihe/cms/store/user/abdollah/ZHttNtuples/53X/MC", "mc12", "Tot", "03:00:00"),
-    6:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples/53X/MC", "mc12", "Tot", "05:00:00"),
-    7:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples/42X/MC", "mc11", "Tot", "05:00:00"),
+    5:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples/42X/MC", "mc11", "Tot", "05:00:00"),
+    6:("/pnfs/iihe/cms/store/user/abdollah/ZHttNtuples/53X/MC", "mc12", "Tot", "03:00:00"),
+    7:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples/53X/MC", "mc12", "Tot", "05:00:00"),
 }
 
     ########################################################################################
@@ -36,7 +36,7 @@ def make_submit_form(order, pnfn, data_year, lepton_type, timing):
     for files in Sample.readlines():
         f = os.popen("ls " + pnfn + "/" + files[0:-1] + " | sort")
         dir = "dcap://maite.iihe.ac.be" + pnfn + "/" + files[0:-1] + "/"
-        name_out = "___" + data_year + "_" + files[0:-1] + ".sh"
+        name_out = "__" + data_year + "_" + files[0:-1] + ".sh"
         outFile = open(name_out, 'w')
         command1 = "source $VO_CMS_SW_DIR/cmsset_default.sh " + "\n"
         command1 = command1 + "cd " + location + "\n"
@@ -64,3 +64,7 @@ if __name__ == "__main__":
     for i in Run_Over:
         R1, R2, R3, R4 = Run_Over[i]
         make_submit_form(str(i), R1, R2, R3, R4)
+
+    rm TotalSubmit.sh; ls Submit_* | xargs -n 1 -I {} echo 'sh {}' >> TotalSubmit.sh 
+    rm TotalHadd.sh;   ls Hadd_* | xargs -n 1 -I {} echo 'sh {}' >> TotalHadd.sh
+    

@@ -142,9 +142,9 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l1Eta", &l1Eta, "l1Eta/F");
     Run_Tree->Branch("l1Phi", &l1Phi, "l1Phi/F");
     Run_Tree->Branch("l1Charge", &l1Charge, "l1Charge/F");
-    Run_Tree->Branch("l1_muId", &l1_muId, "l1_muId/B");
+    Run_Tree->Branch("l1_muId", &l1_muId, "l1_muId/F");
     Run_Tree->Branch("l1_muIso", &l1_muIso, "l1_muIso/F");
-    Run_Tree->Branch("l1_eleId", &l1_eleId, "l1_eleId/B");
+    Run_Tree->Branch("l1_eleId", &l1_eleId, "l1_eleId/F");
     Run_Tree->Branch("l1_eleIso", &l1_eleIso, "l1_eleIso/F");
     Run_Tree->Branch("l1_eleMVANonTrg", &l1_eleMVANonTrg, "l1_eleMVANonTrg/F");
     Run_Tree->Branch("l1_eleNumHit", &l1_eleNumHit, "l1_eleNumHit/F");
@@ -158,9 +158,9 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l2Eta", &l2Eta, "l2Eta/F");
     Run_Tree->Branch("l2Phi", &l2Phi, "l2Phi/F");
     Run_Tree->Branch("l2Charge", &l2Charge, "l2Charge/F");
-    Run_Tree->Branch("l2_muId", &l2_muId, "l2_muId/B");
+    Run_Tree->Branch("l2_muId", &l2_muId, "l2_muId/F");
     Run_Tree->Branch("l2_muIso", &l2_muIso, "l2_muIso/F");
-    Run_Tree->Branch("l2_eleId", &l2_eleId, "l2_eleId/B");
+    Run_Tree->Branch("l2_eleId", &l2_eleId, "l2_eleId/F");
     Run_Tree->Branch("l2_eleIso", &l2_eleIso, "l2_eleIso/F");
     Run_Tree->Branch("l2_eleMVANonTrg", &l2_eleMVANonTrg, "l2_eleMVANonTrg/F");
     Run_Tree->Branch("l2_eleNumHit", &l2_eleNumHit, "l2_eleNumHit/F");
@@ -174,9 +174,9 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l3Eta", &l3Eta, "l3Eta/F");
     Run_Tree->Branch("l3Phi", &l3Phi, "l3Phi/F");
     Run_Tree->Branch("l3Charge", &l3Charge, "l3Charge/F");
-    Run_Tree->Branch("l3_muId", &l3_muId, "l3_muId/B");
+    Run_Tree->Branch("l3_muId", &l3_muId, "l3_muId/F");
     Run_Tree->Branch("l3_muIso", &l3_muIso, "l3_muIso/F");
-    Run_Tree->Branch("l3_eleId", &l3_eleId, "l3_eleId/B");
+    Run_Tree->Branch("l3_eleId", &l3_eleId, "l3_eleId/F");
     Run_Tree->Branch("l3_eleIso", &l3_eleIso, "l3_eleIso/F");
     Run_Tree->Branch("l3_eleMVANonTrg", &l3_eleMVANonTrg, "l3_eleMVANonTrg/F");
     Run_Tree->Branch("l3_eleNumHit", &l3_eleNumHit, "l3_eleNumHit/F");
@@ -199,9 +199,9 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l4Eta", &l4Eta, "l4Eta/F");
     Run_Tree->Branch("l4Phi", &l4Phi, "l4Phi/F");
     Run_Tree->Branch("l4Charge", &l4Charge, "l4Charge/F");
-    Run_Tree->Branch("l4_muId", &l4_muId, "l4_muId/B");
+    Run_Tree->Branch("l4_muId", &l4_muId, "l4_muId/F");
     Run_Tree->Branch("l4_muIso", &l4_muIso, "l4_muIso/F");
-    Run_Tree->Branch("l4_eleId", &l4_eleId, "l4_eleId/B");
+    Run_Tree->Branch("l4_eleId", &l4_eleId, "l4_eleId/F");
     Run_Tree->Branch("l4_eleIso", &l4_eleIso, "l4_eleIso/F");
     Run_Tree->Branch("l4_eleMVANonTrg", &l4_eleMVANonTrg, "l4_eleMVANonTrg/F");
     Run_Tree->Branch("l4_eleNumHit", &l4_eleNumHit, "l4_eleNumHit/F");

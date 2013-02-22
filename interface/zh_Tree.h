@@ -35,10 +35,10 @@ float IMass = 0;
 float ZMass = 0;
 float HMass = 0;
 float met, metPhi;
-float l1M, l1Px, l1Py, l1Pz, l1E, l1Pt, l1Phi, l1Eta, l1Charge, l1_muId, l1_muIso, l1_eleId, l1_eleIso, l1_eleMVANonTrg, l1_eleNumHit;
-float l2M, l2Px, l2Py, l2Pz, l2E, l2Pt, l2Phi, l2Eta, l2Charge, l2_muId, l2_muIso, l2_eleId, l2_eleIso, l2_eleMVANonTrg, l2_eleNumHit;
-float l3M, l3Px, l3Py, l3Pz, l3E, l3Pt, l3Phi, l3Eta, l3Charge, l3_muId, l3_muIso, l3_eleId, l3_eleIso, l3_eleMVANonTrg, l3_eleNumHit, l3_tauIsoL, l3_tauIsoM, l3_tauIsoT, l3_tauRejMuL, l3_tauRejMuM, l3_tauRejMuT, l3_tauRejEleL, l3_tauRejEleM, l3_tauRejEleMVA;
-float l4M, l4Px, l4Py, l4Pz, l4E, l4Pt, l4Phi, l4Eta, l4Charge, l4_muId, l4_muIso, l4_eleId, l4_eleIso, l4_eleMVANonTrg, l4_eleNumHit, l4_tauIsoL, l4_tauIsoM, l4_tauIsoT, l4_tauRejMuL, l4_tauRejMuM, l4_tauRejMuT, l4_tauRejEleL, l4_tauRejEleM, l4_tauRejEleMVA;
+float l1M, l1Px, l1Py, l1Pz, l1E, l1Pt, l1Phi, l1Eta, l1Charge, l1_muId, l1_muIso, l1_eleId, l1_eleIso, l1_eleMVANonTrg, l1_eleNumHit = -10;
+float l2M, l2Px, l2Py, l2Pz, l2E, l2Pt, l2Phi, l2Eta, l2Charge, l2_muId, l2_muIso, l2_eleId, l2_eleIso, l2_eleMVANonTrg, l2_eleNumHit = -10;
+float l3M, l3Px, l3Py, l3Pz, l3E, l3Pt, l3Phi, l3Eta, l3Charge, l3_muId, l3_muIso, l3_eleId, l3_eleIso, l3_eleMVANonTrg, l3_eleNumHit, l3_tauIsoL, l3_tauIsoM, l3_tauIsoT, l3_tauRejMuL, l3_tauRejMuM, l3_tauRejMuT, l3_tauRejEleL, l3_tauRejEleM, l3_tauRejEleMVA = -10;
+float l4M, l4Px, l4Py, l4Pz, l4E, l4Pt, l4Phi, l4Eta, l4Charge, l4_muId, l4_muIso, l4_eleId, l4_eleIso, l4_eleMVANonTrg, l4_eleNumHit, l4_tauIsoL, l4_tauIsoM, l4_tauIsoT, l4_tauRejMuL, l4_tauRejMuM, l4_tauRejMuT, l4_tauRejEleL, l4_tauRejEleM, l4_tauRejEleMVA = -10;
 float covMet11;
 float covMet12;
 float covMet21;
@@ -81,6 +81,7 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     l1_eleIso = Iso_Ele_dBeta(obj1);
     l1_eleMVANonTrg = obj1.Id_mvaNonTrg;
     l1_eleNumHit = obj1.numHitEleInner;
+    l1Charge = obj1.charge;
 
 
     l2M = obj2.mass;
@@ -97,6 +98,7 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     l2_eleIso = Iso_Ele_dBeta(obj2);
     l2_eleMVANonTrg = obj2.Id_mvaNonTrg;
     l2_eleNumHit = obj2.numHitEleInner;
+    l2Charge = obj2.charge;
 
     l3M = obj3.mass;
     l3Px = obj3.px;
@@ -121,6 +123,7 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     l3_tauRejEleL = obj3.discriminationByElectronLoose;
     l3_tauRejEleM = obj3.discriminationByElectronMedium;
     l3_tauRejEleMVA = obj3.discriminationByElectronMVA;
+    l3Charge = obj3.charge;
 
     l4M = obj4.mass;
     l4Px = obj4.px;
@@ -145,6 +148,7 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     l4_tauRejEleL = obj4.discriminationByElectronLoose;
     l4_tauRejEleM = obj4.discriminationByElectronMedium;
     l4_tauRejEleMVA = obj4.discriminationByElectronMVA;
+    l4Charge = obj4.charge;
 
 
     vector<myobject> Vertex = m->Vertex;

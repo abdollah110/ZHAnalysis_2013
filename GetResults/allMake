@@ -1,0 +1,9 @@
+./Make.sh FR_Estimation.cc
+./FR_Estimation.exe Mega.root Root_8TeV/Data12.root
+root .x -q Measure_Red_step1_tauFR.cc
+root .x -q Measure_Red_step2_emuFR.cc
+root .x -q Measure_Red_step3_Total.cc
+root .x -q FakeRate_Plots.cc
+python make_Results_2DTable.py
+python make_Results_Histograms.py
+

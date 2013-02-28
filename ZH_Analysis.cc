@@ -850,8 +850,11 @@ int main(int argc, char** argv) {
                 bool Fill_Once_ff = true;
                 bool Fill_Once_fp = true;
                 bool Fill_Once_pf = true;
-                bool Fill_Once_pp = true;
                 bool fill_once_Estimate = true;
+                bool Fill_Once_ff_v = true;
+                bool Fill_Once_fp_v = true;
+                bool Fill_Once_pf_v = true;
+                bool Fill_Once_pp_v = true;
 
                 if (BareTau.size() > 1 && BareMuon.size() > 1 && Trigger) {
                     for (int i = 0; i < BareMuon.size(); i++) {
@@ -924,75 +927,24 @@ int main(int argc, char** argv) {
                                         plotFill("Higgs_Mass_mmtt_ABCD_Validation", Higgs_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
 
                                         //Fake Rate Application Validation
-                                        if (Fill_Once_ff && !tau_Iso_Loose_1 && !tau_Iso_Loose_2) {
-                                            Fill_Once_ff = false;
+                                        if (Fill_Once_ff_v && !tau_Iso_Loose_1 && !tau_Iso_Loose_2) {
+                                            Fill_Once_ff_v = false;
                                             plotFill("Validation_FakeRate_MMTT_apply_ff", BareTau[k].pt, BareTau[l].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                         }
-                                        if (Fill_Once_fp && !tau_Iso_Loose_1 && tau_Iso_Loose_2) {
-                                            Fill_Once_fp = false;
+                                        if (Fill_Once_fp_v && !tau_Iso_Loose_1 && tau_Iso_Loose_2) {
+                                            Fill_Once_fp_v = false;
                                             plotFill("ValidationFakeRate_MMTT_apply_fp", BareTau[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                         }
-                                        if (Fill_Once_pf && tau_Iso_Loose_1 && !tau_Iso_Loose_2) {
-                                            Fill_Once_pf = false;
+                                        if (Fill_Once_pf_v && tau_Iso_Loose_1 && !tau_Iso_Loose_2) {
+                                            Fill_Once_pf_v = false;
                                             plotFill("ValidationFakeRate_MMTT_apply_pf", BareTau[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                         }
-                                        if (Fill_Once_pp && tau_Iso_Loose_1 && tau_Iso_Loose_2) {
-                                            Fill_Once_pp = false;
+                                        if (Fill_Once_pp_v && tau_Iso_Loose_1 && tau_Iso_Loose_2) {
+                                            Fill_Once_pp_v = false;
                                             plotFill("ValidationFakeRate_MMTT_apply_pp", BareTau[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                         }
                                     }//end of validation
 
-                                    //*********************************************************************************
-                                    //***************************Fake Rate Estimation SS ***************************
-                                    //*********************************************************************************
-                                    if (preSelection && FR_Estimation_SS) {
-
-                                        //Denumerator
-                                        plotFill("FakeRate_MMTT_Tau_Pt_Before", BareTau[k].pt, 200, 0, 200);
-                                        plotFill("FakeRate_MMTT_Tau_Pt_Before", BareTau[l].pt, 200, 0, 200);
-                                        plotFill("FakeRate_TT_Tau_Pt_Before", BareTau[k].pt, 200, 0, 200);
-                                        plotFill("FakeRate_TT_Tau_Pt_Before", BareTau[l].pt, 200, 0, 200);
-                                        fillTree(Run_Tree, m, PU_Weight, Cor_eff, 51, BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
-
-
-                                        //numerator tight
-                                        if (tau_Iso_Tight_1) {
-                                            plotFill("FakeRate_MMTT_Tau_Pt_After_Tight", BareTau[k].pt, 200, 0, 200);
-                                            plotFill("FakeRate_TT_Tau_Pt_After_Tight", BareTau[k].pt, 200, 0, 200);
-                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 61, BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
-                                        }
-                                        //numerator tight
-                                        if (tau_Iso_Tight_2) {
-                                            plotFill("FakeRate_MMTT_Tau_Pt_After_Tight", BareTau[l].pt, 200, 0, 200);
-                                            plotFill("FakeRate_TT_Tau_Pt_After_Tight", BareTau[l].pt, 200, 0, 200);
-                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 61, BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
-                                        }
-                                        //numerator Medium
-                                        if (tau_Iso_Medium_1) {
-                                            plotFill("FakeRate_MMTT_Tau_Pt_After_Medium", BareTau[k].pt, 200, 0, 200);
-                                            plotFill("FakeRate_TT_Tau_Pt_After_Medium", BareTau[k].pt, 200, 0, 200);
-                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 71, BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
-                                        }
-                                        //numerator Medium
-                                        if (tau_Iso_Medium_2) {
-                                            plotFill("FakeRate_MMTT_Tau_Pt_After_Medium", BareTau[l].pt, 200, 0, 200);
-                                            plotFill("FakeRate_TT_Tau_Pt_After_Medium", BareTau[l].pt, 200, 0, 200);
-                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 71, BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
-                                        }
-                                        //numerator Loose
-                                        if (tau_Iso_Loose_1) {
-                                            plotFill("FakeRate_MMTT_Tau_Pt_After_Loose", BareTau[k].pt, 200, 0, 200);
-                                            plotFill("FakeRate_TT_Tau_Pt_After_Loose", BareTau[k].pt, 200, 0, 200);
-                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 81, BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
-                                        }
-                                        //numerator Loose
-                                        if (tau_Iso_Loose_2) {
-                                            plotFill("FakeRate_MMTT_Tau_Pt_After_Loose", BareTau[l].pt, 200, 0, 200);
-                                            plotFill("FakeRate_TT_Tau_Pt_After_Loose", BareTau[l].pt, 200, 0, 200);
-                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 81, BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
-                                        }
-                                        fill_once_Estimate = false;
-                                    }//end fake rate estimation
                                     //*********
                                 }
                             }
@@ -1374,6 +1326,9 @@ int main(int argc, char** argv) {
                 bool Fill_Once_ff = true;
                 bool Fill_Once_fp = true;
                 bool Fill_Once_pf = true;
+                bool Fill_Once_ff_v = true;
+                bool Fill_Once_fp_v = true;
+                bool Fill_Once_pf_v = true;
                 bool fill_once_Estimate = true;
 
                 // ABCD eett
@@ -1452,71 +1407,21 @@ int main(int argc, char** argv) {
 
                                         //Fake Rate Application Validation
                                         //                                            if (!tau_Iso_Loose_1 && !tau_Iso_Loose_2 && tau_.size() == 0) {
-                                        if (Fill_Once_ff && !tau_Iso_Loose_1 && !tau_Iso_Loose_2) {
+                                        if (Fill_Once_ff_v && !tau_Iso_Loose_1 && !tau_Iso_Loose_2) {
                                             plotFill("Validation_FakeRate_EETT_apply_ff", BareTau[k].pt, BareTau[l].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
-                                            Fill_Once_ff = false;
+                                            Fill_Once_ff_v = false;
                                         }
                                         //                                            if (!tau_Iso_Loose_1 && tau_Iso_Loose_2 && tau_.size() == 1) {
-                                        if (Fill_Once_fp && !tau_Iso_Loose_1 && tau_Iso_Loose_2) {
+                                        if (Fill_Once_fp_v && !tau_Iso_Loose_1 && tau_Iso_Loose_2) {
                                             plotFill("ValidationFakeRate_EETT_apply_fp", BareTau[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
-                                            Fill_Once_fp = false;
+                                            Fill_Once_fp_v = false;
                                         }
                                         //                                            if (tau_Iso_Loose_1 && !tau_Iso_Loose_2 && tau_.size() == 1) {
-                                        if (Fill_Once_pf && tau_Iso_Loose_1 && !tau_Iso_Loose_2) {
+                                        if (Fill_Once_pf_v && tau_Iso_Loose_1 && !tau_Iso_Loose_2) {
                                             plotFill("ValidationFakeRate_EETT_apply_pf", BareTau[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
-                                            Fill_Once_pf = false;
+                                            Fill_Once_pf_v = false;
                                         }//end of validation
                                     }//end fake rate application
-                                    //*********************************************************************************
-                                    //***************************Fake Rate Estimation SS ***************************
-                                    //*********************************************************************************
-                                    if (preSelection && FR_Estimation_SS) {
-
-                                        //Denumerator
-                                        plotFill("FakeRate_EETT_Tau_Pt_Before", BareTau[k].pt, 200, 0, 200);
-                                        plotFill("FakeRate_EETT_Tau_Pt_Before", BareTau[l].pt, 200, 0, 200);
-                                        plotFill("FakeRate_TT_Tau_Pt_Before", BareTau[k].pt, 200, 0, 200);
-                                        plotFill("FakeRate_TT_Tau_Pt_Before", BareTau[l].pt, 200, 0, 200);
-                                        fillTree(Run_Tree, m, PU_Weight, Cor_eff, 55, BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
-
-                                        //numerator tight
-                                        if (tau_Iso_Tight_1) {
-                                            plotFill("FakeRate_EETT_Tau_Pt_After_Tight", BareTau[k].pt, 200, 0, 200);
-                                            plotFill("FakeRate_TT_Tau_Pt_After_Tight", BareTau[k].pt, 200, 0, 200);
-                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 65, BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
-                                        }
-                                        //numerator tight
-                                        if (tau_Iso_Tight_2) {
-                                            plotFill("FakeRate_EETT_Tau_Pt_After_Tight", BareTau[l].pt, 200, 0, 200);
-                                            plotFill("FakeRate_TT_Tau_Pt_After_Tight", BareTau[l].pt, 200, 0, 200);
-                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 65, BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
-                                        }
-                                        //numerator Medium
-                                        if (tau_Iso_Medium_1) {
-                                            plotFill("FakeRate_EETT_Tau_Pt_After_Medium", BareTau[k].pt, 200, 0, 200);
-                                            plotFill("FakeRate_TT_Tau_Pt_After_Medium", BareTau[k].pt, 200, 0, 200);
-                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 75, BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
-                                        }
-                                        //numerator Medium
-                                        if (tau_Iso_Medium_2) {
-                                            plotFill("FakeRate_EETT_Tau_Pt_After_Medium", BareTau[l].pt, 200, 0, 200);
-                                            plotFill("FakeRate_TT_Tau_Pt_After_Medium", BareTau[l].pt, 200, 0, 200);
-                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 75, BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
-                                        }
-                                        //numerator Loose
-                                        if (tau_Iso_Loose_1) {
-                                            plotFill("FakeRate_EETT_Tau_Pt_After_Loose", BareTau[k].pt, 200, 0, 200);
-                                            plotFill("FakeRate_TT_Tau_Pt_After_Loose", BareTau[k].pt, 200, 0, 200);
-                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 85, BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
-                                        }
-                                        //numerator Loose
-                                        if (tau_Iso_Loose_2) {
-                                            plotFill("FakeRate_EETT_Tau_Pt_After_Loose", BareTau[l].pt, 200, 0, 200);
-                                            plotFill("FakeRate_TT_Tau_Pt_After_Loose", BareTau[l].pt, 200, 0, 200);
-                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 85, BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
-                                        }
-                                        fill_once_Estimate = false;
-                                    }
                                     //*****
                                 }
                             }

@@ -20,21 +20,19 @@
 #include "TRandom.h"
 #include "TLorentzVector.h"
 #include "TRandom3.h"
-
-
 //needed to make the executable
 #include "interface/myevent.h"
 #include "interface/LinkDef.h"
 #include "interface/myobject.h"
-
 // needed header files
 #include "interface/makeHisto.h"
-#include "interface/zh_Auxiliary.h"
 #include "interface/Leptons_PreSelection.h"
+#include "interface/zh_Auxiliary.h"
 #include "interface/zh_Corrector.h"
 #include "interface/zh_Trigger.h"
 #include "interface/zh_Tree.h"
 #include "interface/Leptons_IdIso.h"
+#include "interface/zh_Functions.h"
 #include "interface/LumiReweightingStandAlone.h"
 
 int main(int argc, char** argv) {
@@ -97,7 +95,6 @@ int main(int argc, char** argv) {
     cout << "\n\n\n OUTPUT NAME IS:    " << outname << endl;
     TFile *fout = TFile::Open(outname.c_str(), "RECREATE");
 
-
     //#################################################################################################
     //############## initializing the PU correction                                    ###############
     //#################################################################################################
@@ -110,7 +107,6 @@ int main(int argc, char** argv) {
     //#################################################################################################
     //############## defining Tree Branches Filled via fillTree function                ###############
     //#################################################################################################
-
     TTree *Run_Tree = new TTree("RLE_tree", "RLE_tree");
     //    To force a memory-resident Tree
     Run_Tree->SetDirectory(0);
@@ -132,6 +128,18 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("num_bjet", &num_bjet, "num_bjet/I");
     Run_Tree->Branch("eff_Correction", &eff_Correction, "eff_Correction/F");
     Run_Tree->Branch("pu_Weight", &pu_Weight, "pu_Weight/F");
+
+    Run_Tree->Branch("mu_Size", &mu_Size, "mu_Size/I");
+    Run_Tree->Branch("BareMuon_Size", &BareMuon_Size, "BareMuon_Size/I");
+    Run_Tree->Branch("electron_Size", &electron_Size, "electron_Size/I");
+    Run_Tree->Branch("BareElectron_Size", &BareElectron_Size, "BareElectron_Size/I");
+    Run_Tree->Branch("tau_Size", &tau_Size, "tau_Size/I");
+    Run_Tree->Branch("BareTau_Size", &BareTau_Size, "BareTau_Size/I");
+    Run_Tree->Branch("mu_partLoose_Size", &mu_partLoose_Size, "mu_partLoose_Size/I");
+    Run_Tree->Branch("mu_partTight_Size", &mu_partTight_Size, "mu_partTight_Size/I");
+    Run_Tree->Branch("ele_partLoose_Size", &ele_partLoose_Size, "ele_partLoose_Size/I");
+    Run_Tree->Branch("ele_partTight_Size", &ele_partTight_Size, "ele_partTight_Size/I");
+
 
     Run_Tree->Branch("l1M", &l1M, "l1M/F");
     Run_Tree->Branch("l1E", &l1E, "l1E/F");
@@ -189,6 +197,7 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l3_tauRejEleL", &l3_tauRejEleL, "l3_tauRejEleL/F");
     Run_Tree->Branch("l3_tauRejEleM", &l3_tauRejEleM, "l3_tauRejEleM/F");
     Run_Tree->Branch("l3_tauRejEleMVA", &l3_tauRejEleMVA, "l3_tauRejEleMVA/F");
+    Run_Tree->Branch("l3_CloseJetPt", &l3_CloseJetPt, "l3_CloseJetPt/F");
 
     Run_Tree->Branch("l4M", &l4M, "l4M/F");
     Run_Tree->Branch("l4E", &l4E, "l4E/F");
@@ -214,11 +223,11 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l4_tauRejEleL", &l4_tauRejEleL, "l4_tauRejEleL/F");
     Run_Tree->Branch("l4_tauRejEleM", &l4_tauRejEleM, "l4_tauRejEleM/F");
     Run_Tree->Branch("l4_tauRejEleMVA", &l4_tauRejEleMVA, "l4_tauRejEleMVA/F");
+    Run_Tree->Branch("l4_CloseJetPt", &l4_CloseJetPt, "l4_CloseJetPt/F");
 
     //#################################################################################################
     //###################      Starting the analysis, making loop over files    #######################
     //#################################################################################################
-
     //running over the
     for (int k = 0; k < fileNames.size(); k++) {
 
@@ -236,24 +245,26 @@ int main(int argc, char** argv) {
             if (i % 1000 == 0) fprintf(stdout, "\r  Processed events: %8d of %8d ", i, nev);
             fflush(stdout);
 
-
             //*********************************************************************************************
             //****************************    Object definitions    ***************************************
             //*********************************************************************************************
-            vector<myobject> mu_ = GoodMuon(m);
-            vector<myobject> BareMuon = NoIdIsoMuon(m);
+            vector<myobject> mu_ = myCleanLepton(m, "mu");
+            vector<myobject> BareMuon = myCleanBareLepton(m, "mu");
+            vector<myobject> electron_ = myCleanLepton(m, "ele");
+            vector<myobject> BareElectron = myCleanBareLepton(m, "ele");
+            vector<myobject> tau_ = myCleanLepton(m, "tau");
+            vector<myobject> BareTau = myCleanBareLepton(m, "tau");
 
-            vector<myobject> electron_PreSel = GoodElectron(m);
-            vector<myobject> BareElectron_PreSel = NoIdIsoElectron(m);
+            vector<myobject> mu_partTight = LeptonSubSet(m, "mu_tight_partly");
+            vector<myobject> mu_partLoose = LeptonSubSet(m, "mu_loose_partly");
+            vector<myobject> ele_partTight = LeptonSubSet(m, "ele_tight_partly");
+            vector<myobject> ele_partLoose = LeptonSubSet(m, "ele_loose_partly");
 
-            vector<myobject> tau_PreSel = GoodTau(m);
-            vector<myobject> BareTau_PreSel = NoIsoTau(m);
             //Number of B-jets
             int num_Bjet = bjet_Multiplicity(m);
             //*********************************************************************************************
             //****************************    PileUp re weighting    ***************************************
             //*********************************************************************************************
-
             int num_PU = 1;
             float PU_Weight = 1;
 
@@ -296,102 +307,6 @@ int main(int argc, char** argv) {
             double Cor_eff = 1;
             double fake_pt = 0;
             int MyChannel;
-
-
-            //*********************************************************************************************
-            //****************************    Removing OverLaps  I ***************************************
-            //*********************************************************************************************
-            //remove overlap Muon and electron
-            vector<myobject> electron_;
-            electron_.clear();
-            for (int a = 0; a < electron_PreSel.size(); a++) {
-                bool Keep_obj = true;
-                for (int b = 0; b < mu_.size(); b++) {
-                    if (deltaR(electron_PreSel[a], mu_[b]) < 0.1)
-                        Keep_obj = false;
-                }
-                if (Keep_obj == true)
-                    electron_.push_back(electron_PreSel[a]);
-            }
-            //remove overlap Muon, Electron and Tau
-            vector<myobject> tau_;
-            tau_.clear();
-            for (int a = 0; a < tau_PreSel.size(); a++) {
-                bool Keep_obj = true;
-                for (int b = 0; b < electron_.size(); b++) {
-                    if (deltaR(tau_PreSel[a], electron_[b]) < 0.1)
-                        Keep_obj = false;
-                }
-                for (int c = 0; c < mu_.size(); c++) {
-                    if (deltaR(tau_PreSel[a], mu_[c]) < 0.1)
-                        Keep_obj = false;
-                }
-                if (Keep_obj == true)
-                    tau_.push_back(tau_PreSel[a]);
-            }
-
-            //*********************************************************************************************
-            //****************************    Removing OverLaps  II ***************************************
-            //*********************************************************************************************
-            vector<myobject> BareElectron;
-            BareElectron.clear();
-            for (int a = 0; a < BareElectron_PreSel.size(); a++) {
-                bool Keep_obj = true;
-                for (int b = 0; b < BareMuon.size(); b++) {
-                    if (Id_Mu(BareMuon[b]) && deltaR(BareElectron_PreSel[a], BareMuon[b]) < 0.1)
-                        Keep_obj = false;
-                }
-                if (Keep_obj == true)
-                    BareElectron.push_back(BareElectron_PreSel[a]);
-            }
-
-
-
-            vector<myobject> BareTau;
-            BareTau.clear();
-            for (int a = 0; a < BareTau_PreSel.size(); a++) {
-                bool Keep_obj = true;
-                for (int b = 0; b < BareElectron.size(); b++) {
-                    if (EleMVANonTrigId(BareElectron[b]) && deltaR(BareTau_PreSel[a], BareElectron[b]) < 0.1)
-                        Keep_obj = false;
-                }
-                for (int c = 0; c < BareMuon.size(); c++) {
-                    if (Id_Mu(BareMuon[c]) && deltaR(BareTau_PreSel[a], BareMuon[c]) < 0.1)
-                        Keep_obj = false;
-                }
-                if (Keep_obj == true)
-                    BareTau.push_back(BareTau_PreSel[a]);
-            }
-
-            //*********************************************************************************************
-            //*********************************************************************************************
-
-            vector<myobject> mu_Debug;
-            vector<myobject> mu_Debug_loose;
-            mu_Debug.clear();
-            mu_Debug_loose.clear();
-            for (int b = 0; b < mu_.size(); b++) {
-                if (Iso_Mu_dBeta(mu_[b]) > tight_Iso_Mu && Iso_Mu_dBeta(mu_[b]) < 0.40)
-                    mu_Debug.push_back(mu_[b]);
-                if (Iso_Mu_dBeta(mu_[b]) > loose_Iso_Mu && Iso_Mu_dBeta(mu_[b]) < 0.40)
-                    mu_Debug_loose.push_back(mu_[b]);
-            }
-            vector<myobject> electron_Debug;
-            vector<myobject> electron_Debug_loose;
-            electron_Debug.clear();
-            electron_Debug_loose.clear();
-            for (int a = 0; a < electron_PreSel.size(); a++) {
-                bool Keep_obj = true;
-                for (int b = 0; b < mu_.size(); b++) {
-                    if (deltaR(electron_PreSel[a], mu_[b]) < 0.1)
-                        Keep_obj = false;
-                }
-                if (Keep_obj == true && Iso_Ele_dBeta(electron_PreSel[a]) > tight_Iso_Ele && Iso_Ele_dBeta(electron_PreSel[a]) < 0.40)
-                    electron_Debug.push_back(electron_PreSel[a]);
-                if (Keep_obj == true && Iso_Ele_dBeta(electron_PreSel[a]) > loose_Iso_Ele && Iso_Ele_dBeta(electron_PreSel[a]) < 0.40)
-                    electron_Debug_loose.push_back(electron_PreSel[a]);
-            }
-
 
             //#################################################################################################
             //#################################################################################################
@@ -1000,8 +915,8 @@ int main(int argc, char** argv) {
                                         fillTree(Run_Tree, m, PU_Weight, Cor_eff, 92, BareMuon[i], BareMuon[j], BareElectron[k], BareTau[l]);
                                     }
                                     if (preSelection && FR_Application) {
-                                        //                                            if (Fill_Once_ff && !tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 0 || (electron_.size() == 1 && electron_Debug.size() == 1)) && tau_.size() == 0) {
-                                        if (Fill_Once_ff && !tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 0 || (electron_.size() == 1 && electron_Debug.size() == 1))) {
+                                        //                                            if (Fill_Once_ff && !tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 0 || (electron_.size() == 1 && ele_partTight.size() == 1)) && tau_.size() == 0) {
+                                        if (Fill_Once_ff && !tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 0 || (electron_.size() == 1 && ele_partTight.size() == 1))) {
                                             Fill_Once_ff = false;
                                             plotFill("FakeRate_MMET_apply_ff", BareTau[l].pt, BareElectron[k].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             plotFill("FakeRate_MMET_apply_ff_Jet", BareTau[l].pt, fake_pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
@@ -1014,8 +929,8 @@ int main(int argc, char** argv) {
                                             plotFill("FakeRate_MMET_apply_fp", BareTau[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 22, BareMuon[i], BareMuon[j], BareElectron[k], BareTau[l]);
                                         }
-                                        //                                            if (Fill_Once_pf && tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 0 || (electron_.size() == 1 && electron_Debug.size() == 1)) && tau_.size() == 1) {
-                                        if (Fill_Once_pf && tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 0 || (electron_.size() == 1 && electron_Debug.size() == 1))) {
+                                        //                                            if (Fill_Once_pf && tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 0 || (electron_.size() == 1 && ele_partTight.size() == 1)) && tau_.size() == 1) {
+                                        if (Fill_Once_pf && tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 0 || (electron_.size() == 1 && ele_partTight.size() == 1))) {
                                             Fill_Once_pf = false;
                                             plotFill("FakeRate_MMET_apply_pf", BareElectron[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             plotFill("FakeRate_MMET_apply_pf_Jet", fake_pt, 200, 0, 200, PU_Weight * Cor_eff);
@@ -1160,8 +1075,8 @@ int main(int argc, char** argv) {
                                     }
                                     if (preSelection && FR_Application) {
 
-                                        //                                            if (Fill_Once_ff && !tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 2 || (mu_.size() == 3 && mu_Debug.size() == 1)) && tau_.size() == 0) {
-                                        if (Fill_Once_ff && !tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 2 || (mu_.size() == 3 && mu_Debug.size() == 1))) {
+                                        //                                            if (Fill_Once_ff && !tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 2 || (mu_.size() == 3 && mu_partTight.size() == 1)) && tau_.size() == 0) {
+                                        if (Fill_Once_ff && !tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 2 || (mu_.size() == 3 && mu_partTight.size() == 1))) {
                                             Fill_Once_ff = false;
                                             plotFill("FakeRate_MMMT_apply_ff", BareTau[l].pt, BareMuon[k].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             plotFill("FakeRate_MMMT_apply_ff_Jet", BareTau[l].pt, fake_pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
@@ -1173,8 +1088,8 @@ int main(int argc, char** argv) {
                                             plotFill("FakeRate_MMMT_apply_fp", BareTau[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 23, BareMuon[p], BareMuon[q], BareMuon[k], BareTau[l]);
                                         }
-                                        //                                            if (Fill_Once_pf && tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 2 || (mu_.size() == 3 && mu_Debug.size() == 1)) && tau_.size() == 1) {
-                                        if (Fill_Once_pf && tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 2 || (mu_.size() == 3 && mu_Debug.size() == 1))) {
+                                        //                                            if (Fill_Once_pf && tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 2 || (mu_.size() == 3 && mu_partTight.size() == 1)) && tau_.size() == 1) {
+                                        if (Fill_Once_pf && tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 2 || (mu_.size() == 3 && mu_partTight.size() == 1))) {
                                             Fill_Once_pf = false;
                                             plotFill("FakeRate_MMMT_apply_pf", BareMuon[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             plotFill("FakeRate_MMMT_apply_pf_Jet", fake_pt, 200, 0, 200, PU_Weight * Cor_eff);
@@ -1266,14 +1181,13 @@ int main(int argc, char** argv) {
                                     bool muon_Id = Id_Mu(BareMuon[k]);
                                     bool electron_Id = EleMVANonTrigId(BareElectron[l]);
                                     bool H_Charge_b = BareElectron[l].charge * BareMuon[k].charge < 0;
-                                    bool No_extra_lepton = tau_.size() < 10; //strange cut
                                     Cor_eff = getCorrFactor("mmme", status_sample.c_str(), BareMuon[p], BareMuon[q], BareMuon[k], BareElectron[l]);
                                     bool SumPtCut = getSumPtCut("mmme", BareMuon[p], BareMuon[q], BareMuon[k], BareElectron[l]);
                                     double fake_pt_mu = Find_Closet_Jet(BareMuon[k], m);
                                     double fake_pt_ele = Find_Closet_Jet(BareElectron[l], m);
 
                                     bool preSelection = true;
-                                    bool FR_Application = SumPtCut && No_extra_lepton && Overlap_Dz && H_Charge_b;
+                                    bool FR_Application = SumPtCut &&  Overlap_Dz && H_Charge_b;
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
                                     //*********************************************************************************
@@ -1285,19 +1199,19 @@ int main(int argc, char** argv) {
 
 
                                         //Fake Rate Application
-                                        if (Fill_Once_ff && (!electron_Isol_Loose || !electron_Id) && (!muon_Isol_Loose || !muon_Id) && (mu_.size() == 2 || (mu_.size() == 3 - mu_Debug_loose.size() == 2)) && (electron_.size() == 0 || (electron_.size() - electron_Debug_loose.size() == 0))) {
+                                        if (Fill_Once_ff && (!electron_Isol_Loose || !electron_Id) && (!muon_Isol_Loose || !muon_Id) && (mu_.size() == 2 || (mu_.size() == 3 - mu_partLoose.size() == 2)) && (electron_.size() == 0 || (electron_.size() - ele_partLoose.size() == 0))) {
                                             Fill_Once_ff = false;
                                             plotFill("FakeRate_MMME_apply_ff", BareElectron[l].pt, BareMuon[k].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             plotFill("FakeRate_MMME_apply_ff_Jet", fake_pt_ele, fake_pt_mu, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 14, BareMuon[p], BareMuon[q], BareMuon[k], BareElectron[l]);
                                         }
-                                        if (Fill_Once_fp && (!electron_Isol_Loose || !electron_Id) && (muon_Isol_Loose && muon_Id) && mu_.size() == 3 && (electron_.size() == 0 || (electron_.size() == 1 && electron_Debug_loose.size() == 1))) {
+                                        if (Fill_Once_fp && (!electron_Isol_Loose || !electron_Id) && (muon_Isol_Loose && muon_Id) && mu_.size() == 3 && (electron_.size() == 0 || (electron_.size() == 1 && ele_partLoose.size() == 1))) {
                                             Fill_Once_fp = false;
                                             plotFill("FakeRate_MMME_apply_fp", BareElectron[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             plotFill("FakeRate_MMME_apply_fp_Jet", fake_pt_ele, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 24, BareMuon[p], BareMuon[q], BareMuon[k], BareElectron[l]);
                                         }
-                                        if (Fill_Once_pf && (electron_Isol_Loose && electron_Id) && (!muon_Isol_Loose || !muon_Id) && (mu_.size() == 2 || (mu_.size() == 3 && mu_Debug_loose.size() == 1)) && electron_.size() == 1) {
+                                        if (Fill_Once_pf && (electron_Isol_Loose && electron_Id) && (!muon_Isol_Loose || !muon_Id) && (mu_.size() == 2 || (mu_.size() == 3 && mu_partLoose.size() == 1)) && electron_.size() == 1) {
                                             Fill_Once_pf = false;
                                             plotFill("FakeRate_MMME_apply_pf", BareMuon[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             plotFill("FakeRate_MMME_apply_pf_Jet", fake_pt_mu, 200, 0, 200, PU_Weight * Cor_eff);
@@ -1477,8 +1391,8 @@ int main(int argc, char** argv) {
                                     }
                                     if (preSelection && FR_Application) {
 
-                                        //                                                if (Fill_Once_ff && !tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 0 || (mu_.size() == 1 && mu_Debug.size() == 1)) && tau_.size() == 0) {
-                                        if (Fill_Once_ff && !tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 0 || (mu_.size() == 1 && mu_Debug.size() == 1))) {
+                                        //                                                if (Fill_Once_ff && !tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 0 || (mu_.size() == 1 && mu_partTight.size() == 1)) && tau_.size() == 0) {
+                                        if (Fill_Once_ff && !tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 0 || (mu_.size() == 1 && mu_partTight.size() == 1))) {
                                             Fill_Once_ff = false;
                                             plotFill("FakeRate_EEMT_apply_ff", BareTau[l].pt, BareMuon[k].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             plotFill("FakeRate_EEMT_apply_ff_Jet", BareTau[l].pt, fake_pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
@@ -1490,8 +1404,8 @@ int main(int argc, char** argv) {
                                             plotFill("FakeRate_EEMT_apply_fp", BareTau[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 26, BareElectron[i], BareElectron[j], BareMuon[k], BareTau[l]);
                                         }
-                                        //                                                if (Fill_Once_pf && tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 0 || (mu_.size() == 1 && mu_Debug.size() == 1)) && tau_.size() == 1) {
-                                        if (Fill_Once_pf && tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 0 || (mu_.size() == 1 && mu_Debug.size() == 1))) {
+                                        //                                                if (Fill_Once_pf && tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 0 || (mu_.size() == 1 && mu_partTight.size() == 1)) && tau_.size() == 1) {
+                                        if (Fill_Once_pf && tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() == 0 || (mu_.size() == 1 && mu_partTight.size() == 1))) {
                                             Fill_Once_pf = false;
                                             plotFill("FakeRate_EEMT_apply_pf", BareMuon[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             plotFill("FakeRate_EEMT_apply_pf_Jet", fake_pt, 200, 0, 200, PU_Weight * Cor_eff);
@@ -1641,8 +1555,8 @@ int main(int argc, char** argv) {
                                     }
                                     if (preSelection && FR_Application) {
 
-                                        //                                            if (Fill_Once_ff && !tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 2 || (electron_.size() == 3 && electron_Debug.size() == 1)) && tau_.size() == 0) {
-                                        if (Fill_Once_ff && !tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 2 || (electron_.size() == 3 && electron_Debug.size() == 1))) {
+                                        //                                            if (Fill_Once_ff && !tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 2 || (electron_.size() == 3 && ele_partTight.size() == 1)) && tau_.size() == 0) {
+                                        if (Fill_Once_ff && !tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 2 || (electron_.size() == 3 && ele_partTight.size() == 1))) {
                                             Fill_Once_ff = false;
                                             plotFill("FakeRate_EEET_apply_ff", BareTau[l].pt, BareElectron[k].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             plotFill("FakeRate_EEET_apply_ff_Jet", BareTau[l].pt, fake_pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
@@ -1654,8 +1568,8 @@ int main(int argc, char** argv) {
                                             plotFill("FakeRate_EEET_apply_fp", BareTau[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 27, BareElectron[p], BareElectron[q], BareElectron[k], BareTau[l]);
                                         }
-                                        //                                            if (Fill_Once_pf && tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 2 || (electron_.size() == 3 && electron_Debug.size() == 1)) && tau_.size() == 1) {
-                                        if (Fill_Once_pf && tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 2 || (electron_.size() == 3 && electron_Debug.size() == 1))) {
+                                        //                                            if (Fill_Once_pf && tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 2 || (electron_.size() == 3 && ele_partTight.size() == 1)) && tau_.size() == 1) {
+                                        if (Fill_Once_pf && tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() == 2 || (electron_.size() == 3 && ele_partTight.size() == 1))) {
                                             Fill_Once_pf = false;
                                             plotFill("FakeRate_EEET_apply_pf", BareElectron[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             plotFill("FakeRate_EEET_apply_pf_Jet", fake_pt, 200, 0, 200, PU_Weight * Cor_eff);
@@ -1749,14 +1663,13 @@ int main(int argc, char** argv) {
                                     bool muon_Id = Id_Mu(BareMuon[l]);
                                     bool electron_Id = EleMVANonTrigId(BareElectron[k]);
                                     bool H_Charge_b = BareElectron[k].charge * BareMuon[l].charge < 0;
-                                    bool No_extra_lepton = tau_.size() < 10; //strange cut
                                     Cor_eff = getCorrFactor("eeem", status_sample.c_str(), BareElectron[p], BareElectron[q], BareElectron[k], BareMuon[l]);
                                     bool SumPtCut = getSumPtCut("eeem", BareElectron[p], BareElectron[q], BareElectron[k], BareMuon[l]);
                                     double fake_pt_mu = Find_Closet_Jet(BareMuon[l], m);
                                     double fake_pt_ele = Find_Closet_Jet(BareElectron[k], m);
 
                                     bool preSelection = true;
-                                    bool FR_Application = SumPtCut && No_extra_lepton && Overlap_Dz && H_Charge_b;
+                                    bool FR_Application = SumPtCut &&  Overlap_Dz && H_Charge_b;
                                     //*********************************************************************************
                                     //***************************Fake Rate Estimation ***************************
                                     //*********************************************************************************
@@ -1767,21 +1680,21 @@ int main(int argc, char** argv) {
                                     if (preSelection && FR_Application) {
 
                                         //Fake Rate Application
-                                        if (Fill_Once_ff && (!electron_Isol_Loose || !electron_Id) && (!muon_Isol_Loose || !muon_Id) && (electron_.size() == 2 || electron_.size() - electron_Debug_loose.size() == 2) && (mu_.size() == 0 || mu_.size() - mu_Debug_loose.size() == 0)) {
+                                        if (Fill_Once_ff && (!electron_Isol_Loose || !electron_Id) && (!muon_Isol_Loose || !muon_Id) && (electron_.size() == 2 || electron_.size() - ele_partLoose.size() == 2) && (mu_.size() == 0 || mu_.size() - mu_partLoose.size() == 0)) {
                                             Fill_Once_ff = false;
                                             plotFill("SizeEleMu_EEEM", BareElectron.size(), BareMuon.size(), 10, 0, 10, 10, 0, 10);
                                             plotFill("FakeRate_EEEM_apply_ff", BareElectron[k].pt, BareMuon[l].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             plotFill("FakeRate_EEEM_apply_ff_Jet", fake_pt_ele, fake_pt_mu, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 18, BareElectron[p], BareElectron[q], BareElectron[k], BareMuon[l]);
                                         }
-                                        if (Fill_Once_fp && (!electron_Isol_Loose || !electron_Id) && (muon_Isol_Loose && muon_Id) && (electron_.size() == 2 || electron_.size() - electron_Debug_loose.size() == 2) && mu_.size() == 1) {
+                                        if (Fill_Once_fp && (!electron_Isol_Loose || !electron_Id) && (muon_Isol_Loose && muon_Id) && (electron_.size() == 2 || electron_.size() - ele_partLoose.size() == 2) && mu_.size() == 1) {
                                             Fill_Once_fp = false;
                                             plotFill("SizeEle_EEEM", BareElectron.size(), 10, 0, 10);
                                             plotFill("FakeRate_EEEM_apply_fp", BareElectron[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             plotFill("FakeRate_EEEM_apply_fp_Jet", fake_pt_ele, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 28, BareElectron[p], BareElectron[q], BareElectron[k], BareMuon[l]);
                                         }
-                                        if (Fill_Once_pf && (electron_Isol_Loose && electron_Id) && (!muon_Isol_Loose || !muon_Id) && electron_.size() == 3 && (mu_.size() == 0 || mu_.size() - mu_Debug_loose.size() == 0)) {
+                                        if (Fill_Once_pf && (electron_Isol_Loose && electron_Id) && (!muon_Isol_Loose || !muon_Id) && electron_.size() == 3 && (mu_.size() == 0 || mu_.size() - mu_partLoose.size() == 0)) {
                                             Fill_Once_pf = false;
                                             plotFill("SizeMu_EEEM", BareMuon.size(), 10, 0, 10);
                                             plotFill("FakeRate_EEEM_apply_pf", BareMuon[l].pt, 200, 0, 200, PU_Weight * Cor_eff);

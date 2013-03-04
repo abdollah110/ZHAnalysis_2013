@@ -22,6 +22,8 @@
 #include "myobject.h"
 #include "Leptons_IdIso.h"
 #include "zh_Auxiliary.h"
+#include "Leptons_PreSelection.h"
+#include "zh_Functions.h"
 
 
 
@@ -45,6 +47,9 @@ float covMet21;
 float covMet22;
 float eff_Correction, pu_Weight;
 int num_PV, num_bjet;
+int mu_Size, BareMuon_Size, electron_Size, BareElectron_Size, tau_Size, BareTau_Size;
+int mu_partTight_Size, mu_partLoose_Size, ele_partTight_Size, ele_partLoose_Size;
+float l3_CloseJetPt, l4_CloseJetPt;
 
 void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int channel, myobject obj1, myobject obj2, myobject obj3, myobject obj4) {
 
@@ -65,6 +70,18 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     met = Met.front().pt;
     metPhi = Met.front().phi;
     eff_Correction = cor_eff;
+    //lepton size
+    mu_Size = myCleanLepton(m, "mu").size();
+    BareMuon_Size = myCleanBareLepton(m, "mu").size();
+    electron_Size = myCleanLepton(m, "ele").size();
+    BareElectron_Size = myCleanBareLepton(m, "ele").size();
+    tau_Size = myCleanLepton(m, "tau").size();
+    BareTau_Size = myCleanBareLepton(m, "tau").size();
+
+    mu_partLoose_Size = LeptonSubSet(m, "mu_loose_partly").size();
+    mu_partTight_Size = LeptonSubSet(m, "mu_tight_partly").size();
+    ele_partLoose_Size = LeptonSubSet(m, "ele_loose_partly").size();
+    ele_partTight_Size = LeptonSubSet(m, "ele_tight_partly").size();
 
 
     l1M = obj1.mass;
@@ -124,6 +141,7 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     l3_tauRejEleM = obj3.discriminationByElectronMedium;
     l3_tauRejEleMVA = obj3.discriminationByElectronMVA;
     l3Charge = obj3.charge;
+    l3_CloseJetPt = ((Channel % 10 != 1 || Channel % 10 != 5 || Channel > 99) ? Find_Closet_Jet(obj3, m) : 0);
 
     l4M = obj4.mass;
     l4Px = obj4.px;
@@ -149,7 +167,7 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     l4_tauRejEleM = obj4.discriminationByElectronMedium;
     l4_tauRejEleMVA = obj4.discriminationByElectronMVA;
     l4Charge = obj4.charge;
-
+    l4_CloseJetPt = ((Channel % 10 != 1 || Channel % 10 != 5 || Channel > 99) ? Find_Closet_Jet(obj4, m) : 0);
 
     vector<myobject> Vertex = m->Vertex;
     num_PV = Vertex.size();

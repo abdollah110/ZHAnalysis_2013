@@ -164,7 +164,6 @@ int main(int argc, char** argv) {
         //####################################################
         bool FR_Estimation = true;
 
-        // if (Channel == 51 || Channel == 55) {
         if ((Channel == 91 || Channel == 95) && (l3Charge * l4Charge > 0) && Event != Ev_double) {
 
             //select l3 and l4 randomly

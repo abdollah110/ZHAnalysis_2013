@@ -94,12 +94,14 @@ TGraphAsymmErrors* M_FR(std::string files, std::string num, std::string denum, i
 void FakeRate_Plots() {
 
     //Tau FR
-    TGraphAsymmErrors * loose = M_FR("Mega.root", "FakeRate_TT_Tau_Pt_After_Loose", "FakeRate_TT_Tau_Pt_Before", 2);
+    TGraphAsymmErrors * loose = M_FR("Mega.root", "FakeRate_TT_Tau_Pt_After_Tight", "FakeRate_TT_Tau_Pt_Before", 2);
     TF1 * loose_Fit = fake_Fit(loose, 2);
-    TGraphAsymmErrors * medium = M_FR("Mega.root", "FakeRate_TT_Tau_Pt_After_Medium", "FakeRate_TT_Tau_Pt_Before", 3);
+    TGraphAsymmErrors * medium = M_FR("Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_B", "FakeRate_TT_Tau_Pt_Before_B", 3);
     TF1 * medium_Fit = fake_Fit(medium, 3);
-    TGraphAsymmErrors * tight = M_FR("Mega.root", "FakeRate_TT_Tau_Pt_After_Tight", "FakeRate_TT_Tau_Pt_Before", 4);
+    TGraphAsymmErrors * tight = M_FR("Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_E", "FakeRate_TT_Tau_Pt_Before_E", 4);
     TF1 * tight_Fit = fake_Fit(tight, 4);
+//    TGraphAsymmErrors * tight = M_FR("Mega3.root", "FakeRate_TT_Tau_Rand_Loose", "FakeRate_TT_Tau_Rand", 4);
+//    TF1 * tight_Fit = fake_Fit(tight, 4);
 
     //    //Electron FR
     //    TGraphAsymmErrors * loose = M_FR("Mega.root", "FakeRate_ET_Electron_Loose_After_0", "FakeRate_ET_Electron_Pt_Before_0", 2);
@@ -128,13 +130,13 @@ void FakeRate_Plots() {
     tight->Draw("PSAME");
     tight_Fit->Draw("SAME");
 
-    TLegend *l = new TLegend(0.60, 0.60, 0.7, 0.7, NULL, "brNDC");
+    TLegend *l = new TLegend(0.50, 0.70, 0.7, 0.9, NULL, "brNDC");
     l->SetBorderSize(0);
     l->SetFillColor(0);
     l->SetTextSize(.04);
-    l->AddEntry(loose,"Tau Loose FR" , "lpf");
-    //    l->AddEntry(Fake_R_12AB, "Data 2012 A+B+C", "lpf");
-    //    l->AddEntry(Fake_R_11, "Data 2011", "lpf");
+    l->AddEntry(loose, "Tau Loose FR Total", "lpf");
+    l->AddEntry(medium, "Tau Loose FR BB", "lpf");
+    l->AddEntry(tight, "Tau Loose FR EE", "lpf");
     l->Draw();
 
 

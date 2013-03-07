@@ -77,6 +77,8 @@ Double_t fitFunction(Double_t *x, Double_t *par) {
 //    }
 //}
 
+
+
 void M_FR(int WP, std::string files, std::string num, std::string denum, TH2F * Fit_Value_emu) {
     TFile *inputFile = new TFile(files.c_str());
 
@@ -98,9 +100,13 @@ void Measure_Red_step2_emuFR() {
     FR_File->cd();
     TH2F * Fit_Value_emu = new TH2F("Fit_Value_emu", "Fit_Value_emu", 10, 0, 10, 6, 0, 6);
     M_FR(1, "Mega.root", "FakeRate_ET_Electron_Loose_After_0", "FakeRate_ET_Electron_Pt_Before_0", Fit_Value_emu);
+    M_FR(5, "Mega.root", "FakeRate_ET_Electron_Loose_After_0_9", "FakeRate_ET_Electron_Pt_Before_0_9", Fit_Value_emu);
     M_FR(2, "Mega.root", "FakeRate_ET_Electron_Tight_After_0", "FakeRate_ET_Electron_Pt_Before_0", Fit_Value_emu);
+    M_FR(6, "Mega.root", "FakeRate_ET_Electron_Tight_After_0_9", "FakeRate_ET_Electron_Pt_Before_0_9", Fit_Value_emu);
     M_FR(3, "Mega.root", "FakeRate_MT_Muon_Loose_After_0", "FakeRate_MT_Muon_Pt_Before_0", Fit_Value_emu);
+    M_FR(7, "Mega.root", "FakeRate_MT_Muon_Loose_After_0_9", "FakeRate_MT_Muon_Pt_Before_0_9", Fit_Value_emu);
     M_FR(4, "Mega.root", "FakeRate_MT_Muon_Tight_After_0", "FakeRate_MT_Muon_Pt_Before_0", Fit_Value_emu);
+    M_FR(8, "Mega.root", "FakeRate_MT_Muon_Tight_After_0_9", "FakeRate_MT_Muon_Pt_Before_0_9", Fit_Value_emu);
     FR_File->Write();
     FR_File->Close();
 }

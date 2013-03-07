@@ -49,7 +49,7 @@ struct myobject_sort_Phi {
 
 
 
-
+float looseIsolation = 0.30;
 //******************************************************************************************
 //**********************   MUON   **********************************************************
 //******************************************************************************************
@@ -62,7 +62,7 @@ vector<myobject> GoodMuon(myevent *m) {
     for (int i = 0; i < muon.size(); i++) {
         double muPt = muon[i].pt;
         double muEta = muon[i].eta;
-        if (muPt > 10 && fabs(muEta) < 2.4 && Id_Mu(muon[i]) && Iso_Mu_dBeta(muon[i]) < 0.40)
+        if (muPt > 10 && fabs(muEta) < 2.4 && Id_Mu(muon[i]) && Iso_Mu_dBeta(muon[i]) <  looseIsolation)
             looseMuon.push_back(muon[i]);
     }
     sort(looseMuon.begin(), looseMuon.end(), myobject_grt());
@@ -97,7 +97,7 @@ vector<myobject> GoodElectron(myevent *m) {
     for (int i = 0; i < electron.size(); i++) {
         double elePt = electron[i].pt;
         double eleEta = electron[i].eta;
-        if (elePt > 10 && fabs(eleEta) < 2.5 && EleMVANonTrigId(electron[i]) && Iso_Ele_dBeta(electron[i]) < 0.40)
+        if (elePt > 10 && fabs(eleEta) < 2.5 && EleMVANonTrigId(electron[i]) && Iso_Ele_dBeta(electron[i]) < looseIsolation)
             goodElectron.push_back(electron[i]);
     }
     sort(goodElectron.begin(), goodElectron.end(), myobject_grt());
@@ -351,13 +351,13 @@ vector <myobject> myCleanBareLepton(myevent *m, string lep) {
 
 vector <myobject> LeptonSubSet(myevent *m, string lep) {
 
-    vector<myobject> mu_Debug_L;
+//    vector<myobject> mu_Debug_L;
     vector<myobject> mu_Debug_T;
-    mu_Debug_L.clear();
+//    mu_Debug_L.clear();
     mu_Debug_T.clear();
-    vector<myobject> ele_Debug_L;
+//    vector<myobject> ele_Debug_L;
     vector<myobject> ele_Debug_T;
-    ele_Debug_L.clear();
+//    ele_Debug_L.clear();
     ele_Debug_T.clear();
 
     vector<myobject> Muon_Vector = myCleanLepton(m, "mu");
@@ -366,22 +366,22 @@ vector <myobject> LeptonSubSet(myevent *m, string lep) {
 
 
     for (int b = 0; b < Muon_Vector.size(); b++) {
-        if (Iso_Mu_dBeta(Muon_Vector[b]) > 0.30 && Iso_Mu_dBeta(Muon_Vector[b]) < 0.40)
-            mu_Debug_L.push_back(Muon_Vector[b]);
-        if (Iso_Mu_dBeta(Muon_Vector[b]) > 0.15 && Iso_Mu_dBeta(Muon_Vector[b]) < 0.40)
+//        if (Iso_Mu_dBeta(Muon_Vector[b]) > 0.30 && Iso_Mu_dBeta(Muon_Vector[b]) < looseIsolation)
+//            mu_Debug_L.push_back(Muon_Vector[b]);
+        if (Iso_Mu_dBeta(Muon_Vector[b]) > 0.15 && Iso_Mu_dBeta(Muon_Vector[b]) < looseIsolation)
             mu_Debug_T.push_back(Muon_Vector[b]);
     }
 
     for (int a = 0; a < Electron_Vector.size(); a++) {
-        if (Iso_Ele_dBeta(Electron_Vector[a]) > 0.30 && Iso_Ele_dBeta(Electron_Vector[a]) < 0.40)
-            ele_Debug_L.push_back(Electron_Vector[a]);
-        if (Iso_Ele_dBeta(Electron_Vector[a]) > 0.10 && Iso_Ele_dBeta(Electron_Vector[a]) < 0.40)
+//        if (Iso_Ele_dBeta(Electron_Vector[a]) > 0.30 && Iso_Ele_dBeta(Electron_Vector[a]) < looseIsolation)
+//            ele_Debug_L.push_back(Electron_Vector[a]);
+        if (Iso_Ele_dBeta(Electron_Vector[a]) > 0.10 && Iso_Ele_dBeta(Electron_Vector[a]) < looseIsolation)
             ele_Debug_T.push_back(Electron_Vector[a]);
     }
 
-    if (lep == "mu_loose_partly") return mu_Debug_L;
+//    if (lep == "mu_loose_partly") return mu_Debug_L;
     if (lep == "mu_tight_partly") return mu_Debug_T;
-    if (lep == "ele_loose_partly") return ele_Debug_L;
+//    if (lep == "ele_loose_partly") return ele_Debug_L;
     if (lep == "ele_tight_partly") return ele_Debug_T;
 
 

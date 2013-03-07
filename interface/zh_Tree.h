@@ -46,9 +46,9 @@ float covMet12;
 float covMet21;
 float covMet22;
 float eff_Correction, pu_Weight;
-int num_PV, num_bjet;
+int num_PV, num_bjet, num_goodjet;
 int mu_Size, BareMuon_Size, electron_Size, BareElectron_Size, tau_Size, BareTau_Size;
-int mu_partTight_Size, mu_partLoose_Size, ele_partTight_Size, ele_partLoose_Size;
+int mu_partTight_Size, ele_partTight_Size;
 float l3_CloseJetPt, l4_CloseJetPt;
 
 void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int channel, myobject obj1, myobject obj2, myobject obj3, myobject obj4) {
@@ -78,9 +78,9 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     tau_Size = myCleanLepton(m, "tau").size();
     BareTau_Size = myCleanBareLepton(m, "tau").size();
 
-    mu_partLoose_Size = LeptonSubSet(m, "mu_loose_partly").size();
+    //    mu_partLoose_Size = LeptonSubSet(m, "mu_loose_partly").size();
     mu_partTight_Size = LeptonSubSet(m, "mu_tight_partly").size();
-    ele_partLoose_Size = LeptonSubSet(m, "ele_loose_partly").size();
+    //    ele_partLoose_Size = LeptonSubSet(m, "ele_loose_partly").size();
     ele_partTight_Size = LeptonSubSet(m, "ele_tight_partly").size();
 
 
@@ -141,7 +141,8 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     l3_tauRejEleM = obj3.discriminationByElectronMedium;
     l3_tauRejEleMVA = obj3.discriminationByElectronMVA;
     l3Charge = obj3.charge;
-    l3_CloseJetPt = ((Channel % 10 != 1 || Channel % 10 != 5 || Channel > 99) ? Find_Closet_Jet(obj3, m) : 0);
+    l3_CloseJetPt = ((Channel % 10 == 1 || Channel % 10 == 5) && Channel < 99) ? l3Pt : Find_Closet_Jet(obj3, m);
+    //    l3_CloseJetPt = Find_Closet_Jet(obj3, m);
 
     l4M = obj4.mass;
     l4Px = obj4.px;
@@ -167,12 +168,14 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     l4_tauRejEleM = obj4.discriminationByElectronMedium;
     l4_tauRejEleMVA = obj4.discriminationByElectronMVA;
     l4Charge = obj4.charge;
-    l4_CloseJetPt = ((Channel % 10 != 1 || Channel % 10 != 5 || Channel > 99) ? Find_Closet_Jet(obj4, m) : 0);
+    l4_CloseJetPt = ((Channel % 10 == 1 || Channel % 10 == 5) && Channel < 99) ? l4Pt : Find_Closet_Jet(obj4, m);
+    //    l4_CloseJetPt = Find_Closet_Jet(obj4, m);
 
     vector<myobject> Vertex = m->Vertex;
     num_PV = Vertex.size();
     num_bjet = bjet_Multiplicity(m);
     pu_Weight = PU_Weight;
+    num_goodjet = GoodJet(m).size();
 
 
     //    if (chanal < 40)

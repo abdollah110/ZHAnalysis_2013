@@ -11,13 +11,25 @@ import shutil
 
     ########################################################################################
 Run_Over = {
-    1:("/pnfs/iihe/cms/store/user/jez/FILTER2/ZHttNtuples/42X/Data", "data11", "Ele", "05:00:00"),
-    2:("/pnfs/iihe/cms/store/user/jez/FILTER2/ZHttNtuples/42X/Data", "data11", "Mu", "05:00:00"),
-    3:("/pnfs/iihe/cms/store/user/jez/FILTER2/ZHttNtuples/53X/Data", "data12", "Ele", "05:00:00"),
-    4:("/pnfs/iihe/cms/store/user/jez/FILTER2/ZHttNtuples/53X/Data", "data12", "Mu", "05:00:00"),
-    5:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples/42X/MC", "mc11", "Tot", "05:00:00"),
-    6:("/pnfs/iihe/cms/store/user/abdollah/ZHttNtuples/53X/MC", "mc12", "Tot", "03:00:00"),
-    7:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples/53X/MC", "mc12", "Tot", "05:00:00"),
+    1:("/pnfs/iihe/cms/store/user/ccaillol/ZHttNtuples_v2/53X/Data", "data11", "Ele", "25:00:00"),
+    2:("/pnfs/iihe/cms/store/user/ccaillol/ZHttNtuples_v2/53X/Data", "data11", "Mu",  "25:00:00"),
+    3:("/pnfs/iihe/cms/store/user/lperrini/ZHttNtuples_v2/42X/Data", "data11", "Ele", "25:00:00"),
+    4:("/pnfs/iihe/cms/store/user/lperrini/ZHttNtuples_v2/42X/Data", "data11", "Mu",  "25:00:00"),
+    
+    5:("/pnfs/iihe/cms/store/user/abdollah/ZHttNtuples_v2/53X/Data", "data12", "Ele", "25:00:00"),
+    6:("/pnfs/iihe/cms/store/user/abdollah/ZHttNtuples_v2/53X/Data", "data12", "Mu", "25:00:00"),
+    7:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples_v2/53X/Data", "data12", "Ele", "25:00:00"),
+    8:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples_v2/53X/Data", "data12", "Mu", "25:00:00"),
+    
+    9:("/pnfs/iihe/cms/store/user/ccaillol/ZHttNtuples_v2/53X/MC", "data11", "Tot", "25:00:00"),
+    10:("/pnfs/iihe/cms/store/user/lperrini/ZHttNtuples_v2/42X/MC", "data11", "Tot",  "25:00:00"),
+    
+    11:("/pnfs/iihe/cms/store/user/abdollah/ZHttNtuples_v2/53X/MC", "data12", "Tot", "25:00:00"),
+    12:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples_v2/53X/MC", "data12", "Tot", "25:00:00"),
+    
+   # 5:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples/42X/MC", "mc11", "Tot", "05:00:00"),
+   # 6:("/pnfs/iihe/cms/store/user/abdollah/ZHttNtuples/53X/MC", "mc12", "Tot", "03:00:00"),
+   # 7:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples/53X/MC", "mc12", "Tot", "05:00:00"),
 }
 
     ########################################################################################
@@ -65,7 +77,8 @@ def make_submit_form(order, pnfn, data_year, lepton_type, timing):
 if __name__ == "__main__":
     for i in Run_Over:
         R1, R2, R3, R4 = Run_Over[i]
-        make_submit_form(str(i), R1, R2, R3, R4)
+        print "preparing the submission files for-->  " + R1+R2+R3
+	make_submit_form(str(i), R1, R2, R3, R4)
 
     maindir = 'ROOT'
     dirs = ['data11','data12','mc11','mc12']

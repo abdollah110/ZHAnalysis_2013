@@ -96,9 +96,9 @@ int main(int argc, char** argv) {
     Run_Tree->SetBranchAddress("electron_Size", &electron_Size);
     Run_Tree->SetBranchAddress("mu_Size", &mu_Size);
     Run_Tree->SetBranchAddress("mu_partTight_Size", &mu_partTight_Size);
-    Run_Tree->SetBranchAddress("mu_partLoose_Size", &mu_partLoose_Size);
+//    Run_Tree->SetBranchAddress("mu_partLoose_Size", &mu_partLoose_Size);
     Run_Tree->SetBranchAddress("ele_partTight_Size", &ele_partTight_Size);
-    Run_Tree->SetBranchAddress("ele_partLoose_Size", &ele_partLoose_Size);
+//    Run_Tree->SetBranchAddress("ele_partLoose_Size", &ele_partLoose_Size);
 
 
     Run_Tree->SetBranchAddress("l3Pt", &l3Pt);
@@ -255,7 +255,7 @@ int main(int argc, char** argv) {
         if (Channel == 33) plotFill("MMMT_PF_33", l3Pt, pt_Bin, 0, pt_Bin);
         if (Channel == 93 && (l3Charge * l4Charge < 0) && (l3Pt + l4Pt > 45) && l4Pt > 20 && electron_Size == 0) {
 
-            if (!l4_tauIsoM && (!l3_muId || !(l3_muIso < 0.15)) && (Event != Event_Double[1][3]) && (mu_Size == 2 || (mu_Size == 3 && mu_partTight_Size == 1))) {
+            if (!l4_tauIsoM && (!l3_muId || !(l3_muIso < 0.15)) && (Event != Event_Double[1][3]) && ( (mu_Size - mu_partTight_Size == 2))) {
                 plotFill("FakeRate_MMMT_apply_ff", l4Pt, l3Pt, pt_Bin, 0, pt_Bin, pt_Bin, 0, pt_Bin);
                 Event_Double[1][3] = Event;
             }
@@ -263,7 +263,7 @@ int main(int argc, char** argv) {
                 plotFill("FakeRate_MMMT_apply_fp", l4Pt, pt_Bin, 0, pt_Bin);
                 Event_Double[2][3] = Event;
             }
-            if (l4_tauIsoM && (!l3_muId || !(l3_muIso < 0.15)) && (Event != Event_Double[3][3]) && (mu_Size == 2 || (mu_Size == 3 && mu_partTight_Size == 1))) {
+            if (l4_tauIsoM && (!l3_muId || !(l3_muIso < 0.15)) && (Event != Event_Double[3][3]) && ((mu_Size - mu_partTight_Size == 2))) {
                 plotFill("FakeRate_MMMT_apply_pf", l3Pt, pt_Bin, 0, pt_Bin);
                 Event_Double[3][3] = Event;
             }
@@ -276,15 +276,15 @@ int main(int argc, char** argv) {
         if (Channel == 34) plotFill("MMME_PF_34", l3Pt, pt_Bin, 0, pt_Bin);
         if (Channel == 94 && (l3Charge * l4Charge < 0) && (l3Pt + l4Pt > 30) && NewOverLap(l1Eta, l1Phi, l2Eta, l2Phi, l3Eta, l3Phi, l4Eta, l4Phi)) {
 
-            if ((!l4_eleId || !(l4_eleIso < 0.30)) && (!l3_muId || !(l3_muIso < 0.30)) && (Event != Event_Double[1][4]) && ((mu_Size - mu_partLoose_Size == 2)) && ((electron_Size - ele_partLoose_Size == 0))) {
+            if ((!l4_eleId || !(l4_eleIso < 0.30)) && (!l3_muId || !(l3_muIso < 0.30)) && (Event != Event_Double[1][4]) && ((mu_Size  == 2)) && ((electron_Size  == 0))) {
                 plotFill("FakeRate_MMME_apply_ff", l4Pt, l3Pt, pt_Bin, 0, pt_Bin, pt_Bin, 0, pt_Bin);
                 Event_Double[1][4] = Event;
             }
-            if ((!l4_eleId || !(l4_eleIso < 0.30)) && (l3_muId && l3_muIso < 0.30) && (Event != Event_Double[2][4]) && mu_Size == 3 && ((electron_Size - ele_partLoose_Size == 0))) {
+            if ((!l4_eleId || !(l4_eleIso < 0.30)) && (l3_muId && l3_muIso < 0.30) && (Event != Event_Double[2][4]) && mu_Size == 3 && ((electron_Size  == 0))) {
                 plotFill("FakeRate_MMME_apply_fp", l4Pt, pt_Bin, 0, pt_Bin);
                 Event_Double[2][4] = Event;
             }
-            if ((l4_eleId && (l4_eleIso < 0.30)) && (!l3_muId || !(l3_muIso < 0.30)) && (Event != Event_Double[3][4]) && electron_Size == 1 && ((mu_Size - mu_partLoose_Size == 2))) {
+            if ((l4_eleId && (l4_eleIso < 0.30)) && (!l3_muId || !(l3_muIso < 0.30)) && (Event != Event_Double[3][4]) && electron_Size == 1 && ((mu_Size  == 2))) {
                 plotFill("FakeRate_MMME_apply_pf", l3Pt, pt_Bin, 0, pt_Bin);
                 Event_Double[3][4] = Event;
             }
@@ -339,7 +339,7 @@ int main(int argc, char** argv) {
         if (Channel == 37) plotFill("EEET_PF_37", l3Pt, pt_Bin, 0, pt_Bin);
         if (Channel == 97 && (l3Charge * l4Charge < 0) && (l3Pt + l4Pt > 45) && l4Pt > 20 && mu_Size == 0) {
 
-            if (!l4_tauIsoM && (!l3_eleId || !(l3_eleIso < 0.1)) && (Event != Event_Double[1][7]) && (electron_Size == 2 || (electron_Size == 3 && ele_partTight_Size == 1))) {
+            if (!l4_tauIsoM && (!l3_eleId || !(l3_eleIso < 0.1)) && (Event != Event_Double[1][7]) && ( (electron_Size -  ele_partTight_Size == 2))) {
                 plotFill("FakeRate_EEET_apply_ff", l4Pt, l3Pt, pt_Bin, 0, pt_Bin, pt_Bin, 0, pt_Bin);
                 Event_Double[1][7] = Event;
             }
@@ -347,7 +347,7 @@ int main(int argc, char** argv) {
                 plotFill("FakeRate_EEET_apply_fp", l4Pt, pt_Bin, 0, pt_Bin);
                 Event_Double[2][7] = Event;
             }
-            if (l4_tauIsoM && (!l3_eleId || !(l3_eleIso < 0.1)) && (Event != Event_Double[3][7]) && (electron_Size == 2 || (electron_Size == 3 && ele_partTight_Size == 1))) {
+            if (l4_tauIsoM && (!l3_eleId || !(l3_eleIso < 0.1)) && (Event != Event_Double[3][7]) && ( (electron_Size - ele_partTight_Size == 2))) {
                 plotFill("FakeRate_EEET_apply_pf", l3Pt, pt_Bin, 0, pt_Bin);
                 Event_Double[3][7] = Event;
             }
@@ -360,16 +360,15 @@ int main(int argc, char** argv) {
         if (Channel == 38) plotFill("EEEM_PF_38", l4Pt, pt_Bin, 0, pt_Bin);
         if (Channel == 98 && (l3Charge * l4Charge < 0) && (l3Pt + l4Pt > 30) && NewOverLap(l1Eta, l1Phi, l2Eta, l2Phi, l3Eta, l3Phi, l4Eta, l4Phi)) {
 
-            //            if ((!l3_eleId || !(l3_eleIso < 0.30)) && (!l4_muId || !(l4_muIso < 0.30)) && (Event != Event_Double[1][8]) && (mu_Size == 0 || (mu_Size - mu_partLoose_Size == 0)) && (electron_Size == 2 || (electron_Size - ele_partLoose_Size == 2))) {
-            if ((!l3_eleId || !(l3_eleIso < 0.30)) && (!l4_muId || !(l4_muIso < 0.30)) && (Event != Event_Double[1][8]) && ((mu_Size - mu_partLoose_Size == 0)) && ((electron_Size - ele_partLoose_Size == 2))) {
+            if ((!l3_eleId || !(l3_eleIso < 0.30)) && (!l4_muId || !(l4_muIso < 0.30)) && (Event != Event_Double[1][8]) && ((mu_Size  == 0)) && ((electron_Size  == 2))) {
                 plotFill("FakeRate_EEEM_apply_ff", l3Pt, l4Pt, pt_Bin, 0, pt_Bin, pt_Bin, 0, pt_Bin);
                 Event_Double[1][8] = Event;
             }
-            if ((!l3_eleId || !(l3_eleIso < 0.30)) && (l4_muId && l4_muIso < 0.30) && (Event != Event_Double[2][8]) && mu_Size == 1 && ((electron_Size - ele_partLoose_Size == 2))) {
+            if ((!l3_eleId || !(l3_eleIso < 0.30)) && (l4_muId && l4_muIso < 0.30) && (Event != Event_Double[2][8]) && mu_Size == 1 && ((electron_Size  == 2))) {
                 plotFill("FakeRate_EEEM_apply_fp", l3Pt, pt_Bin, 0, pt_Bin);
                 Event_Double[2][8] = Event;
             }
-            if ((l3_eleId && (l3_eleIso < 0.30)) && (!l4_muId || !(l4_muIso < 0.30)) && (Event != Event_Double[3][8]) && electron_Size == 3 && ((mu_Size - mu_partLoose_Size == 0))) {
+            if ((l3_eleId && (l3_eleIso < 0.30)) && (!l4_muId || !(l4_muIso < 0.30)) && (Event != Event_Double[3][8]) && electron_Size == 3 && ((mu_Size  == 0))) {
                 plotFill("FakeRate_EEEM_apply_pf", l4Pt, pt_Bin, 0, pt_Bin);
                 Event_Double[3][8] = Event;
             }

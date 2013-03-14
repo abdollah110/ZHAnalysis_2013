@@ -30,7 +30,7 @@ low_bin = 0
 high_bin = 300
 reb_ = high_bin / n_bin
 HiggsMass = "SecondZ_Mass_"
-DIR_ROOT = 'Root_8TeV/'
+DIR_ROOT = '../Root_8TeV/'
 
 
 def SET(bb,signal, mass, channel ):

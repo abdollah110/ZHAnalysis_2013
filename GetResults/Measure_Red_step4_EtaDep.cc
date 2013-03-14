@@ -64,16 +64,12 @@ TFile * PrintResults(TH2F* Chnl_estimate, TH2F* Chnl_event) {
 
 }
 
-void Measure(int num, std::vector<float> p, bool p_ptDep, std::vector<float> q, bool q_ptDep, TH2F * Chnl_estimate, TH2F* Chnl_event) {
+void Measure(int num, std::vector<float> p, bool p_ptDep, std::vector<float> q, bool q_ptDep, TH2F * Chnl_estimate, TH2F* Chnl_event, std::string ff, std::string fp, std::string pf) {
     TFile * MegaFile = new TFile("Mega.root");
 
-    const char * arrayff[] = {"FakeRate_MMTT_apply_ff", "FakeRate_MMET_apply_ff", "FakeRate_MMMT_apply_ff", "FakeRate_MMME_apply_ff", "FakeRate_EETT_apply_ff", "FakeRate_EEMT_apply_ff", "FakeRate_EEET_apply_ff", "FakeRate_EEEM_apply_ff"};
-    const char * arrayfp[] = {"FakeRate_MMTT_apply_fp", "FakeRate_MMET_apply_fp", "FakeRate_MMMT_apply_fp", "FakeRate_MMME_apply_fp", "FakeRate_EETT_apply_fp", "FakeRate_EEMT_apply_fp", "FakeRate_EEET_apply_fp", "FakeRate_EEEM_apply_fp"};
-    const char * arraypf[] = {"FakeRate_MMTT_apply_pf", "FakeRate_MMET_apply_pf", "FakeRate_MMMT_apply_pf", "FakeRate_MMME_apply_pf", "FakeRate_EETT_apply_pf", "FakeRate_EEMT_apply_pf", "FakeRate_EEET_apply_pf", "FakeRate_EEEM_apply_pf"};
-
-    TH2D *Hist2_FF = (TH2D*) MegaFile->Get(arrayff[num - 1]);
-    TH1D *Hist2_FP = (TH1D*) MegaFile->Get(arrayfp[num - 1]);
-    TH1D *Hist2_PF = (TH1D*) MegaFile->Get(arraypf[num - 1]);
+    TH2D *Hist2_FF = (TH2D*) MegaFile->Get(ff.c_str());
+    TH1D *Hist2_FP = (TH1D*) MegaFile->Get(fp.c_str());
+    TH1D *Hist2_PF = (TH1D*) MegaFile->Get(pf.c_str());
 
     for (int i = 10; i < Hist2_FF->GetNbinsX(); i++) {
         for (int j = 10; j < Hist2_FF->GetNbinsY(); j++) {
@@ -99,10 +95,9 @@ void Measure(int num, std::vector<float> p, bool p_ptDep, std::vector<float> q, 
         Chnl_estimate->Fill(3, num, Frate);
         Chnl_event->Fill(3, num, Value);
     }
-
 }
 
-void Get_FitParameter(int num, std::string firstLeg, bool is_ptDep1, std::string secondLeg, bool is_ptDep2, TH2F * Chnl_estimate, TH2F* Chnl_event) {
+void Get_FitParameter(int num, std::string firstLeg, bool is_ptDep1, std::string secondLeg, bool is_ptDep2, TH2F * Chnl_estimate, TH2F* Chnl_event, std::string ff, std::string fp, std::string pf) {
     TFile *tau_fr = new TFile("FR_Tau.root");
     TH2F * Fit_Value_tau = (TH2F*) tau_fr->Get("Fit_Value_tau");
     TFile *emu_fr = new TFile("FR_EMU.root");
@@ -113,6 +108,7 @@ void Get_FitParameter(int num, std::string firstLeg, bool is_ptDep1, std::string
     leg1.clear();
     leg2.clear();
 
+    //first leg
     if (firstLeg == "tauTight")
         for (int i = 1; i <= 3; i++) leg1.push_back(Fit_Value_tau->GetBinContent(3, 2 * (i - 1) + 1));
     if (firstLeg == "tauMedium")
@@ -121,35 +117,61 @@ void Get_FitParameter(int num, std::string firstLeg, bool is_ptDep1, std::string
         for (int i = 1; i <= 3; i++) leg1.push_back(Fit_Value_tau->GetBinContent(1, 2 * (i - 1) + 1));
     if (firstLeg == "eleLoose")
         for (int i = 1; i <= 3; i++) leg1.push_back(Fit_Value_emu->GetBinContent(1, 1));
+    //second leg
     if (secondLeg == "tauTight")
         for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_tau->GetBinContent(3, 2 * (i - 1) + 1));
     if (secondLeg == "tauMedium")
         for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_tau->GetBinContent(2, 2 * (i - 1) + 1));
     if (secondLeg == "tauLoose")
         for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_tau->GetBinContent(1, 2 * (i - 1) + 1));
+    if (secondLeg == "eleLoose")
+        for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_emu->GetBinContent(1, 1));
     if (secondLeg == "eleTight")
         for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_emu->GetBinContent(2, 1));
-    if (secondLeg == "muTight")
-        for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_emu->GetBinContent(4, 1));
     if (secondLeg == "muLoose")
         for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_emu->GetBinContent(3, 1));
+    if (secondLeg == "muTight")
+        for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_emu->GetBinContent(4, 1));
 
-    Measure(num, leg1, is_ptDep1, leg2, is_ptDep2, Chnl_estimate, Chnl_event);
+
+    //aply the Eta dependecy
+    if (firstLeg == "tauTight_B")
+        for (int i = 1; i <= 3; i++) leg1.push_back(Fit_Value_tau->GetBinContent(6, 2 * (i - 1) + 1));
+    if (firstLeg == "tauTight_E")
+        for (int i = 1; i <= 3; i++) leg1.push_back(Fit_Value_tau->GetBinContent(9, 2 * (i - 1) + 1));
+    if (secondLeg == "tauTight_B")
+        for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_tau->GetBinContent(6, 2 * (i - 1) + 1));
+    if (secondLeg == "tauTight_E")
+        for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_tau->GetBinContent(9, 2 * (i - 1) + 1));
+
+    Measure(num, leg1, is_ptDep1, leg2, is_ptDep2, Chnl_estimate, Chnl_event, ff, fp, pf);
 }
 
-void Measure_Red_step3_Total() {
+void Measure_Red_step4_EtaDep() {
     TH2F* Chnl_estimate = new TH2F("Chnl_estimate", "Chnl_estimate", 10, 0, 10, 10, 0, 10);
     TH2F* Chnl_event = new TH2F("Chnl_event", "Chnl_event", 10, 0, 10, 10, 0, 10);
 
-    Get_FitParameter(1, "tauTight", 1, "tauTight", 1, Chnl_estimate, Chnl_event);
-    Get_FitParameter(2, "tauMedium", 1, "eleTight", 0, Chnl_estimate, Chnl_event);
-    Get_FitParameter(3, "tauMedium", 1, "muTight", 0, Chnl_estimate, Chnl_event);
-    Get_FitParameter(4, "eleLoose", 0, "muLoose", 0, Chnl_estimate, Chnl_event);
-    Get_FitParameter(5, "tauTight", 1, "tauTight", 1, Chnl_estimate, Chnl_event);
-    Get_FitParameter(6, "tauMedium", 1, "muTight", 0, Chnl_estimate, Chnl_event);
-    Get_FitParameter(7, "tauMedium", 1, "eleTight", 0, Chnl_estimate, Chnl_event);
-    Get_FitParameter(8, "eleLoose", 0, "muLoose", 0, Chnl_estimate, Chnl_event);
+    //    Get_FitParameter(1, "tauTight", 1, "tauTight", 1, Chnl_estimate, Chnl_event, "FakeRate_MMTT_apply_ff", "FakeRate_MMTT_apply_fp", "FakeRate_MMTT_apply_pf");
+    Get_FitParameter(1, "tauTight_B", 1, "tauTight_B", 1, Chnl_estimate, Chnl_event, "FakeRate_MMTT_apply_ff_BB", "FakeRate_MMTT_apply_fp_BB", "FakeRate_MMTT_apply_pf_BB");
+    Get_FitParameter(1, "tauTight_B", 1, "tauTight_E", 1, Chnl_estimate, Chnl_event, "FakeRate_MMTT_apply_ff_BE", "FakeRate_MMTT_apply_fp_BE", "FakeRate_MMTT_apply_pf_BE");
+    Get_FitParameter(1, "tauTight_E", 1, "tauTight_B", 1, Chnl_estimate, Chnl_event, "FakeRate_MMTT_apply_ff_EB", "FakeRate_MMTT_apply_fp_EB", "FakeRate_MMTT_apply_pf_EB");
+    Get_FitParameter(1, "tauTight_E", 1, "tauTight_E", 1, Chnl_estimate, Chnl_event, "FakeRate_MMTT_apply_ff_EE", "FakeRate_MMTT_apply_fp_EE", "FakeRate_MMTT_apply_pf_EE");
 
-     PrintResults(Chnl_estimate, Chnl_event);
+    Get_FitParameter(2, "tauMedium", 1, "eleTight", 0, Chnl_estimate, Chnl_event, "FakeRate_MMET_apply_ff", "FakeRate_MMET_apply_fp", "FakeRate_MMET_apply_pf");
+    Get_FitParameter(3, "tauMedium", 1, "muTight", 0, Chnl_estimate, Chnl_event, "FakeRate_MMMT_apply_ff", "FakeRate_MMMT_apply_fp", "FakeRate_MMMT_apply_pf");
+    Get_FitParameter(4, "eleLoose", 0, "muLoose", 0, Chnl_estimate, Chnl_event, "FakeRate_MMME_apply_ff", "FakeRate_MMME_apply_fp", "FakeRate_MMME_apply_pf");
+
+    //    Get_FitParameter(5, "tauTight", 1, "tauTight", 1, Chnl_estimate, Chnl_event, "FakeRate_EETT_apply_ff", "FakeRate_EETT_apply_fp", "FakeRate_EETT_apply_pf");
+    Get_FitParameter(5, "tauTight_B", 1, "tauTight_B", 1, Chnl_estimate, Chnl_event, "FakeRate_EETT_apply_ff_BB", "FakeRate_EETT_apply_fp_BB", "FakeRate_EETT_apply_pf_BB");
+    Get_FitParameter(5, "tauTight_B", 1, "tauTight_E", 1, Chnl_estimate, Chnl_event, "FakeRate_EETT_apply_ff_BE", "FakeRate_EETT_apply_fp_BE", "FakeRate_EETT_apply_pf_BE");
+    Get_FitParameter(5, "tauTight_E", 1, "tauTight_B", 1, Chnl_estimate, Chnl_event, "FakeRate_EETT_apply_ff_EB", "FakeRate_EETT_apply_fp_EB", "FakeRate_EETT_apply_pf_EB");
+    Get_FitParameter(5, "tauTight_E", 1, "tauTight_E", 1, Chnl_estimate, Chnl_event, "FakeRate_EETT_apply_ff_EE", "FakeRate_EETT_apply_fp_EE", "FakeRate_EETT_apply_pf_EE");
+
+
+    Get_FitParameter(6, "tauMedium", 1, "muTight", 0, Chnl_estimate, Chnl_event, "FakeRate_EEMT_apply_ff", "FakeRate_EEMT_apply_fp", "FakeRate_EEMT_apply_pf");
+    Get_FitParameter(7, "tauMedium", 1, "eleTight", 0, Chnl_estimate, Chnl_event, "FakeRate_EEET_apply_ff", "FakeRate_EEET_apply_fp", "FakeRate_EEET_apply_pf");
+    Get_FitParameter(8, "eleLoose", 0, "muLoose", 0, Chnl_estimate, Chnl_event, "FakeRate_EEEM_apply_ff", "FakeRate_EEEM_apply_fp", "FakeRate_EEEM_apply_pf");
+
+    PrintResults(Chnl_estimate, Chnl_event);
 }
 

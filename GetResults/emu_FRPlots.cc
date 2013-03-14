@@ -12,6 +12,7 @@
 #include <TCanvas.h>
 #include <TAttAxis.h>
 #include <TLatex.h>
+#include <TAxis.h>
 #include "TMath.h"
 
 void myStyle_Graph(TGraph * TGraph_FR, int color) {
@@ -40,13 +41,14 @@ void myStyle_Fit(TF1* theFit, int color) {
 }
 
 Double_t fitFunction(Double_t *x, Double_t *par) {
-    return par[0] + par[1]*(TMath::Exp(par[2] * x[0]));
+    //    return par[0] + par[1]*(TMath::Exp(par[2] * x[0]));
+    return par[0] + par[1] * x[0];
 }
 
 TF1* fake_Fit(TGraphAsymmErrors * TGraph_FR, int color) {
 
     const int nPar = 3; // number of parameters in the fit
-    Double_t fitRangeMin = 15,
+    Double_t fitRangeMin = 10,
             fitRangeMax = 80;
 
     TF1* theFit = new TF1("theFit", fitFunction, fitRangeMin, fitRangeMax, nPar);
@@ -68,8 +70,9 @@ TGraphAsymmErrors* M_FR(std::string files, std::string num, std::string denum, i
     TH1D *Numerator = (TH1D*) inputFile->Get(num.c_str());
     TH1D *Denumerator = (TH1D*) inputFile->Get(denum.c_str());
 
-    TH1D *Num_rebin = (TH1D*) Numerator->Rebin(5);
-    TH1D *Denum_rebin = (TH1D*) Denumerator->Rebin(5);
+    int reb_ = 5;
+    TH1D *Num_rebin = (TH1D*) Numerator->Rebin(reb_);
+    TH1D *Denum_rebin = (TH1D*) Denumerator->Rebin(reb_);
     cout << num.c_str() << " = " << Num_rebin->GetEntries() << "/" << Denum_rebin->GetEntries() << "  =  " << Num_rebin->GetEntries()*1.0 / Denum_rebin->GetEntries() << endl;
 
     TGraphAsymmErrors * TGraph_FR = new TGraphAsymmErrors(Num_rebin, Denum_rebin);
@@ -78,21 +81,29 @@ TGraphAsymmErrors* M_FR(std::string files, std::string num, std::string denum, i
     return TGraph_FR;
 }
 
-void FakeRate_Plots() {
+void emu_FRPlots() {
 
     //Tau FR
-    TGraphAsymmErrors * loose = M_FR("Mega.root", "FakeRate_TT_Tau_Pt_After_Tight", "FakeRate_TT_Tau_Pt_Before", 2);
-    TF1 * loose_Fit = fake_Fit(loose, 2);
-    TGraphAsymmErrors * medium = M_FR("Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_B", "FakeRate_TT_Tau_Pt_Before_B", 3);
-    TF1 * medium_Fit = fake_Fit(medium, 3);
-    TGraphAsymmErrors * tight = M_FR("Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_E", "FakeRate_TT_Tau_Pt_Before_E", 4);
-    TF1 * tight_Fit = fake_Fit(tight, 4);
+    //    TGraphAsymmErrors * loose = M_FR("Mega.root", "FakeRate_TT_Tau_Pt_After_Tight", "FakeRate_TT_Tau_Pt_Before", 2);
+    //    TF1 * loose_Fit = fake_Fit(loose, 2);
+    //    TGraphAsymmErrors * medium = M_FR("Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_B", "FakeRate_TT_Tau_Pt_Before_B", 3);
+    //    TF1 * medium_Fit = fake_Fit(medium, 3);
+    //    TGraphAsymmErrors * tight = M_FR("Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_E", "FakeRate_TT_Tau_Pt_Before_E", 4);
+    //    TF1 * tight_Fit = fake_Fit(tight, 4);
+
+
     //    TGraphAsymmErrors * tight = M_FR("Mega3.root", "FakeRate_TT_Tau_Rand_Loose", "FakeRate_TT_Tau_Rand", 4);
     //    TF1 * tight_Fit = fake_Fit(tight, 4);
 
-    //    //Electron FR
-    //    TGraphAsymmErrors * loose = M_FR("Mega.root", "FakeRate_ET_Electron_Loose_After_0", "FakeRate_ET_Electron_Pt_Before_0", 2);
-    //    TGraphAsymmErrors * medium = M_FR("Mega.root", "FakeRate_ET_Electron_Tight_After_0", "FakeRate_ET_Electron_Pt_Before_0", 3);
+    //Electron FR
+        TGraphAsymmErrors * loose = M_FR("valid_emu.root", "FakeRate_Electron_Loose_After", "FakeRate_Electron_Before", 2);
+        TF1 * loose_Fit = fake_Fit(loose, 2);
+        TGraphAsymmErrors * medium = M_FR("valid_emu.root", "FakeRate_ET_Electron_Loose_After_0", "FakeRate_ET_Electron_Pt_Before_0", 3);
+        TF1 * medium_Fit = fake_Fit(medium, 3);
+//    TGraphAsymmErrors * loose = M_FR("valid_emu.root", "FakeRate_Muon_Loose_After", "FakeRate_Muon_Before", 2);
+//    TF1 * loose_Fit = fake_Fit(loose, 2);
+//    TGraphAsymmErrors * medium = M_FR("valid_emu.root", "FakeRate_MT_Muon_Loose_After_0", "FakeRate_MT_Muon_Pt_Before_0", 3);
+//    TF1 * medium_Fit = fake_Fit(medium, 3);
     //
     //    //Muon FR
     //    TGraphAsymmErrors * loose = M_FR("Mega.root", "FakeRate_MT_Muon_Loose_After_0", "FakeRate_MT_Muon_Pt_Before_0", 2);
@@ -110,12 +121,13 @@ void FakeRate_Plots() {
 
 
     canvas->cd(1);
+    loose->GetYaxis()->SetRangeUser(0,.2);
     loose->Draw("PAE");
     loose_Fit->Draw("SAME");
     medium->Draw("PSAME");
     medium_Fit->Draw("SAME");
-    tight->Draw("PSAME");
-    tight_Fit->Draw("SAME");
+    //    tight->Draw("PSAME");
+    //    tight_Fit->Draw("SAME");
 
     TLegend *l = new TLegend(0.40, 0.60, 0.7, 0.8, NULL, "brNDC");
     l->SetBorderSize(0);
@@ -123,8 +135,8 @@ void FakeRate_Plots() {
     l->SetTextSize(.04);
     l->AddEntry(loose, "Tau Loose FR", "lpf");
     l->AddEntry(medium, "Tau Loose FR (|#eta_{#tau}| < 1.4)", "lpf");
-    l->AddEntry(tight, "Tau Loose FR (|#eta_{#tau}| > 1.4)", "lpf");
-    l->Draw();
+    //    l->AddEntry(tight, "Tau Loose FR (|#eta_{#tau}| > 1.4)", "lpf");
+    //    l->Draw();
 
     TLatex *text = new TLatex();
     text->SetTextSize(0.04);
@@ -132,7 +144,7 @@ void FakeRate_Plots() {
     text->DrawLatex(50, 0.103, "L = 19 fb^{-1}");
 
 
-    canvas->SaveAs("tau_fakerate_eta.pdf");
+    canvas->SaveAs("mue_fakerate.pdf");
 
 
 }

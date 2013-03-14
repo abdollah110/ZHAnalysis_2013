@@ -77,7 +77,7 @@ void fake_Fit(int WP, TGraphAsymmErrors * TGraph_FR, TH2F * Fit_Value_tau) {
 }
 
 void M_FR(int WP, std::string files, std::string num, std::string denum, TH2F * Fit_Value_tau) {
-    TFile *inputFile = new TFile(files.c_str());
+    TFile *inputFile =new TFile(files.c_str());
 
     TH1D *Numerator = (TH1D*) inputFile->Get(num.c_str());
     TH1D *Denumerator = (TH1D*) inputFile->Get(denum.c_str());
@@ -88,9 +88,9 @@ void M_FR(int WP, std::string files, std::string num, std::string denum, TH2F * 
 
     TGraphAsymmErrors * TGraph_FR = new TGraphAsymmErrors(Num_rebin, Denum_rebin);
 
-//    TGraph_FR->Draw("P");
-//    TGraph_FR->SetName("Fake_R_12AB");
-//    TGraph_FR->Write();
+    //    TGraph_FR->Draw("P");
+    //    TGraph_FR->SetName("Fake_R_12AB");
+    //    TGraph_FR->Write();
 
     fake_Fit(WP, TGraph_FR, Fit_Value_tau);
 
@@ -104,6 +104,12 @@ void Measure_Red_step1_tauFR() {
     M_FR(1, "Mega.root", "FakeRate_TT_Tau_Pt_After_Loose", "FakeRate_TT_Tau_Pt_Before", Fit_Value_tau);
     M_FR(2, "Mega.root", "FakeRate_TT_Tau_Pt_After_Medium", "FakeRate_TT_Tau_Pt_Before", Fit_Value_tau);
     M_FR(3, "Mega.root", "FakeRate_TT_Tau_Pt_After_Tight", "FakeRate_TT_Tau_Pt_Before", Fit_Value_tau);
+    M_FR(4, "Mega.root", "FakeRate_TT_Tau_Pt_After_Loose_B", "FakeRate_TT_Tau_Pt_Before_B", Fit_Value_tau);
+    M_FR(5, "Mega.root", "FakeRate_TT_Tau_Pt_After_Medium_B", "FakeRate_TT_Tau_Pt_Before_B", Fit_Value_tau);
+    M_FR(6, "Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_B", "FakeRate_TT_Tau_Pt_Before_B", Fit_Value_tau);
+    M_FR(7, "Mega.root", "FakeRate_TT_Tau_Pt_After_Loose_E", "FakeRate_TT_Tau_Pt_Before_E", Fit_Value_tau);
+    M_FR(8, "Mega.root", "FakeRate_TT_Tau_Pt_After_Medium_E", "FakeRate_TT_Tau_Pt_Before_E", Fit_Value_tau);
+    M_FR(9, "Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_E", "FakeRate_TT_Tau_Pt_Before_E", Fit_Value_tau);
     FR_File->Write();
     FR_File->Close();
 }

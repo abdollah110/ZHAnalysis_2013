@@ -113,6 +113,7 @@ void Get_FitParameter(int num, std::string firstLeg, bool is_ptDep1, std::string
     leg1.clear();
     leg2.clear();
 
+    //first leg
     if (firstLeg == "tauTight")
         for (int i = 1; i <= 3; i++) leg1.push_back(Fit_Value_tau->GetBinContent(3, 2 * (i - 1) + 1));
     if (firstLeg == "tauMedium")
@@ -121,18 +122,21 @@ void Get_FitParameter(int num, std::string firstLeg, bool is_ptDep1, std::string
         for (int i = 1; i <= 3; i++) leg1.push_back(Fit_Value_tau->GetBinContent(1, 2 * (i - 1) + 1));
     if (firstLeg == "eleLoose")
         for (int i = 1; i <= 3; i++) leg1.push_back(Fit_Value_emu->GetBinContent(1, 1));
+    //second leg
     if (secondLeg == "tauTight")
         for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_tau->GetBinContent(3, 2 * (i - 1) + 1));
     if (secondLeg == "tauMedium")
         for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_tau->GetBinContent(2, 2 * (i - 1) + 1));
     if (secondLeg == "tauLoose")
         for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_tau->GetBinContent(1, 2 * (i - 1) + 1));
+    if (secondLeg == "eleLoose")
+        for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_emu->GetBinContent(1, 1));
     if (secondLeg == "eleTight")
         for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_emu->GetBinContent(2, 1));
-    if (secondLeg == "muTight")
-        for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_emu->GetBinContent(4, 1));
     if (secondLeg == "muLoose")
         for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_emu->GetBinContent(3, 1));
+    if (secondLeg == "muTight")
+        for (int i = 1; i <= 3; i++) leg2.push_back(Fit_Value_emu->GetBinContent(4, 1));
 
     Measure(num, leg1, is_ptDep1, leg2, is_ptDep2, Chnl_estimate, Chnl_event);
 }
@@ -150,6 +154,6 @@ void Measure_Red_step3_Total() {
     Get_FitParameter(7, "tauMedium", 1, "eleTight", 0, Chnl_estimate, Chnl_event);
     Get_FitParameter(8, "eleLoose", 0, "muLoose", 0, Chnl_estimate, Chnl_event);
 
-     PrintResults(Chnl_estimate, Chnl_event);
+    PrintResults(Chnl_estimate, Chnl_event);
 }
 

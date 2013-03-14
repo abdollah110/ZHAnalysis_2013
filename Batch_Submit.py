@@ -7,6 +7,7 @@ __author__ = "abdollah"
 __date__ = "$Feb 23, 2010 5:15:54 PM$"
 
 import os
+import shutil
 
     ########################################################################################
 Run_Over = {
@@ -65,6 +66,14 @@ if __name__ == "__main__":
     for i in Run_Over:
         R1, R2, R3, R4 = Run_Over[i]
         make_submit_form(str(i), R1, R2, R3, R4)
+
+    maindir = 'ROOT'
+    dirs = ['data11','data12','mc11','mc12']
+    if  os.path.exists(maindir):
+	shutil.rmtree(maindir)
+    for i in dirs:
+	if not os.path.exists(maindir+"/"+i):
+		os.makedirs(maindir+'/'+i)
 
 #    rm TotalSubmit.sh; ls Submit_* | xargs -n 1 -I {} echo 'sh {}' >> TotalSubmit.sh
 #    rm TotalHadd.sh;   ls Hadd_* | xargs -n 1 -I {} echo 'sh {}' >> TotalHadd.sh

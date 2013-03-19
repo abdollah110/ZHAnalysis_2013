@@ -11,21 +11,21 @@ import shutil
 
     ########################################################################################
 Run_Over = {
-    1:("/pnfs/iihe/cms/store/user/ccaillol/ZHttNtuples_v2/53X/Data", "data11", "Ele", "25:00:00"),
-    2:("/pnfs/iihe/cms/store/user/ccaillol/ZHttNtuples_v2/53X/Data", "data11", "Mu",  "25:00:00"),
-    3:("/pnfs/iihe/cms/store/user/lperrini/ZHttNtuples_v2/42X/Data", "data11", "Ele", "25:00:00"),
-    4:("/pnfs/iihe/cms/store/user/lperrini/ZHttNtuples_v2/42X/Data", "data11", "Mu",  "25:00:00"),
+    1:("/pnfs/iihe/cms/store/user/ccaillol/ZHttNtuples_v2_Filtered/42X/Data", "data11", "Ele", "25:00:00"),
+    2:("/pnfs/iihe/cms/store/user/ccaillol/ZHttNtuples_v2_Filtered/42X/Data", "data11", "Mu",  "25:00:00"),
+    3:("/pnfs/iihe/cms/store/user/lperrini/FILTER2/ZHttNtuples_v2/42X/Data", "data11", "Ele", "25:00:00"),
+    4:("/pnfs/iihe/cms/store/user/lperrini/FILTER2/ZHttNtuples_v2/42X/Data", "data11", "Mu",  "25:00:00"),
     
-    5:("/pnfs/iihe/cms/store/user/abdollah/ZHttNtuples_v2/53X/Data", "data12", "Ele", "25:00:00"),
-    6:("/pnfs/iihe/cms/store/user/abdollah/ZHttNtuples_v2/53X/Data", "data12", "Mu", "25:00:00"),
-    7:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples_v2/53X/Data", "data12", "Ele", "25:00:00"),
-    8:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples_v2/53X/Data", "data12", "Mu", "25:00:00"),
+    5:("/pnfs/iihe/cms/store/user/ccaillol/FILTER2/ZHttNtuples_v2/53X/Data", "data12", "Ele", "25:00:00"),
+    6:("/pnfs/iihe/cms/store/user/ccaillol/FILTER2/ZHttNtuples_v2/53X/Data", "data12", "Mu", "25:00:00"),
+    7:("/pnfs/iihe/cms/store/user/jez/FILTER2/ZHttNtuples_v2/53X/Data", "data12", "Ele", "25:00:00"),
+    8:("/pnfs/iihe/cms/store/user/jez/FILTER2/ZHttNtuples_v2/53X/Data", "data12", "Mu", "25:00:00"),
     
-    9:("/pnfs/iihe/cms/store/user/ccaillol/ZHttNtuples_v2/53X/MC", "mc11", "Tot", "25:00:00"),
-    10:("/pnfs/iihe/cms/store/user/lperrini/ZHttNtuples_v2/42X/MC", "mc11", "Tot",  "25:00:00"),
+   # 9:("/pnfs/iihe/cms/store/user/ccaillol/ZHttNtuples_v2/53X/MC", "mc11", "Tot", "25:00:00"),
+   # 10:("/pnfs/iihe/cms/store/user/lperrini/ZHttNtuples_v2/42X/MC", "mc11", "Tot",  "25:00:00"),
     
-    11:("/pnfs/iihe/cms/store/user/abdollah/ZHttNtuples_v2/53X/MC", "mc12", "Tot", "25:00:00"),
-    12:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples_v2/53X/MC", "mc12", "Tot", "25:00:00"),
+   # 11:("/pnfs/iihe/cms/store/user/abdollah/ZHttNtuples_v2/53X/MC", "mc12", "Tot", "25:00:00"),
+   # 12:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples_v2/53X/MC", "mc12", "Tot", "25:00:00"),
     
    # 5:("/pnfs/iihe/cms/store/user/jez/ZHttNtuples/42X/MC", "mc11", "Tot", "05:00:00"),
    # 6:("/pnfs/iihe/cms/store/user/abdollah/ZHttNtuples/53X/MC", "mc12", "Tot", "03:00:00"),
@@ -87,6 +87,14 @@ if __name__ == "__main__":
     for i in dirs:
 	if not os.path.exists(maindir+"/"+i):
 		os.makedirs(maindir+'/'+i)
+    	     
+    _Total = open('Do_total.txt', 'w')	     
+    command = "rm TotalSubmit.sh\n"
+    command = command + 'ls Submit_* | xargs -n 1 -I {} echo "sh {}" >> TotalSubmit.sh\n'
+    command = command + 'rm TotalHadd.sh\n'
+    command = command + 'ls Hadd_* | xargs -n 1 -I {} echo "sh {}" >> TotalHadd.sh\n'
+    _Total.write(command)
+    		
 
 #    rm TotalSubmit.sh; ls Submit_* | xargs -n 1 -I {} echo 'sh {}' >> TotalSubmit.sh
 #    rm TotalHadd.sh;   ls Hadd_* | xargs -n 1 -I {} echo 'sh {}' >> TotalHadd.sh

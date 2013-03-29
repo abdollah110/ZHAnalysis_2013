@@ -21,8 +21,6 @@
 #include "TRandom3.h"
 #include "myobject.h"
 
-
-
 double EAMuon(double eta) {
     double EffectiveArea = 0.0;
     if (fabs(eta) >= 0.0 && fabs(eta) < 1.0) EffectiveArea = 0.132;
@@ -163,6 +161,53 @@ bool EleMVANonTrigId(myobject const& a) {
     //  if(value>10.)cout<<"pt==== "<<pt<<" "<<"eta=== "<<eta<<" "<<"value=== "<<value<<endl;
     bool numHit = a.numHitEleInner < 2;
     return numHit && passingId;
+}
+
+bool getTauIsolation(std::string channel, myobject const& a) {
+    if (channel == "mmtt" || channel == "eett") {
+        if (a.byMediumCombinedIsolationDeltaBetaCorr3Hits)
+            return true;
+        else
+            return false;
+    }
+    if (channel == "mmet" || channel == "eeet" || channel == "mmmt" || channel == "eemt") {
+        if (a.byLooseCombinedIsolationDeltaBetaCorr3Hits)
+            return true;
+        else
+            return false;
+    }
+}
+
+bool getEleRejection(std::string channel, myobject const& a) {
+    if (channel == "mmtt" || channel == "eett" || channel == "mmmt" || channel == "eemt") {
+        if (a.discriminationByElectronLoose)
+            return true;
+        else
+            return false;
+    }
+    if (channel == "mmet" || channel == "eeet") {
+        if (a.discriminationByElectronMVA2Tight)
+            return true;
+        else
+            return false;
+    }
+
+}
+
+bool getMuRejection(std::string channel, myobject const& a) {
+    if (channel == "mmtt" || channel == "eett" || channel == "mmet" || channel == "eeet") {
+        if (a.discriminationByMuonLoose2)
+            return true;
+        else
+            return false;
+    }
+    if (channel == "mmmt" || channel == "eemt") {
+        if (a.discriminationByMuonTight2)
+            return true;
+        else
+            return false;
+    }
+
 }
 
 

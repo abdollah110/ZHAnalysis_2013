@@ -36,15 +36,20 @@ unsigned int Event = 0;
 float IMass = 0;
 float ZMass = 0;
 float HMass = 0;
-float met, metPhi;
+float met, metPhi, pfmet, pfmetPhi;
 float l1M, l1Px, l1Py, l1Pz, l1E, l1Pt, l1Phi, l1Eta, l1Charge, l1_muId, l1_muIso, l1_eleId, l1_eleIso, l1_eleMVANonTrg, l1_eleNumHit = -10;
 float l2M, l2Px, l2Py, l2Pz, l2E, l2Pt, l2Phi, l2Eta, l2Charge, l2_muId, l2_muIso, l2_eleId, l2_eleIso, l2_eleMVANonTrg, l2_eleNumHit = -10;
-float l3M, l3Px, l3Py, l3Pz, l3E, l3Pt, l3Phi, l3Eta, l3Charge, l3_muId, l3_muIso, l3_eleId, l3_eleIso, l3_eleMVANonTrg, l3_eleNumHit, l3_tauIsoL, l3_tauIsoM, l3_tauIsoT, l3_tauRejMuL, l3_tauRejMuM, l3_tauRejMuT, l3_tauRejEleL, l3_tauRejEleM, l3_tauRejEleMVA = -10;
-float l4M, l4Px, l4Py, l4Pz, l4E, l4Pt, l4Phi, l4Eta, l4Charge, l4_muId, l4_muIso, l4_eleId, l4_eleIso, l4_eleMVANonTrg, l4_eleNumHit, l4_tauIsoL, l4_tauIsoM, l4_tauIsoT, l4_tauRejMuL, l4_tauRejMuM, l4_tauRejMuT, l4_tauRejEleL, l4_tauRejEleM, l4_tauRejEleMVA = -10;
-float covMet11;
-float covMet12;
-float covMet21;
-float covMet22;
+float l3M, l3Px, l3Py, l3Pz, l3E, l3Pt, l3Phi, l3Eta, l3Charge, l3_muId, l3_muIso, l3_eleId, l3_eleIso, l3_eleMVANonTrg, l3_eleNumHit, l3_tauIsoMVA2raw = -10;
+float l4M, l4Px, l4Py, l4Pz, l4E, l4Pt, l4Phi, l4Eta, l4Charge, l4_muId, l4_muIso, l4_eleId, l4_eleIso, l4_eleMVANonTrg, l4_eleNumHit, l4_tauIsoMVA2raw = -10;
+bool l3_tauIsoL, l3_tauIsoM, l3_tauIsoT, l3_tauRejMuL, l3_tauRejMuM, l3_tauRejMuT, l3_tauRejEleL, l3_tauRejEleM, l3_tauRejEleMVA;
+bool l3_tauIso3HitL, l3_tauIso3HitM, l3_tauIso3HitT, l3_tauRejMu2L, l3_tauRejMu2M, l3_tauRejMu2T, l3_tauRejEleMVA3L, l3_tauRejEleMVA3M, l3_tauRejEleMVA3T;
+bool l3_tauIsoVL, l3_tauIsoMVA2L, l3_tauIsoMVA2M, l3_tauIsoMVA2T;
+bool l4_tauIsoL, l4_tauIsoM, l4_tauIsoT, l4_tauRejMuL, l4_tauRejMuM, l4_tauRejMuT, l4_tauRejEleL, l4_tauRejEleM, l4_tauRejEleMVA;
+bool l4_tauIso3HitL, l4_tauIso3HitM, l4_tauIso3HitT, l4_tauRejMu2L, l4_tauRejMu2M, l4_tauRejMu2T, l4_tauRejEleMVA3L, l4_tauRejEleMVA3M, l4_tauRejEleMVA3T;
+bool l4_tauIsoVL, l4_tauIsoMVA2L, l4_tauIsoMVA2M, l4_tauIsoMVA2T;
+
+float covMet11, covMet12, covMet21, covMet22;
+float pfcovMet11, pfcovMet12, pfcovMet21, pfcovMet22;
 float eff_Correction, pu_Weight;
 int num_PV, num_bjet, num_goodjet;
 int mu_Size, BareMuon_Size, electron_Size, BareElectron_Size, tau_Size, BareTau_Size;
@@ -55,7 +60,8 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
 
 
 
-    vector<myobject> Met = m->RecPFMet;
+    vector<myobject> Met = m->RecMVAMet;
+    vector<myobject> PFMet = m->RecPFMet;
     Channel = channel;
     Run = m->runNumber;
     Lumi = m->lumiNumber;
@@ -63,12 +69,18 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     IMass = InvarMass_4(obj1, obj2, obj3, obj4);
     ZMass = InvarMass_2(obj1, obj2);
     HMass = InvarMass_2(obj3, obj4);
-    covMet11 = m->MET_sigMatrix_00;
-    covMet12 = m->MET_sigMatrix_01;
-    covMet21 = m->MET_sigMatrix_10;
-    covMet22 = m->MET_sigMatrix_11;
+    covMet11 = m->MVAMet_sigMatrix_00;
+    covMet12 = m->MVAMet_sigMatrix_01;
+    covMet21 = m->MVAMet_sigMatrix_10;
+    covMet22 = m->MVAMet_sigMatrix_11;
+    pfcovMet11 = m->MET_sigMatrix_00;
+    pfcovMet12 = m->MET_sigMatrix_01;
+    pfcovMet21 = m->MET_sigMatrix_10;
+    pfcovMet22 = m->MET_sigMatrix_11;
     met = Met.front().pt;
+    pfmet = PFMet.front().pt;
     metPhi = Met.front().phi;
+    pfmetPhi = PFMet.front().phi;
     eff_Correction = cor_eff;
     //lepton size
     mu_Size = myCleanLepton(m, "mu").size();
@@ -78,9 +90,7 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     tau_Size = myCleanLepton(m, "tau").size();
     BareTau_Size = myCleanBareLepton(m, "tau").size();
 
-    //    mu_partLoose_Size = LeptonSubSet(m, "mu_loose_partly").size();
     mu_partTight_Size = LeptonSubSet(m, "mu_tight_partly").size();
-    //    ele_partLoose_Size = LeptonSubSet(m, "ele_loose_partly").size();
     ele_partTight_Size = LeptonSubSet(m, "ele_tight_partly").size();
 
 
@@ -131,15 +141,30 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     l3_eleIso = Iso_Ele_dBeta(obj3);
     l3_eleMVANonTrg = obj3.Id_mvaNonTrg;
     l3_eleNumHit = obj3.numHitEleInner;
+
+    l3_tauIsoMVA2raw = obj3.byIsolationMVA2raw;
+    l3_tauIsoVL = obj3.byVLooseCombinedIsolationDeltaBetaCorr;
     l3_tauIsoL = obj3.byLooseCombinedIsolationDeltaBetaCorr;
+    l3_tauIso3HitL = obj3.byLooseCombinedIsolationDeltaBetaCorr3Hits;
+    l3_tauIsoMVA2L = obj3.byLooseIsolationMVA2;
     l3_tauIsoM = obj3.byMediumCombinedIsolationDeltaBetaCorr;
+    l3_tauIso3HitM = obj3.byMediumCombinedIsolationDeltaBetaCorr3Hits;
+    l3_tauIsoMVA2M = obj3.byMediumIsolationMVA2;
     l3_tauIsoT = obj3.byTightCombinedIsolationDeltaBetaCorr;
+    l3_tauIso3HitT = obj3.byTightCombinedIsolationDeltaBetaCorr3Hits;
+    l3_tauIsoMVA2T = obj3.byTightIsolationMVA2;
     l3_tauRejMuL = obj3.discriminationByMuonLoose;
+    l3_tauRejMu2L = obj3.discriminationByMuonLoose2;
     l3_tauRejMuM = obj3.discriminationByMuonMedium;
+    l3_tauRejMu2M = obj3.discriminationByMuonMedium2;
     l3_tauRejMuT = obj3.discriminationByMuonTight;
+    l3_tauRejMu2T = obj3.discriminationByMuonTight2;
     l3_tauRejEleL = obj3.discriminationByElectronLoose;
     l3_tauRejEleM = obj3.discriminationByElectronMedium;
     l3_tauRejEleMVA = obj3.discriminationByElectronMVA;
+    l3_tauRejEleMVA3L = obj3.discriminationByElectronMVA3Loose;
+    l3_tauRejEleMVA3M = obj3.discriminationByElectronMVA3Medium;
+    l3_tauRejEleMVA3T = obj3.discriminationByElectronMVA3Tight;
     l3Charge = obj3.charge;
     l3_CloseJetPt = ((Channel % 10 == 1 || Channel % 10 == 5) && Channel < 99) ? l3Pt : Find_Closet_Jet(obj3, m);
     //    l3_CloseJetPt = Find_Closet_Jet(obj3, m);
@@ -158,15 +183,29 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     l4_eleIso = Iso_Ele_dBeta(obj4);
     l4_eleMVANonTrg = obj4.Id_mvaNonTrg;
     l4_eleNumHit = obj4.numHitEleInner;
+    l4_tauIsoMVA2raw = obj4.byIsolationMVA2raw;
+    l4_tauIsoVL = obj4.byVLooseCombinedIsolationDeltaBetaCorr;
     l4_tauIsoL = obj4.byLooseCombinedIsolationDeltaBetaCorr;
+    l4_tauIso3HitL = obj4.byLooseCombinedIsolationDeltaBetaCorr3Hits;
+    l4_tauIsoMVA2L = obj4.byLooseIsolationMVA2;
     l4_tauIsoM = obj4.byMediumCombinedIsolationDeltaBetaCorr;
+    l4_tauIso3HitM = obj4.byMediumCombinedIsolationDeltaBetaCorr3Hits;
+    l4_tauIsoMVA2M = obj4.byMediumIsolationMVA2;
     l4_tauIsoT = obj4.byTightCombinedIsolationDeltaBetaCorr;
+    l4_tauIso3HitT = obj4.byTightCombinedIsolationDeltaBetaCorr3Hits;
+    l4_tauIsoMVA2T = obj4.byTightIsolationMVA2;
     l4_tauRejMuL = obj4.discriminationByMuonLoose;
+    l4_tauRejMu2L = obj4.discriminationByMuonLoose2;
     l4_tauRejMuM = obj4.discriminationByMuonMedium;
+    l4_tauRejMu2M = obj4.discriminationByMuonMedium2;
     l4_tauRejMuT = obj4.discriminationByMuonTight;
+    l4_tauRejMu2T = obj4.discriminationByMuonTight2;
     l4_tauRejEleL = obj4.discriminationByElectronLoose;
     l4_tauRejEleM = obj4.discriminationByElectronMedium;
     l4_tauRejEleMVA = obj4.discriminationByElectronMVA;
+    l4_tauRejEleMVA3L = obj4.discriminationByElectronMVA3Loose;
+    l4_tauRejEleMVA3M = obj4.discriminationByElectronMVA3Medium;
+    l4_tauRejEleMVA3T = obj4.discriminationByElectronMVA3Tight;
     l4Charge = obj4.charge;
     l4_CloseJetPt = ((Channel % 10 == 1 || Channel % 10 == 5) && Channel < 99) ? l4Pt : Find_Closet_Jet(obj4, m);
     //    l4_CloseJetPt = Find_Closet_Jet(obj4, m);
@@ -178,7 +217,6 @@ void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int
     num_goodjet = GoodJet(m).size();
 
 
-    //    if (chanal < 40)
     Run_Tree->Fill();
 }
 

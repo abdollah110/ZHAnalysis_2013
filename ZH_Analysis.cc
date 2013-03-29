@@ -119,11 +119,17 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("ZMass", &ZMass, "ZMass/F");
     Run_Tree->Branch("HMass", &HMass, "HMass/F");
     Run_Tree->Branch("met", &met, "met/F");
+    Run_Tree->Branch("pfmet", &pfmet, "pfmet/F");
     Run_Tree->Branch("metPhi", &metPhi, "metPhi/F");
+    Run_Tree->Branch("pfmetPhi", &pfmetPhi, "pfmetPhi/F");
     Run_Tree->Branch("covMet11", &covMet11, "covMet11/F");
     Run_Tree->Branch("covMet12", &covMet12, "covMet12/F");
     Run_Tree->Branch("covMet21", &covMet21, "covMet21/F");
     Run_Tree->Branch("covMet22", &covMet22, "covMet22/F");
+    Run_Tree->Branch("pfcovMet11", &pfcovMet11, "pfcovMet11/F");
+    Run_Tree->Branch("pfcovMet12", &pfcovMet12, "pfcovMet12/F");
+    Run_Tree->Branch("pfcovMet21", &pfcovMet21, "pfcovMet21/F");
+    Run_Tree->Branch("pfcovMet22", &pfcovMet22, "pfcovMet22/F");
     Run_Tree->Branch("num_PV", &num_PV, "num_PV/I");
     Run_Tree->Branch("num_bjet", &num_bjet, "num_bjet/I");
     Run_Tree->Branch("num_goodjet", &num_goodjet, "num_goodjet/I");
@@ -138,7 +144,6 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("BareTau_Size", &BareTau_Size, "BareTau_Size/I");
     Run_Tree->Branch("mu_partTight_Size", &mu_partTight_Size, "mu_partTight_Size/I");
     Run_Tree->Branch("ele_partTight_Size", &ele_partTight_Size, "ele_partTight_Size/I");
-
 
     Run_Tree->Branch("l1M", &l1M, "l1M/F");
     Run_Tree->Branch("l1E", &l1E, "l1E/F");
@@ -181,22 +186,37 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l3Eta", &l3Eta, "l3Eta/F");
     Run_Tree->Branch("l3Phi", &l3Phi, "l3Phi/F");
     Run_Tree->Branch("l3Charge", &l3Charge, "l3Charge/F");
+    Run_Tree->Branch("l3_CloseJetPt", &l3_CloseJetPt, "l3_CloseJetPt/F");
     Run_Tree->Branch("l3_muId", &l3_muId, "l3_muId/F");
     Run_Tree->Branch("l3_muIso", &l3_muIso, "l3_muIso/F");
     Run_Tree->Branch("l3_eleId", &l3_eleId, "l3_eleId/F");
     Run_Tree->Branch("l3_eleIso", &l3_eleIso, "l3_eleIso/F");
     Run_Tree->Branch("l3_eleMVANonTrg", &l3_eleMVANonTrg, "l3_eleMVANonTrg/F");
     Run_Tree->Branch("l3_eleNumHit", &l3_eleNumHit, "l3_eleNumHit/F");
-    Run_Tree->Branch("l3_tauIsoL", &l3_tauIsoL, "l3_tauIsoL/F");
-    Run_Tree->Branch("l3_tauIsoM", &l3_tauIsoM, "l3_tauIsoM/F");
-    Run_Tree->Branch("l3_tauIsoT", &l3_tauIsoT, "l3_tauIsoT/F");
-    Run_Tree->Branch("l3_tauRejMuL", &l3_tauRejMuL, "l3_tauRejMuL/F");
-    Run_Tree->Branch("l3_tauRejMuM", &l3_tauRejMuM, "l3_tauRejMuM/F");
-    Run_Tree->Branch("l3_tauRejMuT", &l3_tauRejMuT, "l3_tauRejMuT/F");
-    Run_Tree->Branch("l3_tauRejEleL", &l3_tauRejEleL, "l3_tauRejEleL/F");
-    Run_Tree->Branch("l3_tauRejEleM", &l3_tauRejEleM, "l3_tauRejEleM/F");
-    Run_Tree->Branch("l3_tauRejEleMVA", &l3_tauRejEleMVA, "l3_tauRejEleMVA/F");
-    Run_Tree->Branch("l3_CloseJetPt", &l3_CloseJetPt, "l3_CloseJetPt/F");
+
+    Run_Tree->Branch("l3_tauIsoVL", &l3_tauIsoVL, "l3_tauIsoVL/B");
+    Run_Tree->Branch("l3_tauIso3HitL", &l3_tauIso3HitL, "l3_tauIso3HitL/B");
+    Run_Tree->Branch("l3_tauIso3HitM", &l3_tauIso3HitM, "l3_tauIso3HitM/B");
+    Run_Tree->Branch("l3_tauIso3HitT", &l3_tauIso3HitT, "l3_tauIso3HitT/B");
+    Run_Tree->Branch("l3_tauIsoL", &l3_tauIsoL, "l3_tauIsoL/B");
+    Run_Tree->Branch("l3_tauIsoM", &l3_tauIsoM, "l3_tauIsoM/B");
+    Run_Tree->Branch("l3_tauIsoT", &l3_tauIsoT, "l3_tauIsoT/B");
+    Run_Tree->Branch("l3_tauIsoMVA2L", &l3_tauIsoMVA2L, "l3_tauIsoMVA2L/B");
+    Run_Tree->Branch("l3_tauIsoMVA2M", &l3_tauIsoMVA2M, "l3_tauIsoMVA2M/B");
+    Run_Tree->Branch("l3_tauIsoMVA2T", &l3_tauIsoMVA2T, "l3_tauIsoMVA2T/B");
+    Run_Tree->Branch("l3_tauIsoMVA2raw", &l3_tauIsoMVA2raw, "l3_tauIsoMVA2raw/F");
+    Run_Tree->Branch("l3_tauRejMuL", &l3_tauRejMuL, "l3_tauRejMuL/B");
+    Run_Tree->Branch("l3_tauRejMu2L", &l3_tauRejMu2L, "l3_tauRejMu2L/B");
+    Run_Tree->Branch("l3_tauRejMuM", &l3_tauRejMuM, "l3_tauRejMuM/B");
+    Run_Tree->Branch("l3_tauRejMu2M", &l3_tauRejMu2M, "l3_tauRejMu2M/B");
+    Run_Tree->Branch("l3_tauRejMuT", &l3_tauRejMuT, "l3_tauRejMuT/B");
+    Run_Tree->Branch("l3_tauRejMu2T", &l3_tauRejMu2T, "l3_tauRejMu2T/B");
+    Run_Tree->Branch("l3_tauRejEleL", &l3_tauRejEleL, "l3_tauRejEleL/B");
+    Run_Tree->Branch("l3_tauRejEleM", &l3_tauRejEleM, "l3_tauRejEleM/B");
+    Run_Tree->Branch("l3_tauRejEleMVA", &l3_tauRejEleMVA, "l3_tauRejEleMVA/B");
+    Run_Tree->Branch("l3_tauRejEleMVA3L", &l3_tauRejEleMVA3L, "l3_tauRejEleMVA3L/B");
+    Run_Tree->Branch("l3_tauRejEleMVA3M", &l3_tauRejEleMVA3M, "l3_tauRejEleMVA3M/B");
+    Run_Tree->Branch("l3_tauRejEleMVA3T", &l3_tauRejEleMVA3T, "l3_tauRejEleMVA3T/B");
 
     Run_Tree->Branch("l4M", &l4M, "l4M/F");
     Run_Tree->Branch("l4E", &l4E, "l4E/F");
@@ -213,17 +233,30 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l4_eleIso", &l4_eleIso, "l4_eleIso/F");
     Run_Tree->Branch("l4_eleMVANonTrg", &l4_eleMVANonTrg, "l4_eleMVANonTrg/F");
     Run_Tree->Branch("l4_eleNumHit", &l4_eleNumHit, "l4_eleNumHit/F");
-    Run_Tree->Branch("l4_tauIsoL", &l4_tauIsoL, "l4_tauIsoL/F");
-    Run_Tree->Branch("l4_tauIsoM", &l4_tauIsoM, "l4_tauIsoM/F");
-    Run_Tree->Branch("l4_tauIsoT", &l4_tauIsoT, "l4_tauIsoT/F");
-    Run_Tree->Branch("l4_tauRejMuL", &l4_tauRejMuL, "l4_tauRejMuL/F");
-    Run_Tree->Branch("l4_tauRejMuM", &l4_tauRejMuM, "l4_tauRejMuM/F");
-    Run_Tree->Branch("l4_tauRejMuT", &l4_tauRejMuT, "l4_tauRejMuT/F");
-    Run_Tree->Branch("l4_tauRejEleL", &l4_tauRejEleL, "l4_tauRejEleL/F");
-    Run_Tree->Branch("l4_tauRejEleM", &l4_tauRejEleM, "l4_tauRejEleM/F");
-    Run_Tree->Branch("l4_tauRejEleMVA", &l4_tauRejEleMVA, "l4_tauRejEleMVA/F");
     Run_Tree->Branch("l4_CloseJetPt", &l4_CloseJetPt, "l4_CloseJetPt/F");
-
+    Run_Tree->Branch("l4_tauIsoVL", &l4_tauIsoVL, "l4_tauIsoVL/B");
+    Run_Tree->Branch("l4_tauIso3HitL", &l4_tauIso3HitL, "l4_tauIso3HitL/B");
+    Run_Tree->Branch("l4_tauIso3HitM", &l4_tauIso3HitM, "l4_tauIso3HitM/B");
+    Run_Tree->Branch("l4_tauIso3HitT", &l4_tauIso3HitT, "l4_tauIso3HitT/B");
+    Run_Tree->Branch("l4_tauIsoL", &l4_tauIsoL, "l4_tauIsoL/B");
+    Run_Tree->Branch("l4_tauIsoM", &l4_tauIsoM, "l4_tauIsoM/B");
+    Run_Tree->Branch("l4_tauIsoT", &l4_tauIsoT, "l4_tauIsoT/B");
+    Run_Tree->Branch("l4_tauIsoMVA2L", &l4_tauIsoMVA2L, "l4_tauIsoMVA2L/B");
+    Run_Tree->Branch("l4_tauIsoMVA2M", &l4_tauIsoMVA2M, "l4_tauIsoMVA2M/B");
+    Run_Tree->Branch("l4_tauIsoMVA2T", &l4_tauIsoMVA2T, "l4_tauIsoMVA2T/B");
+    Run_Tree->Branch("l4_tauIsoMVA2raw", &l4_tauIsoMVA2raw, "l4_tauIsoMVA2raw/F");
+    Run_Tree->Branch("l4_tauRejMuL", &l4_tauRejMuL, "l4_tauRejMuL/B");
+    Run_Tree->Branch("l4_tauRejMu2L", &l4_tauRejMu2L, "l4_tauRejMu2L/B");
+    Run_Tree->Branch("l4_tauRejMuM", &l4_tauRejMuM, "l4_tauRejMuM/B");
+    Run_Tree->Branch("l4_tauRejMu2M", &l4_tauRejMu2M, "l4_tauRejMu2M/B");
+    Run_Tree->Branch("l4_tauRejMuT", &l4_tauRejMuT, "l4_tauRejMuT/B");
+    Run_Tree->Branch("l4_tauRejMu2T", &l4_tauRejMu2T, "l4_tauRejMu2T/B");
+    Run_Tree->Branch("l4_tauRejEleL", &l4_tauRejEleL, "l4_tauRejEleL/B");
+    Run_Tree->Branch("l4_tauRejEleM", &l4_tauRejEleM, "l4_tauRejEleM/B");
+    Run_Tree->Branch("l4_tauRejEleMVA", &l4_tauRejEleMVA, "l4_tauRejEleMVA/B");
+    Run_Tree->Branch("l4_tauRejEleMVA3L", &l4_tauRejEleMVA3L, "l4_tauRejEleMVA3L/B");
+    Run_Tree->Branch("l4_tauRejEleMVA3M", &l4_tauRejEleMVA3M, "l4_tauRejEleMVA3M/B");
+    Run_Tree->Branch("l4_tauRejEleMVA3T", &l4_tauRejEleMVA3T, "l4_tauRejEleMVA3T/B");
     //#################################################################################################
     //###################      Starting the analysis, making loop over files    #######################
     //#################################################################################################
@@ -307,11 +340,13 @@ int main(int argc, char** argv) {
 
             //#################################################################################################
             //#################################################################################################
-            //###############    2l2ta Analysis       #########################################################
+            //###############    2l2tau Analysis       #########################################################
             //#################################################################################################
             //#################################################################################################
             if (is_mu || is_tot) {
-
+                //##############################################################################
+                // MMTT
+                //##############################################################################
                 int mmtt = -1;
                 plotFill("mmtt", ++mmtt, 20, 0., 20.);
                 if (mu_.size() == 2 && electron_.size() == 0 && Trigger) {
@@ -326,39 +361,31 @@ int main(int argc, char** argv) {
                                     double Higgs_Mass = InvarMass_2(tau_[k], tau_[l]);
 
                                     bool first_l_HighPt = mu_[i].pt > HighPt_Lep;
-                                    bool Z_Charge_b = mu_[i].charge * mu_[j].charge < 0;
+                                    bool Z_Charge = mu_[i].charge * mu_[j].charge < 0;
                                     bool Z_Mass_b = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                                     bool Overlap_Dz = OverLapWithTaus(mu_[i], mu_[j], tau_[k], tau_[l]);
                                     bool Di_mu_Iso = Iso_Mu_dBeta(mu_[i]) < loose_Iso_Mu && Iso_Mu_dBeta(mu_[j]) < loose_Iso_Mu;
-                                    bool mu_Rejection = tau_[k].discriminationByMuonMedium && tau_[l].discriminationByMuonMedium;
-                                    bool ele_Rejection = tau_[k].discriminationByElectronMedium && tau_[l].discriminationByElectronMedium;
-                                    bool tau_tightIso_1 = tau_[k].byTightCombinedIsolationDeltaBetaCorr;
-                                    bool tau_tightIso_2 = tau_[l].byTightCombinedIsolationDeltaBetaCorr;
-                                    bool tau_looseIso_1 = tau_[k].byLooseCombinedIsolationDeltaBetaCorr;
-                                    bool tau_looseIso_2 = tau_[l].byLooseCombinedIsolationDeltaBetaCorr;
-                                    bool H_Charge_b = tau_[k].charge * tau_[l].charge < 0;
+                                    bool mu_Rejection = getMuRejection("mmtt", tau_[k]) && getMuRejection("mmtt", tau_[l]);
+                                    bool ele_Rejection = getEleRejection("mmtt", tau_[k]) && getEleRejection("mmtt", tau_[l]);
+                                    bool tau_Iso_1 = getTauIsolation("mmtt", tau_[k]);
+                                    bool tau_Iso_2 = getTauIsolation("mmtt", tau_[l]);
+                                    bool H_Charge = tau_[k].charge * tau_[l].charge < 0;
                                     bool SumPtCut = getSumPtCut("mmtt", mu_[i], mu_[j], tau_[k], tau_[l]);
                                     bool bjet_num = num_Bjet < 1;
                                     Cor_eff = getCorrFactor("mmtt", status_sample.c_str(), mu_[i], mu_[j], tau_[k], tau_[l]);
 
-                                    if (bjet_num && first_l_HighPt && Z_Charge_b && Z_Mass_b && Overlap_Dz && Di_mu_Iso && mu_Rejection && ele_Rejection) {
-                                        //For Validation
-                                        if (!H_Charge_b && tau_looseIso_1 && tau_looseIso_2) {
-                                            plotFill("Higgs_Mass_mmtt_Validation", Higgs_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
-                                        }//End of Validation
-                                        if (SumPtCut && H_Charge_b && tau_tightIso_1 && tau_tightIso_2) {
+                                    if (bjet_num && first_l_HighPt && Z_Charge && Z_Mass_b && Overlap_Dz && Di_mu_Iso && mu_Rejection && ele_Rejection && SumPtCut && H_Charge && tau_Iso_1 && tau_Iso_2) {
 
-                                            //Filling the tree
-                                            MyChannel = 1;
-                                            if (fill_tree[MyChannel]) {
-                                                fill_tree[MyChannel] = false;
-                                                plotFill("Zboson_Mass_mmtt", Zboson_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
-                                                plotFill("Higgs_Mass_mmtt", Higgs_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
-                                                plotFill("mmtt", ++mmtt, 20, 0., 20., PU_Weight * Cor_eff);
-                                                plotFill("mmtt", ++mmtt, 20, 0., 20., PU_Weight);
-                                                plotFill("mmtt", ++mmtt, 20, 0., 20., Cor_eff);
-                                                fillTree(Run_Tree, m, PU_Weight, Cor_eff, 1, mu_[i], mu_[j], tau_[k], tau_[l]);
-                                            }
+                                        //Filling the tree
+                                        MyChannel = 1;
+                                        if (fill_tree[MyChannel]) {
+                                            fill_tree[MyChannel] = false;
+                                            plotFill("Zboson_Mass_mmtt", Zboson_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
+                                            plotFill("Higgs_Mass_mmtt", Higgs_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
+                                            plotFill("mmtt", ++mmtt, 20, 0., 20., PU_Weight * Cor_eff);
+                                            plotFill("mmtt", ++mmtt, 20, 0., 20., PU_Weight);
+                                            plotFill("mmtt", ++mmtt, 20, 0., 20., Cor_eff);
+                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 1, mu_[i], mu_[j], tau_[k], tau_[l]);
                                         }
                                     }
                                 }
@@ -366,9 +393,10 @@ int main(int argc, char** argv) {
                         }
                     }
                 }
-                //#################################################################################################
-                //#################################################################################################
 
+                //##############################################################################
+                // MMET
+                //##############################################################################
                 int mmet = -1;
                 plotFill("mmet", ++mmet, 20, 0., 20.);
                 if (mu_.size() == 2 && electron_.size() == 1 && Trigger) {
@@ -383,18 +411,19 @@ int main(int argc, char** argv) {
                                     double Higgs_Mass = InvarMass_2(electron_[k], tau_[l]);
 
                                     bool first_l_HighPt = mu_[i].pt > HighPt_Lep;
-                                    bool Z_Charge_b = mu_[i].charge * mu_[j].charge < 0;
+                                    bool Z_Charge = mu_[i].charge * mu_[j].charge < 0;
                                     bool Z_Mass_b = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                                     bool Overlap_Dz = OverLapWithTaus(mu_[i], mu_[j], electron_[k], tau_[l]);
                                     bool Di_mu_Iso = Iso_Mu_dBeta(mu_[i]) < loose_Iso_Mu && Iso_Mu_dBeta(mu_[j]) < loose_Iso_Mu;
                                     bool ele_Iso = Iso_Ele_dBeta(electron_[k]) < tight_Iso_Ele && electron_[k].numHitEleInner < 1;
-                                    bool tau_Iso = tau_[l].byMediumCombinedIsolationDeltaBetaCorr && tau_[l].discriminationByElectronMVA;
-                                    bool H_Charge_b = electron_[k].charge * tau_[l].charge < 0;
+                                    bool tau_Iso = getTauIsolation("mmet", tau_[l]);
+                                    bool ele_Rejection = getEleRejection("mmet", tau_[l]);
+                                    bool H_Charge = electron_[k].charge * tau_[l].charge < 0;
                                     bool SumPtCut = getSumPtCut("mmet", mu_[i], mu_[j], electron_[k], tau_[l]);
                                     bool bjet_num = num_Bjet < 1;
                                     Cor_eff = getCorrFactor("mmet", status_sample.c_str(), mu_[i], mu_[j], electron_[k], tau_[l]);
 
-                                    if (SumPtCut && bjet_num && first_l_HighPt && Z_Charge_b && Z_Mass_b && Overlap_Dz && Di_mu_Iso && ele_Iso && tau_Iso && H_Charge_b) {
+                                    if (SumPtCut && bjet_num && first_l_HighPt && Z_Charge && Z_Mass_b && Overlap_Dz && Di_mu_Iso && ele_Iso && tau_Iso && ele_Rejection && H_Charge) {
 
                                         //Filling the tree
                                         MyChannel = 2;
@@ -414,8 +443,9 @@ int main(int argc, char** argv) {
                         }
                     }
                 }
-                //#################################################################################################
-                //#################################################################################################
+                //##############################################################################
+                // MMMT
+                //##############################################################################
                 int mmmt = -1;
                 plotFill("mmmt", ++mmmt, 20, 0., 20.);
                 if (mu_.size() == 3 && electron_.size() == 0 && Trigger) {
@@ -437,19 +467,21 @@ int main(int argc, char** argv) {
                                     double Zboson_Mass = InvarMass_2(mu_[i], mu_[j]);
                                     double Higgs_Mass = InvarMass_2(mu_[k], tau_[l]);
 
-                                    bool first_l_HighPt = mu_[i].pt > HighPt_Lep || mu_[j].pt > HighPt_Lep;
-                                    bool Z_Charge_b = mu_[i].charge * mu_[j].charge < 0;
+                                    if (mu_[i].pt < mu_[j].pt) swap(mu_[i], mu_[j]); // order muon based on Pt
+                                    bool first_l_HighPt = mu_[i].pt > HighPt_Lep;
+                                    bool Z_Charge = mu_[i].charge * mu_[j].charge < 0;
                                     bool Z_Mass_b = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                                     bool Overlap_Dz = OverLapWithTaus(mu_[i], mu_[j], mu_[k], tau_[l]);
                                     bool Di_mu_Iso = Iso_Mu_dBeta(mu_[i]) < loose_Iso_Mu && Iso_Mu_dBeta(mu_[j]) < loose_Iso_Mu;
                                     bool mu_Iso = Iso_Mu_dBeta(mu_[k]) < tight_Iso_Mu;
-                                    bool tau_Iso = tau_[l].byMediumCombinedIsolationDeltaBetaCorr && tau_[l].discriminationByMuonTight;
-                                    bool H_Charge_b = mu_[k].charge * tau_[l].charge < 0;
+                                    bool tau_Iso = getTauIsolation("mmmt", tau_[l]);
+                                    bool mu_Rejection = getMuRejection("mmmt", tau_[l]);
+                                    bool H_Charge = mu_[k].charge * tau_[l].charge < 0;
                                     bool SumPtCut = getSumPtCut("mmmt", mu_[i], mu_[j], mu_[k], tau_[l]);
                                     bool bjet_num = num_Bjet < 1;
                                     Cor_eff = getCorrFactor("mmmt", status_sample.c_str(), mu_[i], mu_[j], mu_[k], tau_[l]);
 
-                                    if (SumPtCut && bjet_num && first_l_HighPt && Z_Charge_b && Z_Mass_b && Overlap_Dz && Di_mu_Iso && mu_Iso && tau_Iso && H_Charge_b) {
+                                    if (SumPtCut && bjet_num && first_l_HighPt && Z_Charge && Z_Mass_b && Overlap_Dz && Di_mu_Iso && mu_Iso && tau_Iso && mu_Rejection && H_Charge) {
 
                                         //Filling the tree
                                         MyChannel = 3;
@@ -470,9 +502,9 @@ int main(int argc, char** argv) {
                         }
                     }
                 }
-                //#################################################################################################
-                //#################################################################################################
-
+                //##############################################################################
+                // MMME
+                //##############################################################################
                 int mmme = -1;
                 plotFill("mmme", ++mmme, 20, 0., 20.);
                 if (mu_.size() == 3 && electron_.size() == 1 && Trigger) {
@@ -494,19 +526,20 @@ int main(int argc, char** argv) {
                                     double Zboson_Mass = InvarMass_2(mu_[i], mu_[j]);
                                     double Higgs_Mass = InvarMass_2(mu_[k], electron_[l]);
 
-                                    bool first_l_HighPt = mu_[i].pt > HighPt_Lep || mu_[j].pt > HighPt_Lep;
-                                    bool Z_Charge_b = mu_[i].charge * mu_[j].charge < 0;
+                                    if (mu_[i].pt < mu_[j].pt) swap(mu_[i], mu_[j]); // order muon based on Pt
+                                    bool first_l_HighPt = mu_[i].pt > HighPt_Lep;
+                                    bool Z_Charge = mu_[i].charge * mu_[j].charge < 0;
                                     bool Z_Mass_b = Zboson_Mass > z_lowMass && Zboson_Mass< z_highMass;
                                     bool Overlap_Dz = OverLapWithTaus(mu_[i], mu_[j], mu_[k], electron_[l]);
                                     bool Di_mu_Iso = Iso_Mu_dBeta(mu_[i]) < loose_Iso_Mu && Iso_Mu_dBeta(mu_[j]) < loose_Iso_Mu;
                                     bool mu_Iso = Iso_Mu_dBeta(mu_[k]) < loose_Iso_Mu;
                                     bool electron_Iso = Iso_Ele_dBeta(electron_[l]) < loose_Iso_Ele;
-                                    bool H_Charge_b = mu_[k].charge * electron_[l].charge < 0;
+                                    bool H_Charge = mu_[k].charge * electron_[l].charge < 0;
                                     bool SumPtCut = getSumPtCut("mmme", mu_[i], mu_[j], mu_[k], electron_[l]);
                                     bool bjet_num = num_Bjet < 1;
                                     Cor_eff = getCorrFactor("mmme", status_sample.c_str(), mu_[i], mu_[j], mu_[k], electron_[l]);
 
-                                    if (SumPtCut && bjet_num && first_l_HighPt && Z_Charge_b && Z_Mass_b && Overlap_Dz && Di_mu_Iso && mu_Iso && electron_Iso && H_Charge_b) {
+                                    if (SumPtCut && bjet_num && first_l_HighPt && Z_Charge && Z_Mass_b && Overlap_Dz && Di_mu_Iso && mu_Iso && electron_Iso && H_Charge) {
 
                                         //Filling the tree
                                         MyChannel = 4;
@@ -530,11 +563,13 @@ int main(int argc, char** argv) {
             }//end of only Muon
             //#################################################################################################
             //#################################################################################################
-            //**********************  Double Electron ********************************
-            //************************************************************************
-            //************************************************************************
+            //#######################  Double Electron #######################
+            //#################################################################################################
+            //#################################################################################################
             if (is_ele || is_tot) {
-
+                //##############################################################################
+                // EETT
+                //##############################################################################
                 int eett = -1;
                 plotFill("eett", ++eett, 20, 0., 20.);
                 if (electron_.size() == 2 && mu_.size() == 0 && Trigger) {
@@ -549,39 +584,32 @@ int main(int argc, char** argv) {
                                     double Higgs_Mass = InvarMass_2(tau_[k], tau_[l]);
 
                                     bool first_l_HighPt = electron_[i].pt > HighPt_Lep;
-                                    bool Z_Charge_b = electron_[i].charge * electron_[j].charge < 0;
+                                    bool Z_Charge = electron_[i].charge * electron_[j].charge < 0;
                                     bool Z_Mass_b = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                                     bool Overlap_Dz = OverLapWithTaus(electron_[i], electron_[j], tau_[k], tau_[l]);
                                     bool Di_Ele_Iso = Iso_Ele_dBeta(electron_[i]) < loose_Iso_Ele && Iso_Ele_dBeta(electron_[j]) < loose_Iso_Ele;
-                                    bool mu_Rejection = tau_[k].discriminationByMuonMedium && tau_[l].discriminationByMuonMedium;
-                                    bool ele_Rejection = tau_[k].discriminationByElectronMedium && tau_[l].discriminationByElectronMedium;
-                                    bool tau_tightIso_1 = tau_[k].byTightCombinedIsolationDeltaBetaCorr;
-                                    bool tau_tightIso_2 = tau_[l].byTightCombinedIsolationDeltaBetaCorr;
-                                    bool tau_looseIso_1 = tau_[k].byLooseCombinedIsolationDeltaBetaCorr;
-                                    bool tau_looseIso_2 = tau_[l].byLooseCombinedIsolationDeltaBetaCorr;
-                                    bool H_Charge_b = tau_[k].charge * tau_[l].charge < 0;
+                                    bool mu_Rejection = getMuRejection("eett", tau_[k]) && getMuRejection("eett", tau_[l]);
+                                    bool ele_Rejection = getEleRejection("eett", tau_[k]) && getEleRejection("eett", tau_[l]);
+                                    bool tau_Iso_1 = getTauIsolation("eett", tau_[k]);
+                                    bool tau_Iso_2 = getTauIsolation("eett", tau_[l]);
+                                    bool H_Charge = tau_[k].charge * tau_[l].charge < 0;
                                     bool SumPtCut = getSumPtCut("eett", electron_[i], electron_[j], tau_[k], tau_[l]);
                                     bool bjet_num = num_Bjet < 1;
                                     Cor_eff = getCorrFactor("eett", status_sample.c_str(), electron_[i], electron_[j], tau_[k], tau_[l]);
 
-                                    if (bjet_num && first_l_HighPt && Z_Charge_b && Z_Mass_b && Overlap_Dz && Di_Ele_Iso && ele_Rejection && mu_Rejection) {
-                                        if (!H_Charge_b && tau_looseIso_1 && tau_looseIso_2) {
-                                            plotFill("Higgs_Mass_eett_Validation", Higgs_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
-                                        }
-                                        if (SumPtCut && H_Charge_b && tau_tightIso_1 && tau_tightIso_2) {
+                                    if (bjet_num && first_l_HighPt && Z_Charge && Z_Mass_b && Overlap_Dz && Di_Ele_Iso && ele_Rejection && mu_Rejection, SumPtCut && H_Charge && tau_Iso_1 && tau_Iso_2) {
 
-                                            //Filling the tree
-                                            MyChannel = 5;
-                                            if (fill_tree[MyChannel]) {
-                                                fill_tree[MyChannel] = false;
-                                                plotFill("eett", ++eett, 20, 0., 20., PU_Weight * Cor_eff);
-                                                plotFill("eett", ++eett, 20, 0., 20., PU_Weight);
-                                                plotFill("eett", ++eett, 20, 0., 20., Cor_eff);
-                                                plotFill("Zboson_Mass_eett", Zboson_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
-                                                plotFill("Higgs_Mass_eett", Higgs_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
-                                                fillTree(Run_Tree, m, PU_Weight, Cor_eff, 5, electron_[i], electron_[j], tau_[k], tau_[l]);
+                                        //Filling the tree
+                                        MyChannel = 5;
+                                        if (fill_tree[MyChannel]) {
+                                            fill_tree[MyChannel] = false;
+                                            plotFill("eett", ++eett, 20, 0., 20., PU_Weight * Cor_eff);
+                                            plotFill("eett", ++eett, 20, 0., 20., PU_Weight);
+                                            plotFill("eett", ++eett, 20, 0., 20., Cor_eff);
+                                            plotFill("Zboson_Mass_eett", Zboson_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
+                                            plotFill("Higgs_Mass_eett", Higgs_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
+                                            fillTree(Run_Tree, m, PU_Weight, Cor_eff, 5, electron_[i], electron_[j], tau_[k], tau_[l]);
 
-                                            }
                                         }
                                     }
                                 }
@@ -589,8 +617,9 @@ int main(int argc, char** argv) {
                         }
                     }
                 }
-                //#################################################################################################
-                //#################################################################################################
+                //##############################################################################
+                // EEMT
+                //##############################################################################
                 int eemt = -1;
                 plotFill("eemt", ++eemt, 20, 0., 20.);
                 if (electron_.size() == 2 && mu_.size() == 1 && Trigger) {
@@ -605,18 +634,19 @@ int main(int argc, char** argv) {
                                     double Higgs_Mass = InvarMass_2(mu_[k], tau_[l]);
 
                                     bool first_l_HighPt = electron_[i].pt > HighPt_Lep;
-                                    bool Z_Charge_b = electron_[i].charge * electron_[j].charge < 0;
+                                    bool Z_Charge = electron_[i].charge * electron_[j].charge < 0;
                                     bool Z_Mass_b = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                                     bool Overlap_Dz = OverLapWithTaus(electron_[i], electron_[j], mu_[k], tau_[l]);
                                     bool Di_Ele_Iso = Iso_Ele_dBeta(electron_[i]) < loose_Iso_Ele && Iso_Ele_dBeta(electron_[j]) < loose_Iso_Ele;
                                     bool mu_Iso = Iso_Mu_dBeta(mu_[k]) < tight_Iso_Mu;
-                                    bool tau_Iso = tau_[l].byMediumCombinedIsolationDeltaBetaCorr && tau_[l].discriminationByMuonTight;
-                                    bool H_Charge_b = mu_[k].charge * tau_[l].charge < 0;
+                                    bool tau_Iso = getTauIsolation("eemt", tau_[l]);
+                                    bool mu_Rejection = getMuRejection("eemt", tau_[l]);
+                                    bool H_Charge = mu_[k].charge * tau_[l].charge < 0;
                                     bool SumPtCut = getSumPtCut("eemt", electron_[i], electron_[j], mu_[k], tau_[l]);
                                     bool bjet_num = num_Bjet < 1;
                                     Cor_eff = getCorrFactor("eemt", status_sample.c_str(), electron_[i], electron_[j], mu_[k], tau_[l]);
 
-                                    if (SumPtCut && bjet_num && first_l_HighPt && Z_Charge_b && Z_Mass_b && Overlap_Dz && Di_Ele_Iso && mu_Iso && tau_Iso && H_Charge_b) {
+                                    if (SumPtCut && bjet_num && first_l_HighPt && Z_Charge && Z_Mass_b && Overlap_Dz && Di_Ele_Iso && mu_Iso && tau_Iso && mu_Rejection && H_Charge) {
 
                                         //Filling the tree
                                         MyChannel = 6;
@@ -635,8 +665,9 @@ int main(int argc, char** argv) {
                         }
                     }
                 }
-                //#################################################################################################
-                //#################################################################################################
+                //##############################################################################
+                // EEET
+                //##############################################################################
                 int eeet = -1;
                 plotFill("eeet", ++eeet, 20, 0., 20.);
                 if (electron_.size() == 3 && mu_.size() == 0 && Trigger) {
@@ -658,19 +689,21 @@ int main(int argc, char** argv) {
                                     double Zboson_Mass = InvarMass_2(electron_[i], electron_[j]);
                                     double Higgs_Mass = InvarMass_2(electron_[k], tau_[l]);
 
-                                    bool first_l_HighPt = electron_[i].pt > HighPt_Lep || electron_[j].pt > HighPt_Lep;
-                                    bool Z_Charge_b = electron_[i].charge * electron_[j].charge < 0;
+                                    if (electron_[i].pt < electron_[j].pt) swap(electron_[i], electron_[j]);
+                                    bool first_l_HighPt = electron_[i].pt > HighPt_Lep;
+                                    bool Z_Charge = electron_[i].charge * electron_[j].charge < 0;
                                     bool Z_Mass_b = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                                     bool Overlap_Dz = OverLapWithTaus(electron_[i], electron_[j], electron_[k], tau_[l]);
                                     bool Di_Ele_Iso = Iso_Ele_dBeta(electron_[i]) < loose_Iso_Ele && Iso_Ele_dBeta(electron_[j]) < loose_Iso_Ele;
                                     bool electron_Iso = Iso_Ele_dBeta(electron_[k]) < tight_Iso_Ele && electron_[k].numHitEleInner < 1;
-                                    bool tau_Iso = tau_[l].byMediumCombinedIsolationDeltaBetaCorr && tau_[l].discriminationByElectronMVA;
-                                    bool H_Charge_b = electron_[k].charge * tau_[l].charge < 0;
+                                    bool tau_Iso = getTauIsolation("eeet", tau_[l]);
+                                    bool ele_Rejection = getEleRejection("eeet", tau_[l]);
+                                    bool H_Charge = electron_[k].charge * tau_[l].charge < 0;
                                     bool SumPtCut = getSumPtCut("eeet", electron_[i], electron_[j], electron_[k], tau_[l]);
                                     bool bjet_num = num_Bjet < 1;
                                     Cor_eff = getCorrFactor("eeet", status_sample.c_str(), electron_[i], electron_[j], electron_[k], tau_[l]);
 
-                                    if (SumPtCut && bjet_num && first_l_HighPt && Z_Charge_b && Z_Mass_b && Overlap_Dz && Di_Ele_Iso && electron_Iso && tau_Iso && H_Charge_b) {
+                                    if (SumPtCut && bjet_num && first_l_HighPt && Z_Charge && Z_Mass_b && Overlap_Dz && Di_Ele_Iso && electron_Iso && tau_Iso && ele_Rejection && H_Charge) {
 
                                         //Filling the tree
                                         MyChannel = 7;
@@ -690,8 +723,9 @@ int main(int argc, char** argv) {
                         }
                     }
                 }
-                //#################################################################################################
-                //#################################################################################################
+                //##############################################################################
+                // EEEM
+                //##############################################################################
                 int eeem = -1;
                 plotFill("eeem", ++eeem, 20, 0., 20.);
                 if (electron_.size() == 3 && mu_.size() == 1 && Trigger) {
@@ -712,19 +746,20 @@ int main(int argc, char** argv) {
                                     double Zboson_Mass = InvarMass_2(electron_[i], electron_[j]);
                                     double Higgs_Mass = InvarMass_2(electron_[k], mu_[l]);
 
-                                    bool first_l_HighPt = electron_[i].pt > HighPt_Lep || electron_[j].pt > HighPt_Lep;
-                                    bool Z_Charge_b = electron_[i].charge * electron_[j].charge < 0;
+                                    if (electron_[i].pt < electron_[j].pt) swap(electron_[i], electron_[j]);
+                                    bool first_l_HighPt = electron_[i].pt > HighPt_Lep;
+                                    bool Z_Charge = electron_[i].charge * electron_[j].charge < 0;
                                     bool Z_Mass_b = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                                     bool Overlap_Dz = OverLapWithTaus(electron_[i], electron_[j], electron_[k], mu_[l]);
                                     bool Di_Ele_Iso = Iso_Ele_dBeta(electron_[i]) < loose_Iso_Ele && Iso_Ele_dBeta(electron_[j]) < loose_Iso_Ele;
                                     bool electron_Iso = Iso_Ele_dBeta(electron_[k]) < loose_Iso_Ele;
                                     bool mu_Iso = Iso_Mu_dBeta(mu_[l]) < loose_Iso_Mu;
-                                    bool H_Charge_b = electron_[k].charge * mu_[l].charge < 0;
+                                    bool H_Charge = electron_[k].charge * mu_[l].charge < 0;
                                     bool SumPtCut = getSumPtCut("eeem", electron_[i], electron_[j], electron_[k], mu_[l]);
                                     bool bjet_num = num_Bjet < 1;
                                     Cor_eff = getCorrFactor("eeem", status_sample.c_str(), electron_[i], electron_[j], electron_[k], mu_[l]);
 
-                                    if (SumPtCut && bjet_num && first_l_HighPt && Z_Charge_b && Z_Mass_b && Overlap_Dz && Di_Ele_Iso && electron_Iso && mu_Iso && H_Charge_b) {
+                                    if (SumPtCut && bjet_num && first_l_HighPt && Z_Charge && Z_Mass_b && Overlap_Dz && Di_Ele_Iso && electron_Iso && mu_Iso && H_Charge) {
 
                                         //Filling the tree
                                         MyChannel = 8;
@@ -751,14 +786,12 @@ int main(int argc, char** argv) {
             //#################################################################################################
             //#########################        Fake Rate Estimation        ##########################################
             //#################################################################################################
-            //*****************************************************************************************
-            //*****************************************************************************************
-            //*****************************************************************************************
-            //*****************************************************************************************
+            //#################################################################################################
+            //#################################################################################################
             if (is_mu || is_tot) {
-
-
-                // ABCD mmtt
+                //##############################################################################
+                // MMTT
+                //##############################################################################
                 bool Fill_Once_ff = true;
                 bool Fill_Once_fp = true;
                 bool Fill_Once_pf = true;
@@ -774,30 +807,26 @@ int main(int argc, char** argv) {
                                     double Higgs_Mass = InvarMass_2(BareTau[k], BareTau[l]);
 
                                     bool first_l_HighPt = BareMuon[i].pt > HighPt_Lep;
-                                    bool Z_Charge_b = BareMuon[i].charge * BareMuon[j].charge < 0;
+                                    bool Z_Charge = BareMuon[i].charge * BareMuon[j].charge < 0;
                                     bool mu_Iso_1 = Iso_Mu_dBeta(BareMuon[i]) < loose_Iso_Mu;
                                     bool mu_Iso_2 = Iso_Mu_dBeta(BareMuon[j]) < loose_Iso_Mu;
                                     bool mu_Id_1 = Id_Mu(BareMuon[i]);
                                     bool mu_Id_2 = Id_Mu(BareMuon[j]);
                                     bool Leading_Z_Mass = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                                     bool Overlap_Dz = OverLapWithTaus(BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
-                                    bool mu_Rejection = BareTau[k].discriminationByMuonMedium && BareTau[l].discriminationByMuonMedium;
-                                    bool ele_Rejection = BareTau[k].discriminationByElectronMedium && BareTau[l].discriminationByElectronMedium;
-                                    bool tau_Iso_Tight_1 = BareTau[k].byTightCombinedIsolationDeltaBetaCorr;
-                                    bool tau_Iso_Tight_2 = BareTau[l].byTightCombinedIsolationDeltaBetaCorr;
-                                    bool tau_Iso_Medium_1 = BareTau[k].byMediumCombinedIsolationDeltaBetaCorr;
-                                    bool tau_Iso_Medium_2 = BareTau[l].byMediumCombinedIsolationDeltaBetaCorr;
-                                    bool tau_Iso_Loose_1 = BareTau[k].byLooseCombinedIsolationDeltaBetaCorr;
-                                    bool tau_Iso_Loose_2 = BareTau[l].byLooseCombinedIsolationDeltaBetaCorr;
-                                    bool H_Charge_b = BareTau[k].charge * BareTau[l].charge < 0;
+                                    bool mu_Rejection = getMuRejection("mmtt", BareTau[k]) && getMuRejection("mmtt", BareTau[l]);
+                                    bool ele_Rejection = getEleRejection("mmtt", BareTau[k]) && getEleRejection("mmtt", BareTau[l]);
+                                    bool tau_Iso_1 = getTauIsolation("mmtt", BareTau[k]);
+                                    bool tau_Iso_2 = getTauIsolation("mmtt", BareTau[l]);
+                                    bool H_Charge = BareTau[k].charge * BareTau[l].charge < 0;
                                     bool No_extra_lepton = mu_.size() == 2 && electron_.size() == 0;
                                     bool bjet_num = num_Bjet < 1;
                                     bool SumPtCut = getSumPtCut("mmtt", BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
                                     Cor_eff = getCorrFactor("mmtt", status_sample.c_str(), BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
 
-                                    bool preSelection = bjet_num && No_extra_lepton && Overlap_Dz && first_l_HighPt && Z_Charge_b && mu_Iso_1 && mu_Iso_2 && mu_Id_1 && mu_Id_2 && Leading_Z_Mass && mu_Rejection && ele_Rejection;
-                                    bool FR_Application = SumPtCut && BareTau[k].pt > 20 && BareTau[l].pt > 20 && H_Charge_b;
-                                    bool FR_Estimation = fill_once_Estimate && !H_Charge_b && BareTau[k].pt > 10 && BareTau[l].pt > 10;
+                                    bool preSelection = bjet_num && No_extra_lepton && Overlap_Dz && first_l_HighPt && Z_Charge && mu_Iso_1 && mu_Iso_2 && mu_Id_1 && mu_Id_2 && Leading_Z_Mass && mu_Rejection && ele_Rejection;
+                                    bool FR_Application = SumPtCut && BareTau[k].pt > 20 && BareTau[l].pt > 20 && H_Charge;
+                                    bool FR_Estimation = fill_once_Estimate && !H_Charge && BareTau[k].pt > 10 && BareTau[l].pt > 10;
 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
@@ -808,17 +837,17 @@ int main(int argc, char** argv) {
                                     }
                                     if (preSelection && FR_Application) {
 
-                                        if (Fill_Once_ff && !tau_Iso_Tight_1 && !tau_Iso_Tight_2) {
+                                        if (Fill_Once_ff && !tau_Iso_1 && !tau_Iso_2) {
                                             Fill_Once_ff = false;
                                             plotFill("FakeRate_MMTT_apply_ff", BareTau[k].pt, BareTau[l].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 11, BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
                                         }
-                                        if (Fill_Once_fp && !tau_Iso_Tight_1 && tau_Iso_Tight_2) {
+                                        if (Fill_Once_fp && !tau_Iso_1 && tau_Iso_2) {
                                             Fill_Once_fp = false;
                                             plotFill("FakeRate_MMTT_apply_fp", BareTau[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 21, BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
                                         }
-                                        if (Fill_Once_pf && tau_Iso_Tight_1 && !tau_Iso_Tight_2) {
+                                        if (Fill_Once_pf && tau_Iso_1 && !tau_Iso_2) {
                                             Fill_Once_pf = false;
                                             plotFill("FakeRate_MMTT_apply_pf", BareTau[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 31, BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
@@ -836,29 +865,13 @@ int main(int argc, char** argv) {
                                         plotFill("4objFR_Tau_Denum", BareTau[k].pt, 200, 0, 200);
                                         plotFill("4objFR_Tau_Denum", BareTau[l].pt, 200, 0, 200);
 
-                                        //numerator tight
-                                        if (tau_Iso_Tight_1) {
-                                            plotFill("4objFR_Tau_NumTight", BareTau[k].pt, 200, 0, 200);
-                                        }
-                                        //numerator tight
-                                        if (tau_Iso_Tight_2) {
-                                            plotFill("4objFR_Tau_NumTight", BareTau[l].pt, 200, 0, 200);
-                                        }
                                         //numerator Medium
-                                        if (tau_Iso_Medium_1) {
+                                        if (tau_Iso_1) {
                                             plotFill("4objFR_Tau_NumMedium", BareTau[k].pt, 200, 0, 200);
                                         }
                                         //numerator Medium
-                                        if (tau_Iso_Medium_2) {
+                                        if (tau_Iso_2) {
                                             plotFill("4objFR_Tau_NumMedium", BareTau[l].pt, 200, 0, 200);
-                                        }
-                                        //numerator Loose
-                                        if (tau_Iso_Loose_1) {
-                                            plotFill("4objFR_Tau_NumLoose", BareTau[k].pt, 200, 0, 200);
-                                        }
-                                        //numerator Loose
-                                        if (tau_Iso_Loose_2) {
-                                            plotFill("4objFR_Tau_NumLoose", BareTau[l].pt, 200, 0, 200);
                                         }
                                         fill_once_Estimate = false;
                                     }//end fake rate estimation
@@ -868,8 +881,9 @@ int main(int argc, char** argv) {
                         }
                     }
                 }
-                //****************************************************************
-                //mmet ABCD
+                //##############################################################################
+                // MMET
+                //##############################################################################
                 Fill_Once_ff = true;
                 Fill_Once_fp = true;
                 Fill_Once_pf = true;
@@ -884,28 +898,28 @@ int main(int argc, char** argv) {
                                     double Higgs_Mass = InvarMass_2(BareElectron[k], BareTau[l]);
 
                                     bool first_l_HighPt = BareMuon[i].pt > HighPt_Lep;
-                                    bool Z_Charge_b = BareMuon[i].charge * BareMuon[j].charge < 0;
+                                    bool Z_Charge = BareMuon[i].charge * BareMuon[j].charge < 0;
                                     bool Leading_Z_Mass = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                                     bool Overlap_Dz = OverLapWithTaus(BareMuon[i], BareMuon[j], BareElectron[k], BareTau[l]);
                                     bool mu_Iso_1 = Iso_Mu_dBeta(BareMuon[i]) < loose_Iso_Mu;
                                     bool mu_Iso_2 = Iso_Mu_dBeta(BareMuon[j]) < loose_Iso_Mu;
                                     bool mu_Id_1 = Id_Mu(BareMuon[i]);
                                     bool mu_Id_2 = Id_Mu(BareMuon[j]);
-                                    bool tau_Isol = BareTau[l].byMediumCombinedIsolationDeltaBetaCorr;
                                     bool electron_Isol_Tight = Iso_Ele_dBeta(BareElectron[k]) < tight_Iso_Ele;
                                     bool electron_Isol_Loose = Iso_Ele_dBeta(BareElectron[k]) < loose_Iso_Ele;
                                     bool electron_Id = EleMVANonTrigId(BareElectron[k]);
-                                    bool H_Charge_b = BareElectron[k].charge * BareTau[l].charge < 0;
-                                    bool ele_Rejection = BareTau[l].discriminationByElectronMVA;
+                                    bool H_Charge = BareElectron[k].charge * BareTau[l].charge < 0;
+                                    bool tau_Iso = getTauIsolation("mmet", BareTau[l]);
+                                    bool ele_Rejection = getEleRejection("mmet", BareTau[l]);
                                     bool ele_numHit = BareElectron[k].numHitEleInner < 1;
                                     bool No_extra_lepton = mu_.size() == 2;
                                     bool bjet_num = num_Bjet < 1;
                                     bool SumPtCut = getSumPtCut("mmet", BareMuon[i], BareMuon[j], BareElectron[k], BareTau[l]);
                                     Cor_eff = getCorrFactor("mmet", status_sample.c_str(), BareMuon[i], BareMuon[j], BareElectron[k], BareTau[l]);
 
-                                    bool preSelection = Overlap_Dz && No_extra_lepton && ele_Rejection && ele_numHit && bjet_num && first_l_HighPt && mu_Iso_1 && mu_Iso_2 && mu_Id_1 && mu_Id_2 && Z_Charge_b && Leading_Z_Mass;
-                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge_b;
-                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge_b;
+                                    bool preSelection = Overlap_Dz && No_extra_lepton && ele_Rejection && ele_numHit && bjet_num && first_l_HighPt && mu_Iso_1 && mu_Iso_2 && mu_Id_1 && mu_Id_2 && Z_Charge && Leading_Z_Mass;
+                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge;
+                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge;
 
 
                                     //*********************************************************************************
@@ -915,17 +929,17 @@ int main(int argc, char** argv) {
                                         fillTree(Run_Tree, m, PU_Weight, Cor_eff, 92, BareMuon[i], BareMuon[j], BareElectron[k], BareTau[l]);
                                     }
                                     if (preSelection && FR_Application) {
-                                        if (Fill_Once_ff && !tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() - ele_partTight.size() == 0)) {
+                                        if (Fill_Once_ff && !tau_Iso && (!electron_Isol_Tight || !electron_Id) && (electron_.size() - ele_partTight.size() == 0)) {
                                             Fill_Once_ff = false;
                                             plotFill("FakeRate_MMET_apply_ff", BareTau[l].pt, BareElectron[k].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 12, BareMuon[i], BareMuon[j], BareElectron[k], BareTau[l]);
                                         }
-                                        if (Fill_Once_fp && !tau_Isol && electron_Isol_Tight && electron_Id && (electron_.size() == 1)) {
+                                        if (Fill_Once_fp && !tau_Iso && electron_Isol_Tight && electron_Id && (electron_.size() == 1)) {
                                             Fill_Once_fp = false;
                                             plotFill("FakeRate_MMET_apply_fp", BareTau[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 22, BareMuon[i], BareMuon[j], BareElectron[k], BareTau[l]);
                                         }
-                                        if (Fill_Once_pf && tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() - ele_partTight.size() == 0)) {
+                                        if (Fill_Once_pf && tau_Iso && (!electron_Isol_Tight || !electron_Id) && (electron_.size() - ele_partTight.size() == 0)) {
                                             Fill_Once_pf = false;
                                             plotFill("FakeRate_MMET_apply_pf", BareElectron[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 32, BareMuon[i], BareMuon[j], BareElectron[k], BareTau[l]);
@@ -959,8 +973,9 @@ int main(int argc, char** argv) {
                         }
                     }
                 }
-                //*************************************************************
-                //mmmt ABCD
+                //##############################################################################
+                // BEST ZMM SELECTION
+                //##############################################################################
 
                 if (BareMuon.size() > 1 && Trigger) {
                     double Refer_Mass = 1000;
@@ -973,15 +988,16 @@ int main(int argc, char** argv) {
                             double Zboson_Mass = InvarMass_2(BareMuon[i], BareMuon[j]);
                             double Zboson_Mass_diff = TMath::Abs(Zboson_Mass - nominalM_Z);
 
+
                             bool mu_Iso_1 = Iso_Mu_dBeta(BareMuon[i]) < loose_Iso_Mu;
                             bool mu_Iso_2 = Iso_Mu_dBeta(BareMuon[j]) < loose_Iso_Mu;
                             bool mu_Id_1 = Id_Mu(BareMuon[i]);
                             bool mu_Id_2 = Id_Mu(BareMuon[j]);
-                            bool first_l_HighPt = BareMuon[i].pt > 20;
-                            bool Z_Charge_b = BareMuon[i].charge * BareMuon[j].charge < 0;
+                            bool first_l_HighPt = BareMuon[i].pt > 20 || BareMuon[j].pt > 20;
+                            bool Z_Charge = BareMuon[i].charge * BareMuon[j].charge < 0;
                             bool Leading_Z_Mass = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                             bool bjet_num = num_Bjet < 1;
-                            if (bjet_num && first_l_HighPt && Z_Charge_b && Leading_Z_Mass && mu_Iso_1 && mu_Iso_2 && mu_Id_1 && mu_Id_2) {
+                            if (bjet_num && first_l_HighPt && Z_Charge && Leading_Z_Mass && mu_Iso_1 && mu_Iso_2 && mu_Id_1 && mu_Id_2) {
                                 if (Zboson_Mass_diff < Refer_Mass) {
                                     Refer_Mass = Zboson_Mass_diff;
                                     p = i;
@@ -995,8 +1011,9 @@ int main(int argc, char** argv) {
                     }
                     if (Selected_Lead_Z) {
 
-                        //*****************////////////************////////////
-
+                        //##############################################################################
+                        // MMMT
+                        //##############################################################################
                         Fill_Once_ff = true;
                         Fill_Once_fp = true;
                         Fill_Once_pf = true;
@@ -1005,23 +1022,22 @@ int main(int argc, char** argv) {
                             for (int k = 0; k < BareMuon.size(); k++) {
                                 for (int l = 0; l < BareTau.size(); l++) {
 
-
                                     double Higgs_Mass = InvarMass_2(BareMuon[k], BareTau[l]);
 
                                     bool Overlap_Dz = OverLapWithTaus(BareMuon[p], BareMuon[q], BareMuon[k], BareTau[l]);
-                                    bool tau_Isol = BareTau[l].byMediumCombinedIsolationDeltaBetaCorr;
                                     bool Muon_Isol_Tight = Iso_Mu_dBeta(BareMuon[k]) < tight_Iso_Mu;
                                     bool Muon_Isol_Loose = Iso_Mu_dBeta(BareMuon[k]) < loose_Iso_Mu;
                                     bool Muon_Id = Id_Mu(BareMuon[k]);
-                                    bool H_Charge_b = BareTau[l].charge * BareMuon[k].charge < 0;
-                                    bool tau_Mu_Veto = BareTau[l].discriminationByMuonTight;
+                                    bool H_Charge = BareTau[l].charge * BareMuon[k].charge < 0;
+                                    bool tau_Iso = getTauIsolation("mmmt", BareTau[l]);
+                                    bool tau_Mu_Veto = getMuRejection("mmmt", BareTau[l]);
                                     bool No_extra_lepton = electron_.size() == 0;
                                     bool SumPtCut = getSumPtCut("mmmt", BareMuon[p], BareMuon[q], BareMuon[k], BareTau[l]);
                                     Cor_eff = getCorrFactor("mmmt", status_sample.c_str(), BareMuon[p], BareMuon[q], BareMuon[k], BareTau[l]);
 
                                     bool preSelection = Overlap_Dz && No_extra_lepton && tau_Mu_Veto;
-                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge_b;
-                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge_b;
+                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge;
+                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge;
 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
@@ -1032,17 +1048,17 @@ int main(int argc, char** argv) {
                                     }
                                     if (preSelection && FR_Application) {
 
-                                        if (Fill_Once_ff && !tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() - mu_partTight.size() == 2)) {
+                                        if (Fill_Once_ff && !tau_Iso && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() - mu_partTight.size() == 2)) {
                                             Fill_Once_ff = false;
                                             plotFill("FakeRate_MMMT_apply_ff", BareTau[l].pt, BareMuon[k].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 13, BareMuon[p], BareMuon[q], BareMuon[k], BareTau[l]);
                                         }
-                                        if (Fill_Once_fp && !tau_Isol && Muon_Isol_Tight && Muon_Id && (mu_.size() == 3)) {
+                                        if (Fill_Once_fp && !tau_Iso && Muon_Isol_Tight && Muon_Id && (mu_.size() == 3)) {
                                             Fill_Once_fp = false;
                                             plotFill("FakeRate_MMMT_apply_fp", BareTau[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 23, BareMuon[p], BareMuon[q], BareMuon[k], BareTau[l]);
                                         }
-                                        if (Fill_Once_pf && tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() - mu_partTight.size() == 2)) {
+                                        if (Fill_Once_pf && tau_Iso && (!Muon_Isol_Tight || !Muon_Id) && (mu_.size() - mu_partTight.size() == 2)) {
                                             Fill_Once_pf = false;
                                             plotFill("FakeRate_MMMT_apply_pf", BareMuon[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 33, BareMuon[p], BareMuon[q], BareMuon[k], BareTau[l]);
@@ -1076,8 +1092,9 @@ int main(int argc, char** argv) {
                                 }
                             }
                         }
-                        //*********************************************
-                        //mmme
+                        //##############################################################################
+                        // MMME
+                        //##############################################################################
                         Fill_Once_ff = true;
                         Fill_Once_fp = true;
                         Fill_Once_pf = true;
@@ -1094,12 +1111,12 @@ int main(int argc, char** argv) {
                                     bool electron_Isol_Loose = Iso_Ele_dBeta(BareElectron[l]) < loose_Iso_Ele;
                                     bool muon_Id = Id_Mu(BareMuon[k]);
                                     bool electron_Id = EleMVANonTrigId(BareElectron[l]);
-                                    bool H_Charge_b = BareElectron[l].charge * BareMuon[k].charge < 0;
+                                    bool H_Charge = BareElectron[l].charge * BareMuon[k].charge < 0;
                                     bool SumPtCut = getSumPtCut("mmme", BareMuon[p], BareMuon[q], BareMuon[k], BareElectron[l]);
                                     Cor_eff = getCorrFactor("mmme", status_sample.c_str(), BareMuon[p], BareMuon[q], BareMuon[k], BareElectron[l]);
 
                                     bool preSelection = Overlap_Dz;
-                                    bool FR_Application = SumPtCut && H_Charge_b;
+                                    bool FR_Application = SumPtCut && H_Charge;
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
                                     //*********************************************************************************
@@ -1138,14 +1155,13 @@ int main(int argc, char** argv) {
 
 
             }// finish Only Muon
-
-
+            //##############################################################################
             //####################### Double Electron
-
-
+            //##############################################################################
             if (is_ele || is_tot) {
-
-
+                //##############################################################################
+                // EETT
+                //##############################################################################
                 bool Fill_Once_ff = true;
                 bool Fill_Once_fp = true;
                 bool Fill_Once_pf = true;
@@ -1162,32 +1178,26 @@ int main(int argc, char** argv) {
                                     double Higgs_Mass = InvarMass_2(BareTau[k], BareTau[l]);
 
                                     bool first_l_HighPt = BareElectron[i].pt > HighPt_Lep;
-                                    bool Z_Charge_b = BareElectron[i].charge * BareElectron[j].charge < 0;
+                                    bool Z_Charge = BareElectron[i].charge * BareElectron[j].charge < 0;
                                     bool ele_Iso_1 = Iso_Ele_dBeta(BareElectron[i]) < loose_Iso_Ele;
                                     bool ele_Iso_2 = Iso_Ele_dBeta(BareElectron[j]) < loose_Iso_Ele;
                                     bool ele_Id_1 = EleMVANonTrigId(BareElectron[i]);
                                     bool ele_Id_2 = EleMVANonTrigId(BareElectron[j]);
                                     bool Leading_Z_Mass = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                                     bool Overlap_Dz = OverLapWithTaus(BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
-                                    bool mu_Rejection = BareTau[k].discriminationByMuonMedium && BareTau[l].discriminationByMuonMedium;
-                                    bool ele_Rejection = BareTau[k].discriminationByElectronMedium && BareTau[l].discriminationByElectronMedium;
-                                    bool tau_Iso_Tight_1 = BareTau[k].byTightCombinedIsolationDeltaBetaCorr;
-                                    bool tau_Iso_Tight_2 = BareTau[l].byTightCombinedIsolationDeltaBetaCorr;
-                                    bool tau_Iso_Medium_1 = BareTau[k].byMediumCombinedIsolationDeltaBetaCorr;
-                                    bool tau_Iso_Medium_2 = BareTau[l].byMediumCombinedIsolationDeltaBetaCorr;
-                                    bool tau_Iso_Loose_1 = BareTau[k].byLooseCombinedIsolationDeltaBetaCorr;
-                                    bool tau_Iso_Loose_2 = BareTau[l].byLooseCombinedIsolationDeltaBetaCorr;
-                                    bool H_Charge_b = BareTau[k].charge * BareTau[l].charge < 0;
+                                    bool mu_Rejection = getMuRejection("eett", BareTau[k]) && getMuRejection("eett", BareTau[l]);
+                                    bool ele_Rejection = getEleRejection("eett", BareTau[k]) && getMuRejection("eett", BareTau[l]);
+                                    bool tau_Iso_1 = getTauIsolation("eett", BareTau[k]);
+                                    bool tau_Iso_2 = getTauIsolation("eett", BareTau[l]);
+                                    bool H_Charge = BareTau[k].charge * BareTau[l].charge < 0;
                                     bool bjet_num = num_Bjet < 1;
                                     bool No_extra_lepton = electron_.size() == 2 && mu_.size() == 0;
                                     bool SumPtCut = getSumPtCut("eett", BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
                                     Cor_eff = getCorrFactor("eett", status_sample.c_str(), BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
 
-                                    bool preSelection = No_extra_lepton && Overlap_Dz && bjet_num && first_l_HighPt && Z_Charge_b && ele_Iso_1 && ele_Iso_2 && ele_Id_1 && ele_Id_2 && Leading_Z_Mass && mu_Rejection && ele_Rejection;
-                                    bool FR_Application = SumPtCut && BareTau[k].pt > 20 && BareTau[l].pt > 20 && H_Charge_b;
-                                    bool FR_Estimation = fill_once_Estimate && !H_Charge_b && BareTau[k].pt > 10 && BareTau[l].pt > 10;
-
-
+                                    bool preSelection = No_extra_lepton && Overlap_Dz && bjet_num && first_l_HighPt && Z_Charge && ele_Iso_1 && ele_Iso_2 && ele_Id_1 && ele_Id_2 && Leading_Z_Mass && mu_Rejection && ele_Rejection;
+                                    bool FR_Application = SumPtCut && BareTau[k].pt > 20 && BareTau[l].pt > 20 && H_Charge;
+                                    bool FR_Estimation = fill_once_Estimate && !H_Charge && BareTau[k].pt > 10 && BareTau[l].pt > 10;
 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
@@ -1197,17 +1207,17 @@ int main(int argc, char** argv) {
                                     }
                                     if (preSelection && FR_Application) {
 
-                                        if (Fill_Once_ff && !tau_Iso_Tight_1 && !tau_Iso_Tight_2) {
+                                        if (Fill_Once_ff && !tau_Iso_1 && !tau_Iso_2) {
                                             plotFill("FakeRate_EETT_apply_ff", BareTau[k].pt, BareTau[l].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             Fill_Once_ff = false;
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 15, BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
                                         }
-                                        if (Fill_Once_fp && !tau_Iso_Tight_1 && tau_Iso_Tight_2) {
+                                        if (Fill_Once_fp && !tau_Iso_1 && tau_Iso_2) {
                                             plotFill("FakeRate_EETT_apply_fp", BareTau[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             Fill_Once_fp = false;
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 25, BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
                                         }
-                                        if (Fill_Once_pf && tau_Iso_Tight_1 && !tau_Iso_Tight_2) {
+                                        if (Fill_Once_pf && tau_Iso_1 && !tau_Iso_2) {
                                             plotFill("FakeRate_EETT_apply_pf", BareTau[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             Fill_Once_pf = false;
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 35, BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
@@ -1218,37 +1228,21 @@ int main(int argc, char** argv) {
                                     //*********************************************************************************
                                     //***************************Fake Rate Estimation ***************************
                                     //*********************************************************************************
-
                                     if (preSelection && FR_Estimation) {
 
                                         //Denumerator
                                         plotFill("4objFR_Tau_Denum", BareTau[k].pt, 200, 0, 200);
                                         plotFill("4objFR_Tau_Denum", BareTau[l].pt, 200, 0, 200);
 
-                                        //numerator tight
-                                        if (tau_Iso_Tight_1) {
-                                            plotFill("4objFR_Tau_NumTight", BareTau[k].pt, 200, 0, 200);
-                                        }
-                                        //numerator tight
-                                        if (tau_Iso_Tight_2) {
-                                            plotFill("4objFR_Tau_NumTight", BareTau[l].pt, 200, 0, 200);
-                                        }
                                         //numerator Medium
-                                        if (tau_Iso_Medium_1) {
+                                        if (tau_Iso_1) {
                                             plotFill("4objFR_Tau_NumMedium", BareTau[k].pt, 200, 0, 200);
                                         }
                                         //numerator Medium
-                                        if (tau_Iso_Medium_2) {
+                                        if (tau_Iso_2) {
                                             plotFill("4objFR_Tau_NumMedium", BareTau[l].pt, 200, 0, 200);
                                         }
-                                        //numerator Loose
-                                        if (tau_Iso_Loose_1) {
-                                            plotFill("4objFR_Tau_NumLoose", BareTau[k].pt, 200, 0, 200);
-                                        }
-                                        //numerator Loose
-                                        if (tau_Iso_Loose_2) {
-                                            plotFill("4objFR_Tau_NumLoose", BareTau[l].pt, 200, 0, 200);
-                                        }
+
                                         fill_once_Estimate = false;
                                     }//end of fake rate estimation
                                 }
@@ -1256,8 +1250,9 @@ int main(int argc, char** argv) {
                         }
                     }
                 }
-                //****************************************************
-                //eemt ABCD
+                //##############################################################################
+                // EEMT
+                //##############################################################################
                 Fill_Once_ff = true;
                 Fill_Once_fp = true;
                 Fill_Once_pf = true;
@@ -1272,27 +1267,27 @@ int main(int argc, char** argv) {
                                     double Higgs_Mass = InvarMass_2(BareMuon[k], BareTau[l]);
 
                                     bool first_l_HighPt = BareElectron[i].pt > HighPt_Lep;
-                                    bool Z_Charge_b = BareElectron[i].charge * BareElectron[j].charge < 0;
+                                    bool Z_Charge = BareElectron[i].charge * BareElectron[j].charge < 0;
                                     bool ele_Iso_1 = Iso_Ele_dBeta(BareElectron[i]) < loose_Iso_Ele;
                                     bool ele_Iso_2 = Iso_Ele_dBeta(BareElectron[j]) < loose_Iso_Ele;
                                     bool ele_Id_1 = EleMVANonTrigId(BareElectron[i]);
                                     bool ele_Id_2 = EleMVANonTrigId(BareElectron[j]);
                                     bool Leading_Z_Mass = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                                     bool Overlap_Dz = OverLapWithTaus(BareElectron[i], BareElectron[j], BareMuon[k], BareTau[l]);
-                                    bool tau_Isol = BareTau[l].byMediumCombinedIsolationDeltaBetaCorr;
                                     bool Muon_Isol_Tight = Iso_Mu_dBeta(BareMuon[k]) < tight_Iso_Mu;
                                     bool Muon_Isol_Loose = Iso_Mu_dBeta(BareMuon[k]) < loose_Iso_Mu;
                                     bool Muon_Id = Id_Mu(BareMuon[k]);
-                                    bool H_Charge_b = BareTau[l].charge * BareMuon[k].charge < 0;
-                                    bool tau_Mu_Veto = BareTau[l].discriminationByMuonTight;
+                                    bool H_Charge = BareTau[l].charge * BareMuon[k].charge < 0;
+                                    bool tau_Iso = getTauIsolation("eemt", BareTau[l]);
+                                    bool tau_Mu_Veto = getMuRejection("eemt", BareTau[l]);
                                     bool No_extra_lepton = electron_.size() == 2;
                                     bool bjet_num = num_Bjet < 1;
                                     bool SumPtCut = getSumPtCut("eemt", BareElectron[i], BareElectron[j], BareMuon[k], BareTau[l]);
                                     Cor_eff = getCorrFactor("eemt", status_sample.c_str(), BareElectron[i], BareElectron[j], BareMuon[k], BareTau[l]);
 
-                                    bool preSelection = bjet_num && No_extra_lepton && Overlap_Dz && tau_Mu_Veto && ele_Iso_1 && ele_Iso_2 && ele_Id_1 && ele_Id_2 && first_l_HighPt && Z_Charge_b && Leading_Z_Mass;
-                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge_b;
-                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge_b;
+                                    bool preSelection = bjet_num && No_extra_lepton && Overlap_Dz && tau_Mu_Veto && ele_Iso_1 && ele_Iso_2 && ele_Id_1 && ele_Id_2 && first_l_HighPt && Z_Charge && Leading_Z_Mass;
+                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge;
+                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge;
 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
@@ -1302,17 +1297,17 @@ int main(int argc, char** argv) {
                                     }
                                     if (preSelection && FR_Application) {
 
-                                        if (Fill_Once_ff && !tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && ((mu_.size() - mu_partTight.size() == 0))) {
+                                        if (Fill_Once_ff && !tau_Iso && (!Muon_Isol_Tight || !Muon_Id) && ((mu_.size() - mu_partTight.size() == 0))) {
                                             Fill_Once_ff = false;
                                             plotFill("FakeRate_EEMT_apply_ff", BareTau[l].pt, BareMuon[k].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 16, BareElectron[i], BareElectron[j], BareMuon[k], BareTau[l]);
                                         }
-                                        if (Fill_Once_fp && !tau_Isol && (Muon_Isol_Tight && Muon_Id) && mu_.size() == 1) {
+                                        if (Fill_Once_fp && !tau_Iso && (Muon_Isol_Tight && Muon_Id) && mu_.size() == 1) {
                                             Fill_Once_fp = false;
                                             plotFill("FakeRate_EEMT_apply_fp", BareTau[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 26, BareElectron[i], BareElectron[j], BareMuon[k], BareTau[l]);
                                         }
-                                        if (Fill_Once_pf && tau_Isol && (!Muon_Isol_Tight || !Muon_Id) && ((mu_.size() - mu_partTight.size() == 0))) {
+                                        if (Fill_Once_pf && tau_Iso && (!Muon_Isol_Tight || !Muon_Id) && ((mu_.size() - mu_partTight.size() == 0))) {
                                             Fill_Once_pf = false;
                                             plotFill("FakeRate_EEMT_apply_pf", BareMuon[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 36, BareElectron[i], BareElectron[j], BareMuon[k], BareTau[l]);
@@ -1347,11 +1342,9 @@ int main(int argc, char** argv) {
                         }
                     }
                 }
-
-                //****************************************************
-
-
-
+                //##############################################################################
+                // BEST ZEE SELECTION
+                //##############################################################################
 
                 if (BareElectron.size() > 1 && Trigger) {
                     double Refer_Mass = 1000;
@@ -1368,11 +1361,11 @@ int main(int argc, char** argv) {
                             bool ele_Iso_2 = Iso_Ele_dBeta(BareElectron[j]) < loose_Iso_Ele;
                             bool ele_Id_1 = EleMVANonTrigId(BareElectron[i]);
                             bool ele_Id_2 = EleMVANonTrigId(BareElectron[j]);
-                            bool first_l_HighPt = BareElectron[i].pt > 20;
-                            bool Z_Charge_b = BareElectron[i].charge * BareElectron[j].charge < 0;
+                            bool first_l_HighPt = BareElectron[i].pt > 20 || BareElectron[j].pt > 20;
+                            bool Z_Charge = BareElectron[i].charge * BareElectron[j].charge < 0;
                             bool Leading_Z_Mass = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                             bool bjet_num = num_Bjet < 1;
-                            if (bjet_num && first_l_HighPt && Z_Charge_b && Leading_Z_Mass && ele_Iso_1 && ele_Iso_2 && ele_Id_1 && ele_Id_2) {
+                            if (bjet_num && first_l_HighPt && Z_Charge && Leading_Z_Mass && ele_Iso_1 && ele_Iso_2 && ele_Id_1 && ele_Id_2) {
                                 if (Zboson_Mass_diff < Refer_Mass) {
                                     Refer_Mass = Zboson_Mass_diff;
                                     p = i;
@@ -1386,10 +1379,9 @@ int main(int argc, char** argv) {
 
                     if (Selected_Lead_Z) {
 
-
-                        //****///*****************///
-
-                        //eeet ABCD
+                        //##############################################################################
+                        // EEET
+                        //##############################################################################
                         Fill_Once_ff = true;
                         Fill_Once_fp = true;
                         Fill_Once_pf = true;
@@ -1405,17 +1397,17 @@ int main(int argc, char** argv) {
                                     bool electron_Isol_Tight = Iso_Ele_dBeta(BareElectron[k]) < tight_Iso_Ele;
                                     bool electron_Isol_Loose = Iso_Ele_dBeta(BareElectron[k]) < loose_Iso_Ele;
                                     bool electron_Id = EleMVANonTrigId(BareElectron[k]);
-                                    bool tau_Isol = BareTau[l].byMediumCombinedIsolationDeltaBetaCorr;
-                                    bool H_Charge_b = BareTau[l].charge * BareElectron[k].charge < 0;
-                                    bool ele_Rejection = BareTau[l].discriminationByElectronMVA;
+                                    bool tau_Iso = getTauIsolation("eeet", BareTau[l]);
+                                    bool H_Charge = BareTau[l].charge * BareElectron[k].charge < 0;
+                                    bool ele_Rejection = getEleRejection("eeet", BareTau[l]);
                                     bool ele_numHit = BareElectron[k].numHitEleInner < 1;
                                     bool No_extra_lepton = mu_.size() == 0;
                                     bool SumPtCut = getSumPtCut("eeet", BareElectron[p], BareElectron[q], BareElectron[k], BareTau[l]);
                                     Cor_eff = getCorrFactor("eeet", status_sample.c_str(), BareElectron[p], BareElectron[q], BareElectron[k], BareTau[l]);
 
                                     bool preSelection = Overlap_Dz && No_extra_lepton && ele_numHit && ele_Rejection;
-                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge_b;
-                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge_b;
+                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge;
+                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge;
 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
@@ -1425,17 +1417,17 @@ int main(int argc, char** argv) {
                                     }
                                     if (preSelection && FR_Application) {
 
-                                        if (Fill_Once_ff && !tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() - ele_partTight.size() == 2)) {
+                                        if (Fill_Once_ff && !tau_Iso && (!electron_Isol_Tight || !electron_Id) && (electron_.size() - ele_partTight.size() == 2)) {
                                             Fill_Once_ff = false;
                                             plotFill("FakeRate_EEET_apply_ff", BareTau[l].pt, BareElectron[k].pt, 200, 0, 200, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 17, BareElectron[p], BareElectron[q], BareElectron[k], BareTau[l]);
                                         }
-                                        if (Fill_Once_fp && !tau_Isol && (electron_Isol_Tight && electron_Id) && electron_.size() == 3) {
+                                        if (Fill_Once_fp && !tau_Iso && (electron_Isol_Tight && electron_Id) && electron_.size() == 3) {
                                             Fill_Once_fp = false;
                                             plotFill("FakeRate_EEET_apply_fp", BareTau[l].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 27, BareElectron[p], BareElectron[q], BareElectron[k], BareTau[l]);
                                         }
-                                        if (Fill_Once_pf && tau_Isol && (!electron_Isol_Tight || !electron_Id) && (electron_.size() - ele_partTight.size() == 2)) {
+                                        if (Fill_Once_pf && tau_Iso && (!electron_Isol_Tight || !electron_Id) && (electron_.size() - ele_partTight.size() == 2)) {
                                             Fill_Once_pf = false;
                                             plotFill("FakeRate_EEET_apply_pf", BareElectron[k].pt, 200, 0, 200, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 37, BareElectron[p], BareElectron[q], BareElectron[k], BareTau[l]);
@@ -1470,10 +1462,9 @@ int main(int argc, char** argv) {
                                 }
                             }
                         }
-                        //**********************************
-
-                        //**********************************************
-                        //eeem
+                        //##############################################################################
+                        // EEEM
+                        //##############################################################################
                         Fill_Once_ff = true;
                         Fill_Once_fp = true;
                         Fill_Once_pf = true;
@@ -1492,14 +1483,14 @@ int main(int argc, char** argv) {
                                     bool electron_Isol_Loose = Iso_Ele_dBeta(BareElectron[k]) < loose_Iso_Ele;
                                     bool muon_Id = Id_Mu(BareMuon[l]);
                                     bool electron_Id = EleMVANonTrigId(BareElectron[k]);
-                                    bool H_Charge_b = BareElectron[k].charge * BareMuon[l].charge < 0;
+                                    bool H_Charge = BareElectron[k].charge * BareMuon[l].charge < 0;
                                     bool SumPtCut = getSumPtCut("eeem", BareElectron[p], BareElectron[q], BareElectron[k], BareMuon[l]);
                                     Cor_eff = getCorrFactor("eeem", status_sample.c_str(), BareElectron[p], BareElectron[q], BareElectron[k], BareMuon[l]);
 
                                     bool preSelection = Overlap_Dz;
-                                    bool FR_Application = SumPtCut && H_Charge_b;
+                                    bool FR_Application = SumPtCut && H_Charge;
                                     //*********************************************************************************
-                                    //***************************Fake Rate Estimation ***************************
+                                    //***************************Fake Rate Application ***************************
                                     //*********************************************************************************
                                     if (preSelection) {
 
@@ -1536,15 +1527,18 @@ int main(int argc, char** argv) {
 
 
 
-            //********************************************************
-            //********************************************************
-            //********************************************************
-            //********************************************************
-            //********************************************************
-            //********************************************************
-            //********************************************************
-            //********************************************************
-            //************
+            //##############################################################################
+            //##############################################################################
+            //##############################################################################
+            //##############################################################################
+            //##############################################################################
+            //##############################################################################
+            //##############################################################################
+            //##############################################################################
+            //##############################################################################
+            //##############################################################################
+            // BEST ZMM SELECTION
+            //##############################################################################
 
             if ((is_mu || is_tot) && BareMuon.size() > 1 && Trigger) {
                 double Refer_Mass = 1000;
@@ -1561,11 +1555,12 @@ int main(int argc, char** argv) {
                         bool mu_Iso_2 = Iso_Mu_dBeta(BareMuon[j]) < loose_Iso_Mu;
                         bool mu_Id_1 = Id_Mu(BareMuon[i]);
                         bool mu_Id_2 = Id_Mu(BareMuon[j]);
+                        if (BareMuon[i].pt < BareMuon[j].pt) swap(BareMuon[i], BareMuon[j]);
                         bool first_l_HighPt = BareMuon[i].pt > 20;
-                        bool Z_Charge_b = BareMuon[i].charge * BareMuon[j].charge < 0;
+                        bool Z_Charge = BareMuon[i].charge * BareMuon[j].charge < 0;
                         bool Leading_Z_Mass = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                         bool bjet_num = num_Bjet < 1;
-                        if (bjet_num && first_l_HighPt && Z_Charge_b && Leading_Z_Mass && mu_Iso_1 && mu_Iso_2 && mu_Id_1 && mu_Id_2) {
+                        if (bjet_num && first_l_HighPt && Z_Charge && Leading_Z_Mass && mu_Iso_1 && mu_Iso_2 && mu_Id_1 && mu_Id_2) {
                             if (Zboson_Mass_diff < Refer_Mass) {
                                 Refer_Mass = Zboson_Mass_diff;
                                 p = i;
@@ -1585,8 +1580,9 @@ int main(int argc, char** argv) {
                     plotFill("Zboson_Mass_MM_Cor", Mass_LeadingZ, bin_size, 0., bin_max, Cor_eff);
                     plotFill("Zboson_Mass_MM_", Mass_LeadingZ, bin_size, 0., bin_max);
 
-                    //*****************////////////************////////////
-                    //Muon Fakerate Measurement
+                    //##############################################################################
+                    // MMM
+                    //##############################################################################
                     if (BareMuon.size() == 3 && p < 3 && q < 3) {
                         for (int y = 0; y < BareMuon.size(); y++) {
                             if (OverLap(BareMuon[q], BareMuon[p], BareMuon[y])) {
@@ -1610,7 +1606,9 @@ int main(int argc, char** argv) {
                             }
                         }
                     }
-                    //Electron Fakerate Measurement
+                    //##############################################################################
+                    // MME
+                    //##############################################################################
                     if (BareElectron.size() == 1) {
                         for (int y = 0; y < BareElectron.size(); y++) {
                             if (OverLap(BareMuon[q], BareMuon[p], BareElectron[y])) {
@@ -1637,9 +1635,9 @@ int main(int argc, char** argv) {
                     }
                 }//good Z
             }
-            //*************
-            //*************
-            //*************
+            //##############################################################################
+            // BEST ZEE SELECTION
+            //##############################################################################
             if ((is_ele || is_tot) && BareElectron.size() > 1 && Trigger) {
                 double Refer_Mass = 1000;
                 double Mass_LeadingZ;
@@ -1655,11 +1653,12 @@ int main(int argc, char** argv) {
                         bool ele_Iso_2 = Iso_Ele_dBeta(BareElectron[j]) < loose_Iso_Ele;
                         bool ele_Id_1 = EleMVANonTrigId(BareElectron[i]);
                         bool ele_Id_2 = EleMVANonTrigId(BareElectron[j]);
+                        if (BareElectron[i].pt < BareElectron[j].pt) swap(BareElectron[i], BareElectron[j]);
                         bool first_l_HighPt = BareElectron[i].pt > 20;
-                        bool Z_Charge_b = BareElectron[i].charge * BareElectron[j].charge < 0;
+                        bool Z_Charge = BareElectron[i].charge * BareElectron[j].charge < 0;
                         bool Leading_Z_Mass = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                         bool bjet_num = num_Bjet < 1;
-                        if (bjet_num && first_l_HighPt && Z_Charge_b && Leading_Z_Mass && ele_Iso_1 && ele_Iso_2 && ele_Id_1 && ele_Id_2) {
+                        if (bjet_num && first_l_HighPt && Z_Charge && Leading_Z_Mass && ele_Iso_1 && ele_Iso_2 && ele_Id_1 && ele_Id_2) {
                             if (Zboson_Mass_diff < Refer_Mass) {
                                 Refer_Mass = Zboson_Mass_diff;
                                 p = i;
@@ -1681,8 +1680,9 @@ int main(int argc, char** argv) {
                     plotFill("Zboson_Mass_EE_Cor", Mass_LeadingZ, bin_size, 0., bin_max, Cor_eff);
                     plotFill("Zboson_Mass_EE_", Mass_LeadingZ, bin_size, 0., bin_max);
 
-                    //****///*****************///
-                    //Muon Fakerate Measurement
+                    //##############################################################################
+                    // EEM
+                    //##############################################################################
                     if (BareMuon.size() == 1) {
                         for (int y = 0; y < BareMuon.size(); y++) {
                             if (OverLap(BareElectron[q], BareElectron[p], BareMuon[y])) {
@@ -1706,7 +1706,9 @@ int main(int argc, char** argv) {
                             }
                         }
                     }
-                    //Electron Fakerate Measurement
+                    //##############################################################################
+                    // EEE
+                    //##############################################################################
                     if (BareElectron.size() == 3 && p < 3 && q < 3 && TMath::Abs(Mass_LeadingZ - nominalM_Z) < 10) {
                         for (int y = 0; y < BareElectron.size(); y++) {
                             if (WZ_Rej(m, BareElectron[y]) && OverLap(BareElectron[q], BareElectron[p], BareElectron[y])) {

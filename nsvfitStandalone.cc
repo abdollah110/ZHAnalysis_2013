@@ -64,7 +64,7 @@ void eventsFromTree(int argc, char* argv[]) {
     //        return;
     //    }
     // get intput directory up to one before mass points
-    TFile* file = new TFile(argv[1], "UPDATE");
+    TFile* file = new TFile(argv[3]);
     // access tree in file
     TTree* tree = (TTree*) file->Get("RLE_tree");
     // input variables
@@ -75,11 +75,15 @@ void eventsFromTree(int argc, char* argv[]) {
     float l4M, l4Px, l4Py, l4Pz;
     float SVmass = 0;
     float SVmassUnc = 0;
-    int Channel;
+    int Channel, Number;
 
+    TFile* fileOut = new TFile(argv[2], "RECREATE");
+    Number = int(atof(argv[1]));
     //New Trre Branch for Mass & Mass Uncertainty
     TTree *Mass_Tree = new TTree("Mass_tree", "Mass_tree");
+    //    std::string m_name= "SVmass" + str(argv[2],1)
     Mass_Tree->Branch("SVmass", &SVmass, "SVmass/F");
+    //    Mass_Tree->Branch("SVmass", &SVmass, "SVmass/F");
     Mass_Tree->Branch("SVmassUnc", &SVmassUnc, "SVmassUnc/F");
 
 
@@ -100,11 +104,12 @@ void eventsFromTree(int argc, char* argv[]) {
     tree->SetBranchAddress("l4Pz", &l4Pz);
     //    tree->SetBranchAddress("m_true", &mTrue);
     tree->SetBranchAddress("Channel", &Channel);
+
     int nevent = tree->GetEntries();
-    //    for (int i = 0; i < 100; ++i) {
-    for (int i = 0; i < nevent; ++i) {
+//    for (int i = 0; i < 20; ++i) {
+            for (int i = 0; i < nevent; ++i) {
         tree->GetEvent(i);
-        std::cout << "event " << i + 1 << std::endl;
+//        std::cout << "event " << i + 1 <<" ";
         // setup MET input vector
 
         SVmass = 0;
@@ -125,57 +130,60 @@ void eventsFromTree(int argc, char* argv[]) {
         //    measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(std::string(argv[2])==std::string("EMu") ? NSVfitStandalone::kLepDecay : NSVfitStandalone::kLepDecay, l3));
         //    measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(std::string(argv[2])==std::string("EMu") ? NSVfitStandalone::kLepDecay : NSVfitStandalone::kHadDecay, l4));
 
-        //Fully Hadronic
-        if (Channel == 1 || Channel == 5 || Channel == 91 || Channel == 95) {
-            measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kHadDecay, l3));
-            measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kHadDecay, l4));
+        if (Channel == Number) {
+            std::cout<<"\n";
+            //Fully Hadronic
+            if (Channel == 1 || Channel == 5 || Channel == 91 || Channel == 95) {
+                measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kHadDecay, l3));
+                measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kHadDecay, l4));
 
-            // construct the class object from the minimal necesarry information
-            NSVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMET, covMET, 1);
-            // apply customized configurations if wanted (examples are given below)
-            algo.maxObjFunctionCalls(5000);
-            //algo.addLogM(false);
-            //algo.metPower(0.5)
-            // run the fit
-            algo.addLogM(false);
-            algo.integrateMarkovChain();
+                // construct the class object from the minimal necesarry information
+                NSVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMET, covMET, 1);
+                // apply customized configurations if wanted (examples are given below)
+                algo.maxObjFunctionCalls(5000);
+                //algo.addLogM(false);
+                //algo.metPower(0.5)
+                // run the fit
+                algo.addLogM(false);
+                algo.integrateMarkovChain();
 
-            if (algo.isValidSolution()) {
-                SVmass = algo.mass();
-                SVmassUnc = algo.massUncert();
-            }
-        }
-
-        //Semi-Leptonic
-        if (Channel == 2 || Channel == 3 || Channel == 6 || Channel == 7 || Channel == 92 || Channel == 93 || Channel == 96 || Channel == 97) {
-            measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kLepDecay, l3));
-            measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kHadDecay, l4));
-
-            NSVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMET, covMET, 1);
-            algo.maxObjFunctionCalls(5000);
-            algo.addLogM(false);
-            algo.integrateMarkovChain();
-            if (algo.isValidSolution()) {
-                SVmass = algo.mass();
-                SVmassUnc = algo.massUncert();
-            }
-        }
-
-        //fully Leptonic
-        if (Channel == 4 || Channel == 8 || Channel == 94 || Channel == 98) {
-            measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kLepDecay, l3));
-            measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kLepDecay, l4));
-
-            NSVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMET, covMET, 1);
-            algo.maxObjFunctionCalls(5000);
-            algo.addLogM(false);
-            algo.integrateMarkovChain();
-            if (algo.isValidSolution()) {
-                SVmass = algo.mass();
-                SVmassUnc = algo.massUncert();
+                if (algo.isValidSolution()) {
+                    SVmass = algo.mass();
+                    SVmassUnc = algo.massUncert();
+                }
             }
 
-        }
+            //Semi-Leptonic
+            if (Channel == 2 || Channel == 3 || Channel == 6 || Channel == 7 || Channel == 92 || Channel == 93 || Channel == 96 || Channel == 97) {
+                measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kLepDecay, l3));
+                measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kHadDecay, l4));
+
+                NSVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMET, covMET, 1);
+                algo.maxObjFunctionCalls(5000);
+                algo.addLogM(false);
+                algo.integrateMarkovChain();
+                if (algo.isValidSolution()) {
+                    SVmass = algo.mass();
+                    SVmassUnc = algo.massUncert();
+                }
+            }
+
+            //fully Leptonic
+            if (Channel == 4 || Channel == 8 || Channel == 94 || Channel == 98) {
+                measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kLepDecay, l3));
+                measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kLepDecay, l4));
+
+                NSVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMET, covMET, 1);
+                algo.maxObjFunctionCalls(5000);
+                algo.addLogM(false);
+                algo.integrateMarkovChain();
+                if (algo.isValidSolution()) {
+                    SVmass = algo.mass();
+                    SVmassUnc = algo.massUncert();
+                }
+
+            }
+        }//end of check chanel with number
 
         // retrieve the results upon success
         //        std::cout << "... m truth : " << mTrue << std::endl;
@@ -190,8 +198,9 @@ void eventsFromTree(int argc, char* argv[]) {
         //            double diTauPtErr = algo.getPtUncert();
 
     }
-    file->cd();
+    fileOut->cd();
     Mass_Tree->Write();
+
     return;
 }
 

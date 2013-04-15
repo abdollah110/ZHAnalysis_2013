@@ -56,7 +56,7 @@ int mu_Size, BareMuon_Size, electron_Size, BareElectron_Size, tau_Size, BareTau_
 int mu_partTight_Size, ele_partTight_Size;
 float l3_CloseJetPt, l4_CloseJetPt;
 
-void fillTree(TTree * Run_Tree, myevent *m, double cor_eff, float PU_Weight, int channel, myobject obj1, myobject obj2, myobject obj3, myobject obj4) {
+void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int channel, myobject obj1, myobject obj2, myobject obj3, myobject obj4) {
 
 
 

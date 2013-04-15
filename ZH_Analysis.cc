@@ -100,9 +100,9 @@ int main(int argc, char** argv) {
     //#################################################################################################
 
     reweight::LumiReWeighting* LumiWeights_12;
-    LumiWeights_12 = new reweight::LumiReWeighting("root/Summer12_PU.root", "root/dataPileUpHistogram_True_2012.root", "mcPU", "pileup");
+    LumiWeights_12 = new reweight::LumiReWeighting("interface/Summer12_PU.root", "interface/dataPileUpHistogram_True_2012.root", "mcPU", "pileup");
     reweight::LumiReWeighting* LumiWeights_11;
-    LumiWeights_11 = new reweight::LumiReWeighting("root/Fall11_PU_observed.root", "root/dataPileUpHistogram_Observed_2011.root", "mcPU", "pileup");
+    LumiWeights_11 = new reweight::LumiReWeighting("interface/Fall11_PU_observed.root", "interface/dataPileUpHistogram_Observed_2011.root", "mcPU", "pileup");
 
     //#################################################################################################
     //############## defining Tree Branches Filled via fillTree function                ###############
@@ -193,30 +193,29 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l3_eleIso", &l3_eleIso, "l3_eleIso/F");
     Run_Tree->Branch("l3_eleMVANonTrg", &l3_eleMVANonTrg, "l3_eleMVANonTrg/F");
     Run_Tree->Branch("l3_eleNumHit", &l3_eleNumHit, "l3_eleNumHit/F");
-
-    Run_Tree->Branch("l3_tauIsoVL", &l3_tauIsoVL, "l3_tauIsoVL/B");
-    Run_Tree->Branch("l3_tauIso3HitL", &l3_tauIso3HitL, "l3_tauIso3HitL/B");
-    Run_Tree->Branch("l3_tauIso3HitM", &l3_tauIso3HitM, "l3_tauIso3HitM/B");
-    Run_Tree->Branch("l3_tauIso3HitT", &l3_tauIso3HitT, "l3_tauIso3HitT/B");
-    Run_Tree->Branch("l3_tauIsoL", &l3_tauIsoL, "l3_tauIsoL/B");
-    Run_Tree->Branch("l3_tauIsoM", &l3_tauIsoM, "l3_tauIsoM/B");
-    Run_Tree->Branch("l3_tauIsoT", &l3_tauIsoT, "l3_tauIsoT/B");
-    Run_Tree->Branch("l3_tauIsoMVA2L", &l3_tauIsoMVA2L, "l3_tauIsoMVA2L/B");
-    Run_Tree->Branch("l3_tauIsoMVA2M", &l3_tauIsoMVA2M, "l3_tauIsoMVA2M/B");
-    Run_Tree->Branch("l3_tauIsoMVA2T", &l3_tauIsoMVA2T, "l3_tauIsoMVA2T/B");
+    Run_Tree->Branch("l3_tauIsoVL", &l3_tauIsoVL, "l3_tauIsoVL/O");
+    Run_Tree->Branch("l3_tauIso3HitL", &l3_tauIso3HitL, "l3_tauIso3HitL/O");
+    Run_Tree->Branch("l3_tauIso3HitM", &l3_tauIso3HitM, "l3_tauIso3HitM/O");
+    Run_Tree->Branch("l3_tauIso3HitT", &l3_tauIso3HitT, "l3_tauIso3HitT/O");
+    Run_Tree->Branch("l3_tauIsoL", &l3_tauIsoL, "l3_tauIsoL/O");
+    Run_Tree->Branch("l3_tauIsoM", &l3_tauIsoM, "l3_tauIsoM/O");
+    Run_Tree->Branch("l3_tauIsoT", &l3_tauIsoT, "l3_tauIsoT/O");
+    Run_Tree->Branch("l3_tauIsoMVA2L", &l3_tauIsoMVA2L, "l3_tauIsoMVA2L/O");
+    Run_Tree->Branch("l3_tauIsoMVA2M", &l3_tauIsoMVA2M, "l3_tauIsoMVA2M/O");
+    Run_Tree->Branch("l3_tauIsoMVA2T", &l3_tauIsoMVA2T, "l3_tauIsoMVA2T/O");
     Run_Tree->Branch("l3_tauIsoMVA2raw", &l3_tauIsoMVA2raw, "l3_tauIsoMVA2raw/F");
-    Run_Tree->Branch("l3_tauRejMuL", &l3_tauRejMuL, "l3_tauRejMuL/B");
-    Run_Tree->Branch("l3_tauRejMu2L", &l3_tauRejMu2L, "l3_tauRejMu2L/B");
-    Run_Tree->Branch("l3_tauRejMuM", &l3_tauRejMuM, "l3_tauRejMuM/B");
-    Run_Tree->Branch("l3_tauRejMu2M", &l3_tauRejMu2M, "l3_tauRejMu2M/B");
-    Run_Tree->Branch("l3_tauRejMuT", &l3_tauRejMuT, "l3_tauRejMuT/B");
-    Run_Tree->Branch("l3_tauRejMu2T", &l3_tauRejMu2T, "l3_tauRejMu2T/B");
-    Run_Tree->Branch("l3_tauRejEleL", &l3_tauRejEleL, "l3_tauRejEleL/B");
-    Run_Tree->Branch("l3_tauRejEleM", &l3_tauRejEleM, "l3_tauRejEleM/B");
-    Run_Tree->Branch("l3_tauRejEleMVA", &l3_tauRejEleMVA, "l3_tauRejEleMVA/B");
-    Run_Tree->Branch("l3_tauRejEleMVA3L", &l3_tauRejEleMVA3L, "l3_tauRejEleMVA3L/B");
-    Run_Tree->Branch("l3_tauRejEleMVA3M", &l3_tauRejEleMVA3M, "l3_tauRejEleMVA3M/B");
-    Run_Tree->Branch("l3_tauRejEleMVA3T", &l3_tauRejEleMVA3T, "l3_tauRejEleMVA3T/B");
+    Run_Tree->Branch("l3_tauRejMuL", &l3_tauRejMuL, "l3_tauRejMuL/O");
+    Run_Tree->Branch("l3_tauRejMu2L", &l3_tauRejMu2L, "l3_tauRejMu2L/O");
+    Run_Tree->Branch("l3_tauRejMuM", &l3_tauRejMuM, "l3_tauRejMuM/O");
+    Run_Tree->Branch("l3_tauRejMu2M", &l3_tauRejMu2M, "l3_tauRejMu2M/O");
+    Run_Tree->Branch("l3_tauRejMuT", &l3_tauRejMuT, "l3_tauRejMuT/O");
+    Run_Tree->Branch("l3_tauRejMu2T", &l3_tauRejMu2T, "l3_tauRejMu2T/O");
+    Run_Tree->Branch("l3_tauRejEleL", &l3_tauRejEleL, "l3_tauRejEleL/O");
+    Run_Tree->Branch("l3_tauRejEleM", &l3_tauRejEleM, "l3_tauRejEleM/O");
+    Run_Tree->Branch("l3_tauRejEleMVA", &l3_tauRejEleMVA, "l3_tauRejEleMVA/O");
+    Run_Tree->Branch("l3_tauRejEleMVA3L", &l3_tauRejEleMVA3L, "l3_tauRejEleMVA3L/O");
+    Run_Tree->Branch("l3_tauRejEleMVA3M", &l3_tauRejEleMVA3M, "l3_tauRejEleMVA3M/O");
+    Run_Tree->Branch("l3_tauRejEleMVA3T", &l3_tauRejEleMVA3T, "l3_tauRejEleMVA3T/O");
 
     Run_Tree->Branch("l4M", &l4M, "l4M/F");
     Run_Tree->Branch("l4E", &l4E, "l4E/F");
@@ -234,29 +233,29 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l4_eleMVANonTrg", &l4_eleMVANonTrg, "l4_eleMVANonTrg/F");
     Run_Tree->Branch("l4_eleNumHit", &l4_eleNumHit, "l4_eleNumHit/F");
     Run_Tree->Branch("l4_CloseJetPt", &l4_CloseJetPt, "l4_CloseJetPt/F");
-    Run_Tree->Branch("l4_tauIsoVL", &l4_tauIsoVL, "l4_tauIsoVL/B");
-    Run_Tree->Branch("l4_tauIso3HitL", &l4_tauIso3HitL, "l4_tauIso3HitL/B");
-    Run_Tree->Branch("l4_tauIso3HitM", &l4_tauIso3HitM, "l4_tauIso3HitM/B");
-    Run_Tree->Branch("l4_tauIso3HitT", &l4_tauIso3HitT, "l4_tauIso3HitT/B");
-    Run_Tree->Branch("l4_tauIsoL", &l4_tauIsoL, "l4_tauIsoL/B");
-    Run_Tree->Branch("l4_tauIsoM", &l4_tauIsoM, "l4_tauIsoM/B");
-    Run_Tree->Branch("l4_tauIsoT", &l4_tauIsoT, "l4_tauIsoT/B");
-    Run_Tree->Branch("l4_tauIsoMVA2L", &l4_tauIsoMVA2L, "l4_tauIsoMVA2L/B");
-    Run_Tree->Branch("l4_tauIsoMVA2M", &l4_tauIsoMVA2M, "l4_tauIsoMVA2M/B");
-    Run_Tree->Branch("l4_tauIsoMVA2T", &l4_tauIsoMVA2T, "l4_tauIsoMVA2T/B");
+    Run_Tree->Branch("l4_tauIsoVL", &l4_tauIsoVL, "l4_tauIsoVL/O");
+    Run_Tree->Branch("l4_tauIso3HitL", &l4_tauIso3HitL, "l4_tauIso3HitL/O");
+    Run_Tree->Branch("l4_tauIso3HitM", &l4_tauIso3HitM, "l4_tauIso3HitM/O");
+    Run_Tree->Branch("l4_tauIso3HitT", &l4_tauIso3HitT, "l4_tauIso3HitT/O");
+    Run_Tree->Branch("l4_tauIsoL", &l4_tauIsoL, "l4_tauIsoL/O");
+    Run_Tree->Branch("l4_tauIsoM", &l4_tauIsoM, "l4_tauIsoM/O");
+    Run_Tree->Branch("l4_tauIsoT", &l4_tauIsoT, "l4_tauIsoT/O");
+    Run_Tree->Branch("l4_tauIsoMVA2L", &l4_tauIsoMVA2L, "l4_tauIsoMVA2L/O");
+    Run_Tree->Branch("l4_tauIsoMVA2M", &l4_tauIsoMVA2M, "l4_tauIsoMVA2M/O");
+    Run_Tree->Branch("l4_tauIsoMVA2T", &l4_tauIsoMVA2T, "l4_tauIsoMVA2T/O");
     Run_Tree->Branch("l4_tauIsoMVA2raw", &l4_tauIsoMVA2raw, "l4_tauIsoMVA2raw/F");
-    Run_Tree->Branch("l4_tauRejMuL", &l4_tauRejMuL, "l4_tauRejMuL/B");
-    Run_Tree->Branch("l4_tauRejMu2L", &l4_tauRejMu2L, "l4_tauRejMu2L/B");
-    Run_Tree->Branch("l4_tauRejMuM", &l4_tauRejMuM, "l4_tauRejMuM/B");
-    Run_Tree->Branch("l4_tauRejMu2M", &l4_tauRejMu2M, "l4_tauRejMu2M/B");
-    Run_Tree->Branch("l4_tauRejMuT", &l4_tauRejMuT, "l4_tauRejMuT/B");
-    Run_Tree->Branch("l4_tauRejMu2T", &l4_tauRejMu2T, "l4_tauRejMu2T/B");
-    Run_Tree->Branch("l4_tauRejEleL", &l4_tauRejEleL, "l4_tauRejEleL/B");
-    Run_Tree->Branch("l4_tauRejEleM", &l4_tauRejEleM, "l4_tauRejEleM/B");
-    Run_Tree->Branch("l4_tauRejEleMVA", &l4_tauRejEleMVA, "l4_tauRejEleMVA/B");
-    Run_Tree->Branch("l4_tauRejEleMVA3L", &l4_tauRejEleMVA3L, "l4_tauRejEleMVA3L/B");
-    Run_Tree->Branch("l4_tauRejEleMVA3M", &l4_tauRejEleMVA3M, "l4_tauRejEleMVA3M/B");
-    Run_Tree->Branch("l4_tauRejEleMVA3T", &l4_tauRejEleMVA3T, "l4_tauRejEleMVA3T/B");
+    Run_Tree->Branch("l4_tauRejMuL", &l4_tauRejMuL, "l4_tauRejMuL/O");
+    Run_Tree->Branch("l4_tauRejMu2L", &l4_tauRejMu2L, "l4_tauRejMu2L/O");
+    Run_Tree->Branch("l4_tauRejMuM", &l4_tauRejMuM, "l4_tauRejMuM/O");
+    Run_Tree->Branch("l4_tauRejMu2M", &l4_tauRejMu2M, "l4_tauRejMu2M/O");
+    Run_Tree->Branch("l4_tauRejMuT", &l4_tauRejMuT, "l4_tauRejMuT/O");
+    Run_Tree->Branch("l4_tauRejMu2T", &l4_tauRejMu2T, "l4_tauRejMu2T/O");
+    Run_Tree->Branch("l4_tauRejEleL", &l4_tauRejEleL, "l4_tauRejEleL/O");
+    Run_Tree->Branch("l4_tauRejEleM", &l4_tauRejEleM, "l4_tauRejEleM/O");
+    Run_Tree->Branch("l4_tauRejEleMVA", &l4_tauRejEleMVA, "l4_tauRejEleMVA/O");
+    Run_Tree->Branch("l4_tauRejEleMVA3L", &l4_tauRejEleMVA3L, "l4_tauRejEleMVA3L/O");
+    Run_Tree->Branch("l4_tauRejEleMVA3M", &l4_tauRejEleMVA3M, "l4_tauRejEleMVA3M/O");
+    Run_Tree->Branch("l4_tauRejEleMVA3T", &l4_tauRejEleMVA3T, "l4_tauRejEleMVA3T/O");
     //#################################################################################################
     //###################      Starting the analysis, making loop over files    #######################
     //#################################################################################################
@@ -348,6 +347,7 @@ int main(int argc, char** argv) {
                 // MMTT
                 //##############################################################################
                 int mmtt = -1;
+                plotFill("TotalEventsNumber", 0, 1, 0, 1);
                 plotFill("mmtt", ++mmtt, 20, 0., 20.);
                 if (mu_.size() == 2 && electron_.size() == 0 && Trigger) {
                     plotFill("mmtt", ++mmtt, 20, 0., 20., PU_Weight);
@@ -385,6 +385,7 @@ int main(int argc, char** argv) {
                                             plotFill("mmtt", ++mmtt, 20, 0., 20., PU_Weight * Cor_eff);
                                             plotFill("mmtt", ++mmtt, 20, 0., 20., PU_Weight);
                                             plotFill("mmtt", ++mmtt, 20, 0., 20., Cor_eff);
+                                            plotFill("mmtt", ++mmtt, 20, 0., 20.);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 1, mu_[i], mu_[j], tau_[k], tau_[l]);
                                         }
                                     }
@@ -432,6 +433,7 @@ int main(int argc, char** argv) {
                                             plotFill("mmet", ++mmet, 20, 0., 20., PU_Weight * Cor_eff);
                                             plotFill("mmet", ++mmet, 20, 0., 20., PU_Weight);
                                             plotFill("mmet", ++mmet, 20, 0., 20., Cor_eff);
+                                            plotFill("mmet", ++mmet, 20, 0., 20.);
                                             plotFill("Zboson_Mass_mmet", Zboson_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
                                             plotFill("Higgs_Mass_mmet", Higgs_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 2, mu_[i], mu_[j], electron_[k], tau_[l]);
@@ -492,6 +494,7 @@ int main(int argc, char** argv) {
                                             plotFill("mmmt", ++mmmt, 20, 0., 20., PU_Weight * Cor_eff);
                                             plotFill("mmmt", ++mmmt, 20, 0., 20., PU_Weight);
                                             plotFill("mmmt", ++mmmt, 20, 0., 20., Cor_eff);
+                                            plotFill("mmmt", ++mmmt, 20, 0., 20.);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 3, mu_[i], mu_[j], mu_[k], tau_[l]);
 
                                         }
@@ -550,6 +553,7 @@ int main(int argc, char** argv) {
                                             plotFill("mmme", ++mmme, 20, 0., 20., PU_Weight * Cor_eff);
                                             plotFill("mmme", ++mmme, 20, 0., 20., PU_Weight);
                                             plotFill("mmme", ++mmme, 20, 0., 20., Cor_eff);
+                                            plotFill("mmme", ++mmme, 20, 0., 20.);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 4, mu_[i], mu_[j], mu_[k], electron_[l]);
                                         }
                                     }
@@ -606,6 +610,7 @@ int main(int argc, char** argv) {
                                             plotFill("eett", ++eett, 20, 0., 20., PU_Weight * Cor_eff);
                                             plotFill("eett", ++eett, 20, 0., 20., PU_Weight);
                                             plotFill("eett", ++eett, 20, 0., 20., Cor_eff);
+                                            plotFill("eett", ++eett, 20, 0., 20.);
                                             plotFill("Zboson_Mass_eett", Zboson_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
                                             plotFill("Higgs_Mass_eett", Higgs_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 5, electron_[i], electron_[j], tau_[k], tau_[l]);
@@ -657,6 +662,7 @@ int main(int argc, char** argv) {
                                             plotFill("eemt", ++eemt, 20, 0., 20., PU_Weight * Cor_eff);
                                             plotFill("eemt", ++eemt, 20, 0., 20., PU_Weight);
                                             plotFill("eemt", ++eemt, 20, 0., 20., Cor_eff);
+                                            plotFill("eemt", ++eemt, 20, 0., 20.);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 6, electron_[i], electron_[j], mu_[k], tau_[l]);
                                         }
                                     }
@@ -714,6 +720,7 @@ int main(int argc, char** argv) {
                                             plotFill("eeet", ++eeet, 20, 0., 20., PU_Weight * Cor_eff);
                                             plotFill("eeet", ++eeet, 20, 0., 20., PU_Weight);
                                             plotFill("eeet", ++eeet, 20, 0., 20., Cor_eff);
+                                            plotFill("eeet", ++eeet, 20, 0., 20.);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 7, electron_[i], electron_[j], electron_[k], tau_[l]);
                                         }
                                     }
@@ -768,6 +775,7 @@ int main(int argc, char** argv) {
                                             plotFill("eeem", ++eeem, 20, 0., 20., PU_Weight * Cor_eff);
                                             plotFill("eeem", ++eeem, 20, 0., 20., PU_Weight);
                                             plotFill("eeem", ++eeem, 20, 0., 20., Cor_eff);
+                                            plotFill("eeem", ++eeem, 20, 0., 20.);
                                             plotFill("Zboson_Mass_eeem", Zboson_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
                                             plotFill("Higgs_Mass_eeem", Higgs_Mass, bin_size, 0, bin_max, PU_Weight * Cor_eff);
                                             fillTree(Run_Tree, m, PU_Weight, Cor_eff, 8, electron_[i], electron_[j], electron_[k], mu_[l]);
@@ -824,9 +832,9 @@ int main(int argc, char** argv) {
                                     bool SumPtCut = getSumPtCut("mmtt", BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
                                     Cor_eff = getCorrFactor("mmtt", status_sample.c_str(), BareMuon[i], BareMuon[j], BareTau[k], BareTau[l]);
 
-                                    bool preSelection = bjet_num && No_extra_lepton && Overlap_Dz && first_l_HighPt && Z_Charge && mu_Iso_1 && mu_Iso_2 && mu_Id_1 && mu_Id_2 && Leading_Z_Mass && mu_Rejection && ele_Rejection;
-                                    bool FR_Application = SumPtCut && BareTau[k].pt > 20 && BareTau[l].pt > 20 && H_Charge;
-                                    bool FR_Estimation = fill_once_Estimate && !H_Charge && BareTau[k].pt > 10 && BareTau[l].pt > 10;
+                                    bool preSelection = bjet_num && No_extra_lepton && Overlap_Dz && first_l_HighPt && Z_Charge && mu_Iso_1 && mu_Iso_2 && mu_Id_1 && mu_Id_2 && Leading_Z_Mass;
+                                    bool FR_Application = SumPtCut && BareTau[k].pt > 20 && BareTau[l].pt > 20 && H_Charge && mu_Rejection && ele_Rejection;
+                                    bool FR_Estimation = fill_once_Estimate && !H_Charge && BareTau[k].pt > 10 && BareTau[l].pt > 10 && mu_Rejection && ele_Rejection;
 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
@@ -912,14 +920,14 @@ int main(int argc, char** argv) {
                                     bool tau_Iso = getTauIsolation("mmet", BareTau[l]);
                                     bool ele_Rejection = getEleRejection("mmet", BareTau[l]);
                                     bool ele_numHit = BareElectron[k].numHitEleInner < 1;
-                                    bool No_extra_lepton = mu_.size() == 2;
+                                    bool No_extra_lepton = (mu_.size() == 2);
                                     bool bjet_num = num_Bjet < 1;
                                     bool SumPtCut = getSumPtCut("mmet", BareMuon[i], BareMuon[j], BareElectron[k], BareTau[l]);
                                     Cor_eff = getCorrFactor("mmet", status_sample.c_str(), BareMuon[i], BareMuon[j], BareElectron[k], BareTau[l]);
 
-                                    bool preSelection = Overlap_Dz && No_extra_lepton && ele_Rejection && ele_numHit && bjet_num && first_l_HighPt && mu_Iso_1 && mu_Iso_2 && mu_Id_1 && mu_Id_2 && Z_Charge && Leading_Z_Mass;
-                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge;
-                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge;
+                                    bool preSelection = Overlap_Dz && No_extra_lepton && ele_numHit && bjet_num && first_l_HighPt && mu_Iso_1 && mu_Iso_2 && mu_Id_1 && mu_Id_2 && Z_Charge && Leading_Z_Mass;
+                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge && ele_Rejection;
+                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge && ele_Rejection;
 
 
                                     //*********************************************************************************
@@ -1035,9 +1043,9 @@ int main(int argc, char** argv) {
                                     bool SumPtCut = getSumPtCut("mmmt", BareMuon[p], BareMuon[q], BareMuon[k], BareTau[l]);
                                     Cor_eff = getCorrFactor("mmmt", status_sample.c_str(), BareMuon[p], BareMuon[q], BareMuon[k], BareTau[l]);
 
-                                    bool preSelection = Overlap_Dz && No_extra_lepton && tau_Mu_Veto;
-                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge;
-                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge;
+                                    bool preSelection = Overlap_Dz && No_extra_lepton;
+                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge && tau_Mu_Veto;
+                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge && tau_Mu_Veto;
 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
@@ -1195,9 +1203,9 @@ int main(int argc, char** argv) {
                                     bool SumPtCut = getSumPtCut("eett", BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
                                     Cor_eff = getCorrFactor("eett", status_sample.c_str(), BareElectron[i], BareElectron[j], BareTau[k], BareTau[l]);
 
-                                    bool preSelection = No_extra_lepton && Overlap_Dz && bjet_num && first_l_HighPt && Z_Charge && ele_Iso_1 && ele_Iso_2 && ele_Id_1 && ele_Id_2 && Leading_Z_Mass && mu_Rejection && ele_Rejection;
-                                    bool FR_Application = SumPtCut && BareTau[k].pt > 20 && BareTau[l].pt > 20 && H_Charge;
-                                    bool FR_Estimation = fill_once_Estimate && !H_Charge && BareTau[k].pt > 10 && BareTau[l].pt > 10;
+                                    bool preSelection = No_extra_lepton && Overlap_Dz && bjet_num && first_l_HighPt && Z_Charge && ele_Iso_1 && ele_Iso_2 && ele_Id_1 && ele_Id_2 && Leading_Z_Mass;
+                                    bool FR_Application = SumPtCut && BareTau[k].pt > 20 && BareTau[l].pt > 20 && H_Charge && mu_Rejection && ele_Rejection;
+                                    bool FR_Estimation = fill_once_Estimate && !H_Charge && BareTau[k].pt > 10 && BareTau[l].pt > 10 && mu_Rejection && ele_Rejection;
 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
@@ -1285,9 +1293,9 @@ int main(int argc, char** argv) {
                                     bool SumPtCut = getSumPtCut("eemt", BareElectron[i], BareElectron[j], BareMuon[k], BareTau[l]);
                                     Cor_eff = getCorrFactor("eemt", status_sample.c_str(), BareElectron[i], BareElectron[j], BareMuon[k], BareTau[l]);
 
-                                    bool preSelection = bjet_num && No_extra_lepton && Overlap_Dz && tau_Mu_Veto && ele_Iso_1 && ele_Iso_2 && ele_Id_1 && ele_Id_2 && first_l_HighPt && Z_Charge && Leading_Z_Mass;
-                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge;
-                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge;
+                                    bool preSelection = bjet_num && No_extra_lepton && Overlap_Dz && ele_Iso_1 && ele_Iso_2 && ele_Id_1 && ele_Id_2 && first_l_HighPt && Z_Charge && Leading_Z_Mass;
+                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge && tau_Mu_Veto;
+                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge && tau_Mu_Veto;
 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
@@ -1405,9 +1413,9 @@ int main(int argc, char** argv) {
                                     bool SumPtCut = getSumPtCut("eeet", BareElectron[p], BareElectron[q], BareElectron[k], BareTau[l]);
                                     Cor_eff = getCorrFactor("eeet", status_sample.c_str(), BareElectron[p], BareElectron[q], BareElectron[k], BareTau[l]);
 
-                                    bool preSelection = Overlap_Dz && No_extra_lepton && ele_numHit && ele_Rejection;
-                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge;
-                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge;
+                                    bool preSelection = Overlap_Dz && No_extra_lepton && ele_numHit;
+                                    bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge && ele_Rejection;
+                                    bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge && ele_Rejection;
 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************

@@ -28,7 +28,9 @@
 using namespace std;
 
 bool OverLapWithTaus(myobject const& a, myobject const& b, myobject const& c, myobject const& d) {
-    bool Over = (deltaR(a, c) > 0.3 && deltaR(a, d) > 0.3 && deltaR(b, c) > 0.3 && deltaR(b, d) > 0.3 && deltaR(a, b) > 0.3 && deltaR(c, d) > 0.3);
+//    changed in 12 April
+    //    bool Over = (deltaR(a, c) > 0.3 && deltaR(a, d) > 0.3 && deltaR(b, c) > 0.3 && deltaR(b, d) > 0.3 && deltaR(a, b) > 0.3 && deltaR(c, d) > 0.3);
+    bool Over = (deltaR(a, c) > 0.1 && deltaR(a, d) > 0.1 && deltaR(b, c) > 0.1 && deltaR(b, d) > 0.1 && deltaR(a, b) > 0.1 && deltaR(c, d) > 0.1);
     bool dZ_expo = (fabs(a.z_expo - b.z_expo) < 0.1 && fabs(a.z_expo - c.z_expo) < 0.1 && fabs(a.z_expo - d.z_expo) < 0.1);
     //    bool dz  =( (fabs(a.z - b.z)< 0.2) && (fabs(a.z - c.z) < 0.2)  && (fabs(a.z - d.z) < 0.2 ));
     //    return (Over && dZ_expo && dz );

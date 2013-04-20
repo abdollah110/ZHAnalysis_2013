@@ -28,11 +28,11 @@
 using namespace std;
 
 bool OverLapWithTaus(myobject const& a, myobject const& b, myobject const& c, myobject const& d) {
-//    changed in 12 April
+    //    changed in 12 April
     //    bool Over = (deltaR(a, c) > 0.3 && deltaR(a, d) > 0.3 && deltaR(b, c) > 0.3 && deltaR(b, d) > 0.3 && deltaR(a, b) > 0.3 && deltaR(c, d) > 0.3);
     bool Over = (deltaR(a, c) > 0.1 && deltaR(a, d) > 0.1 && deltaR(b, c) > 0.1 && deltaR(b, d) > 0.1 && deltaR(a, b) > 0.1 && deltaR(c, d) > 0.1);
-    bool dZ_expo = (fabs(a.z_expo - b.z_expo) < 0.1 && fabs(a.z_expo - c.z_expo) < 0.1 && fabs(a.z_expo - d.z_expo) < 0.1);
-    //    bool dz  =( (fabs(a.z - b.z)< 0.2) && (fabs(a.z - c.z) < 0.2)  && (fabs(a.z - d.z) < 0.2 ));
+    bool dZ_expo = (TMath::Abs(a.z_expo - b.z_expo) < 0.1 && TMath::Abs(a.z_expo - c.z_expo) < 0.1 && TMath::Abs(a.z_expo - d.z_expo) < 0.1);
+    //    bool dz  =( (TMath::Abs(a.z - b.z)< 0.2) && (TMath::Abs(a.z - c.z) < 0.2)  && (TMath::Abs(a.z - d.z) < 0.2 ));
     //    return (Over && dZ_expo && dz );
     return (Over && dZ_expo);
     //    return Over ;
@@ -41,7 +41,7 @@ bool OverLapWithTaus(myobject const& a, myobject const& b, myobject const& c, my
 
 bool OverLap(myobject const& a, myobject const& b, myobject const& c) {
     bool Over = (deltaR(a, c) > 0.1 && deltaR(b, c) > 0.1 && deltaR(a, b) > 0.1);
-    bool dZ_expo = (fabs(a.z_expo - b.z_expo) < 0.1 && fabs(a.z_expo - c.z_expo) < 0.1);
+    bool dZ_expo = (TMath::Abs(a.z_expo - b.z_expo) < 0.1 && TMath::Abs(a.z_expo - c.z_expo) < 0.1);
     return (Over && dZ_expo);
 }
 
@@ -64,7 +64,7 @@ double HZ_deltaPhi(myobject const& a, myobject const& b, myobject const& c, myob
     LorentzV_l.SetPtEtaPhiE(d.pt, d.eta, d.phi, d.E);
     LorentzV_Z = LorentzV_i + LorentzV_j;
     LorentzV_H = LorentzV_k + LorentzV_l;
-    return fabs(LorentzV_Z.DeltaPhi(LorentzV_H));
+    return TMath::Abs(LorentzV_Z.DeltaPhi(LorentzV_H));
 }
 
 double Z_Pt(myobject const& a, myobject const& b, myobject const& c, myobject const& d) {
@@ -100,11 +100,12 @@ float Find_Closet_Jet(myobject const& a, myevent *m) {
 }
 
 bool WZ_Rej(myevent *m, myobject const& a) {
-    vector<myobject> Met = m->RecPFMet;
-    bool met = Met.front().pt < 20;
+    vector<myobject> Met = m->RecMVAMet;
+    //    bool met = Met.front().pt < 20;
     bool tmass = TMass(a, Met.front()) < 30;
 
-    if (met && tmass)
+    //    if (met && tmass) //changed in 19 April
+    if (tmass)
         return true;
     else
         return false;
@@ -131,13 +132,16 @@ float getSumPtCut(std::string channel, myobject const& a, myobject const& b, myo
 
 
     if (channel == "mmtt" || channel == "eett") {
-        return (c.pt + d.pt > 60);
+        return (c.pt + d.pt > 75);
     }
-    if (channel == "mmmt" || channel == "mmet" || channel == "eemt" || channel == "eeet") {
+    if (channel == "mmmt" || channel == "eemt") {
+        return (c.pt + d.pt > 55);
+    }
+    if (channel == "mmet" || channel == "eeet") {
         return (c.pt + d.pt > 45);
     }
-    if (channel == "eeem" || channel == "mmme") {
-        return (c.pt + d.pt > 30);
+    if (channel == "mmme" || channel == "eeem") {
+        return (c.pt + d.pt > 25);
     }
 
 }

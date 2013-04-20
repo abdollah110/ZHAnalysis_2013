@@ -60,9 +60,9 @@ vector<myobject> GoodMuon(myevent *m) {
     looseMuon.clear();
     vector<myobject> muon = m->PreSelectedMuons;
     for (int i = 0; i < muon.size(); i++) {
-        double muPt = muon[i].pt;
-        double muEta = muon[i].eta;
-        if (muPt > 10 && fabs(muEta) < 2.4 && Id_Mu(muon[i]) && Iso_Mu_dBeta(muon[i]) < looseIsolation)
+        float muPt = muon[i].pt;
+        float muEta = muon[i].eta;
+        if (muPt > 10 && TMath::Abs(muEta) < 2.4 && Id_Mu_Loose(muon[i]) && Iso_Mu_dBeta(muon[i]) < looseIsolation)
             looseMuon.push_back(muon[i]);
     }
     sort(looseMuon.begin(), looseMuon.end(), myobject_grt());
@@ -75,11 +75,11 @@ vector<myobject> NoIdIsoMuon(myevent *m) {
     bareMuon.clear();
     vector<myobject> muon = m->PreSelectedMuons;
     for (int i = 0; i < muon.size(); i++) {
-        double muPt = muon[i].pt;
-        double muEta = muon[i].eta;
+        float muPt = muon[i].pt;
+        float muEta = muon[i].eta;
         bool muGlobal = muon[i].isGlobalMuon;
         bool muTracker = muon[i].isTrackerMuon;
-        if (muPt > 10 && fabs(muEta) < 2.4 && (muGlobal || muTracker))
+        if (muPt > 10 && TMath::Abs(muEta) < 2.4 && (muGlobal || muTracker))
             bareMuon.push_back(muon[i]);
     }
     sort(bareMuon.begin(), bareMuon.end(), myobject_grt());
@@ -95,9 +95,9 @@ vector<myobject> GoodElectron(myevent *m) {
     goodElectron.clear();
     vector<myobject> electron = m->PreSelectedElectrons;
     for (int i = 0; i < electron.size(); i++) {
-        double elePt = electron[i].pt;
-        double eleEta = electron[i].eta;
-        if (elePt > 10 && fabs(eleEta) < 2.5 && EleMVANonTrigId(electron[i]) && Iso_Ele_dBeta(electron[i]) < looseIsolation)
+        float elePt = electron[i].pt;
+        float eleEta = electron[i].eta_SC;
+        if (elePt > 10 && TMath::Abs(eleEta) < 2.5 && EleMVANonTrigId_Loose(electron[i]) && Iso_Ele_dBeta(electron[i]) < looseIsolation)
             goodElectron.push_back(electron[i]);
     }
     sort(goodElectron.begin(), goodElectron.end(), myobject_grt());
@@ -110,9 +110,9 @@ vector<myobject> NoIdIsoElectron(myevent *m) {
     bareElectron.clear();
     vector<myobject> electron = m->PreSelectedElectrons;
     for (int i = 0; i < electron.size(); i++) {
-        double elePt = electron[i].pt;
-        double eleEta = electron[i].eta;
-        if (elePt > 10 && fabs(eleEta) < 2.5)
+        float elePt = electron[i].pt;
+        float eleEta = electron[i].eta_SC;
+        if (elePt > 10 && TMath::Abs(eleEta) < 2.5)
             bareElectron.push_back(electron[i]);
     }
     sort(bareElectron.begin(), bareElectron.end(), myobject_grt());
@@ -128,12 +128,12 @@ vector<myobject> GoodTau(myevent *m) {
     vector<myobject> tau = m->PreSelectedHPSTaus;
     for (int i = 0; i < tau.size(); i++) {
 
-        double tauPt = tau[i].pt;
-        double tauEta = tau[i].eta;
+        float tauPt = tau[i].pt;
+        float tauEta = tau[i].eta;
 
-        if (tauPt > 20 && fabs(tauEta) < 2.3 &&
+        if (tauPt > 15 && TMath::Abs(tauEta) < 2.3 &&
                 tau[i].discriminationByDecayModeFinding && tau[i].byLooseCombinedIsolationDeltaBetaCorr3Hits &&
-                tau[i].discriminationByElectronLoose && tau[i].discriminationByMuonLoose)
+                tau[i].discriminationByElectronLoose && tau[i].discriminationByMuonLoose2)
             goodHPSTau.push_back(tau[i]);
     }
 
@@ -146,11 +146,12 @@ vector<myobject> NoIsoTau(myevent *m) {
     vector<myobject> goodHPSTau;
     vector<myobject> tau = m->PreSelectedHPSTaus;
     for (int i = 0; i < tau.size(); i++) {
-        double tauPt = tau[i].pt;
-        double tauEta = tau[i].eta;
-        if (tauPt > 0 && fabs(tauEta) < 2.3 &&
-                tau[i].discriminationByDecayModeFinding &&
-                tau[i].discriminationByElectronLoose && tau[i].discriminationByMuonLoose)
+        float tauPt = tau[i].pt;
+        float tauEta = tau[i].eta;
+        if (tauPt > 0 && TMath::Abs(tauEta) < 2.3 &&
+                tau[i].discriminationByDecayModeFinding
+                //              &&   tau[i].discriminationByElectronLoose && tau[i].discriminationByMuonLoose //changed in 19April
+                )
             goodHPSTau.push_back(tau[i]);
     }
     sort(goodHPSTau.begin(), goodHPSTau.end(), myobject_grt());
@@ -166,34 +167,34 @@ vector<myobject> GoodJet(myevent *m) {
     vector<myobject> goodJet;
     vector<myobject> Jet = m->RecPFJetsAK5;
     for (int i = 0; i < Jet.size(); i++) {
-        double JetPt = Jet[i].pt;
-        double JetEta = Jet[i].eta;
-        if (JetPt > 10 && fabs(JetEta) < 5.0)
+        float JetPt = Jet[i].pt;
+        float JetEta = Jet[i].eta;
+        if (JetPt > 10 && TMath::Abs(JetEta) < 5.0)
             goodJet.push_back(Jet[i]);
     }
     sort(goodJet.begin(), goodJet.end(), myobject_grt());
     return goodJet;
 }
 
-//inline double deltaPhi(myobject const& a, myobject const& b) {
-//    double result = a.phi - b.phi;
+//inline float deltaPhi(myobject const& a, myobject const& b) {
+//    float result = a.phi - b.phi;
 //    while (result > M_PI) result -= 2 * M_PI;
 //    while (result <= -M_PI) result += 2 * M_PI;
-//    return fabs(result);
+//    return TMath::Abs(result);
 //}
 //
-//inline double deltaR2(myobject const& a, myobject const& b) {
-//    double deta = a.eta - b.eta;
-//    double dphi = deltaPhi(a, b);
+//inline float deltaR2(myobject const& a, myobject const& b) {
+//    float deta = a.eta - b.eta;
+//    float dphi = deltaPhi(a, b);
 //    return deta * deta + dphi*dphi;
 //}
-////inline double deltaR2(double eta1, double phi1, double eta2, double phi2) {
-////    double deta = eta1 - eta2;
-////    double dphi = deltaPhi(phi1, phi2);
+////inline float deltaR2(float eta1, float phi1, float eta2, float phi2) {
+////    float deta = eta1 - eta2;
+////    float dphi = deltaPhi(phi1, phi2);
 ////    return deta * deta + dphi*dphi;
 ////}
 //
-//inline double deltaR(myobject const& a, myobject const& b) {
+//inline float deltaR(myobject const& a, myobject const& b) {
 //    return sqrt(deltaR2(a, b));
 //}
 
@@ -207,8 +208,8 @@ int bjet_Multiplicity(myevent *m) {
     int num_bj = 0;
     //https://twiki.cern.ch/twiki/bin/viewauth/CMS/BTagPerformanceOP
     for (int k = 0; k < jet.size(); k++) {
-        //if (jet[k].pt > 20 && fabs(jet[k].eta) < 2.4 && jet[k].bDiscriminatiors_CSV > 0.679) {
-        if (jet[k].pt > 20 && fabs(jet[k].eta) < 2.4 && jet[k].bDiscriminatiors_CSV > 0.898) {
+        //        if (jet[k].pt > 20 && TMath::Abs(jet[k].eta) < 2.4 && jet[k].bDiscriminatiors_CSV > 0.898) { //changed on 19April
+        if (jet[k].pt > 20 && TMath::Abs(jet[k].eta) < 2.4 && jet[k].bDiscriminatiors_CSV > 0.679) {
             bool Nooverlap = true;
 
             for (int p = 0; p < mu_.size(); p++) {
@@ -318,7 +319,7 @@ vector <myobject> myCleanBareLepton(myevent *m, string lep) {
         for (int a = 0; a < Electron_Vector.size(); a++) {
             bool Keep_obj = true;
             for (int b = 0; b < Muon_Vector.size(); b++) {
-                if (Id_Mu(Muon_Vector[b]) && deltaR(Electron_Vector[a], Muon_Vector[b]) < 0.1)
+                if (Id_Mu_Loose(Muon_Vector[b]) && deltaR(Electron_Vector[a], Muon_Vector[b]) < 0.1)
                     Keep_obj = false;
             }
             if (Keep_obj == true)
@@ -331,11 +332,11 @@ vector <myobject> myCleanBareLepton(myevent *m, string lep) {
         for (int a = 0; a < Tau_Vector.size(); a++) {
             bool Keep_obj = true;
             for (int b = 0; b < Electron_Vector.size(); b++) {
-                if (EleMVANonTrigId(Electron_Vector[b]) && deltaR(Tau_Vector[a], Electron_Vector[b]) < 0.1)
+                if (EleMVANonTrigId_Loose(Electron_Vector[b]) && deltaR(Tau_Vector[a], Electron_Vector[b]) < 0.1)
                     Keep_obj = false;
             }
             for (int c = 0; c < Muon_Vector.size(); c++) {
-                if (Id_Mu(Muon_Vector[c]) && deltaR(Tau_Vector[a], Muon_Vector[c]) < 0.1)
+                if (Id_Mu_Loose(Muon_Vector[c]) && deltaR(Tau_Vector[a], Muon_Vector[c]) < 0.1)
                     Keep_obj = false;
             }
             if (Keep_obj == true)

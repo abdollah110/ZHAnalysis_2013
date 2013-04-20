@@ -37,10 +37,11 @@ float IMass = 0;
 float ZMass = 0;
 float HMass = 0;
 float met, metPhi, pfmet, pfmetPhi;
-float l1M, l1Px, l1Py, l1Pz, l1E, l1Pt, l1Phi, l1Eta, l1Charge, l1_muId, l1_muIso, l1_eleId, l1_eleIso, l1_eleMVANonTrg, l1_eleNumHit = -10;
-float l2M, l2Px, l2Py, l2Pz, l2E, l2Pt, l2Phi, l2Eta, l2Charge, l2_muId, l2_muIso, l2_eleId, l2_eleIso, l2_eleMVANonTrg, l2_eleNumHit = -10;
-float l3M, l3Px, l3Py, l3Pz, l3E, l3Pt, l3Phi, l3Eta, l3Charge, l3_muId, l3_muIso, l3_eleId, l3_eleIso, l3_eleMVANonTrg, l3_eleNumHit, l3_tauIsoMVA2raw = -10;
-float l4M, l4Px, l4Py, l4Pz, l4E, l4Pt, l4Phi, l4Eta, l4Charge, l4_muId, l4_muIso, l4_eleId, l4_eleIso, l4_eleMVANonTrg, l4_eleNumHit, l4_tauIsoMVA2raw = -10;
+float l1M, l1Px, l1Py, l1Pz, l1E, l1Pt, l1Phi, l1Eta, l1Charge, l1_muIso, l1_eleIso, l1_eleMVANonTrg, l1_eleNumHit = -10;
+float l2M, l2Px, l2Py, l2Pz, l2E, l2Pt, l2Phi, l2Eta, l2Charge, l2_muIso, l2_eleIso, l2_eleMVANonTrg, l2_eleNumHit = -10;
+float l3M, l3Px, l3Py, l3Pz, l3E, l3Pt, l3Phi, l3Eta, l3Charge, l3_muIso, l3_eleIso, l3_eleMVANonTrg, l3_eleNumHit, l3_tauIsoMVA2raw = -10;
+float l4M, l4Px, l4Py, l4Pz, l4E, l4Pt, l4Phi, l4Eta, l4Charge, l4_muIso, l4_eleIso, l4_eleMVANonTrg, l4_eleNumHit, l4_tauIsoMVA2raw = -10;
+bool l1_muId, l1_eleId, l2_muId, l2_eleId, l3_muId_Loose, l3_muId_Tight, l3_eleId_Loose, l3_eleId_Tight, l4_muId_Loose, l4_eleId_Loose, l4_muId_Tight, l4_eleId_Tight;
 bool l3_tauIsoL, l3_tauIsoM, l3_tauIsoT, l3_tauRejMuL, l3_tauRejMuM, l3_tauRejMuT, l3_tauRejEleL, l3_tauRejEleM, l3_tauRejEleMVA;
 bool l3_tauIso3HitL, l3_tauIso3HitM, l3_tauIso3HitT, l3_tauRejMu2L, l3_tauRejMu2M, l3_tauRejMu2T, l3_tauRejEleMVA3L, l3_tauRejEleMVA3M, l3_tauRejEleMVA3T;
 bool l3_tauIsoVL, l3_tauIsoMVA2L, l3_tauIsoMVA2M, l3_tauIsoMVA2T;
@@ -102,9 +103,9 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     l1Pt = obj1.pt;
     l1Phi = obj1.phi;
     l1Eta = obj1.eta;
-    l1_muId = Id_Mu(obj1);
+    l1_muId = Id_Mu_Loose(obj1);
     l1_muIso = Iso_Mu_dBeta(obj1);
-    l1_eleId = EleMVANonTrigId(obj1);
+    l1_eleId = EleMVANonTrigId_Loose(obj1);
     l1_eleIso = Iso_Ele_dBeta(obj1);
     l1_eleMVANonTrg = obj1.Id_mvaNonTrg;
     l1_eleNumHit = obj1.numHitEleInner;
@@ -119,9 +120,9 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     l2Phi = obj2.phi;
     l2Pz = obj2.pz;
     l2Eta = obj2.eta;
-    l2_muId = Id_Mu(obj2);
+    l2_muId = Id_Mu_Loose(obj2);
     l2_muIso = Iso_Mu_dBeta(obj2);
-    l2_eleId = EleMVANonTrigId(obj2);
+    l2_eleId = EleMVANonTrigId_Loose(obj2);
     l2_eleIso = Iso_Ele_dBeta(obj2);
     l2_eleMVANonTrg = obj2.Id_mvaNonTrg;
     l2_eleNumHit = obj2.numHitEleInner;
@@ -135,13 +136,14 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     l3Pt = obj3.pt;
     l3Phi = obj3.phi;
     l3Eta = obj3.eta;
-    l3_muId = Id_Mu(obj3);
+    l3_muId_Loose = Id_Mu_Loose(obj3);
+    l3_muId_Tight = Id_Mu_Tight(obj3);
     l3_muIso = Iso_Mu_dBeta(obj3);
-    l3_eleId = EleMVANonTrigId(obj3);
+    l3_eleId_Loose = EleMVANonTrigId_Loose(obj3);
+    l3_eleId_Tight = EleMVANonTrigId_Tight(obj3);
     l3_eleIso = Iso_Ele_dBeta(obj3);
     l3_eleMVANonTrg = obj3.Id_mvaNonTrg;
     l3_eleNumHit = obj3.numHitEleInner;
-
     l3_tauIsoMVA2raw = obj3.byIsolationMVA2raw;
     l3_tauIsoVL = obj3.byVLooseCombinedIsolationDeltaBetaCorr;
     l3_tauIsoL = obj3.byLooseCombinedIsolationDeltaBetaCorr;
@@ -166,8 +168,8 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     l3_tauRejEleMVA3M = obj3.discriminationByElectronMVA3Medium;
     l3_tauRejEleMVA3T = obj3.discriminationByElectronMVA3Tight;
     l3Charge = obj3.charge;
-    l3_CloseJetPt = ((Channel % 10 == 1 || Channel % 10 == 5) && Channel < 99) ? l3Pt : Find_Closet_Jet(obj3, m);
-    //    l3_CloseJetPt = Find_Closet_Jet(obj3, m);
+    l3_CloseJetPt = Find_Closet_Jet(obj3, m);
+    //    l3_CloseJetPt = ((Channel % 10 == 1 || Channel % 10 == 5) && Channel < 99) ? l3Pt : Find_Closet_Jet(obj3, m);
 
     l4M = obj4.mass;
     l4Px = obj4.px;
@@ -177,9 +179,11 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     l4Phi = obj4.phi;
     l4Pz = obj4.pz;
     l4Eta = obj4.eta;
-    l4_muId = Id_Mu(obj4);
+    l4_muId_Loose = Id_Mu_Loose(obj4);
+    l4_muId_Tight = Id_Mu_Tight(obj4);
     l4_muIso = Iso_Mu_dBeta(obj4);
-    l4_eleId = EleMVANonTrigId(obj4);
+    l4_eleId_Loose = EleMVANonTrigId_Loose(obj4);
+    l4_eleId_Tight = EleMVANonTrigId_Tight(obj4);
     l4_eleIso = Iso_Ele_dBeta(obj4);
     l4_eleMVANonTrg = obj4.Id_mvaNonTrg;
     l4_eleNumHit = obj4.numHitEleInner;
@@ -207,8 +211,8 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     l4_tauRejEleMVA3M = obj4.discriminationByElectronMVA3Medium;
     l4_tauRejEleMVA3T = obj4.discriminationByElectronMVA3Tight;
     l4Charge = obj4.charge;
-    l4_CloseJetPt = ((Channel % 10 == 1 || Channel % 10 == 5) && Channel < 99) ? l4Pt : Find_Closet_Jet(obj4, m);
-    //    l4_CloseJetPt = Find_Closet_Jet(obj4, m);
+    l4_CloseJetPt = Find_Closet_Jet(obj4, m);
+    //    l4_CloseJetPt = ((Channel % 10 == 1 || Channel % 10 == 5) && Channel < 99) ? l4Pt : Find_Closet_Jet(obj4, m);
 
     vector<myobject> Vertex = m->Vertex;
     num_PV = Vertex.size();

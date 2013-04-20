@@ -20,42 +20,44 @@
 #include "TMath.h" //M_PI is in TMath
 #include "TRandom3.h"
 #include "myobject.h"
+#include "zh_Auxiliary.h"
 
-double EAMuon(double eta) {
-    double EffectiveArea = 0.0;
-    if (fabs(eta) >= 0.0 && fabs(eta) < 1.0) EffectiveArea = 0.132;
-    if (fabs(eta) >= 1.0 && fabs(eta) < 1.5) EffectiveArea = 0.120;
-    if (fabs(eta) >= 1.5 && fabs(eta) < 2.0) EffectiveArea = 0.114;
-    if (fabs(eta) >= 2.0 && fabs(eta) < 2.2) EffectiveArea = 0.139;
-    if (fabs(eta) >= 2.2 && fabs(eta) < 2.3) EffectiveArea = 0.168;
-    if (fabs(eta) >= 2.3) EffectiveArea = 0.189;
+float EAMuon(float eta) {
+    float EffectiveArea = 0.0;
+    if (TMath::Abs(eta) >= 0.0 && TMath::Abs(eta) < 1.0) EffectiveArea = 0.132;
+    if (TMath::Abs(eta) >= 1.0 && TMath::Abs(eta) < 1.5) EffectiveArea = 0.120;
+    if (TMath::Abs(eta) >= 1.5 && TMath::Abs(eta) < 2.0) EffectiveArea = 0.114;
+    if (TMath::Abs(eta) >= 2.0 && TMath::Abs(eta) < 2.2) EffectiveArea = 0.139;
+    if (TMath::Abs(eta) >= 2.2 && TMath::Abs(eta) < 2.3) EffectiveArea = 0.168;
+    if (TMath::Abs(eta) >= 2.3) EffectiveArea = 0.189;
     return EffectiveArea;
 }
 
-double EAElectron(double eta) {
+float EAElectron(float eta) {
     float EffectiveArea = 0.;
-    if (fabs(eta) >= 0.0 && fabs(eta) < 1.0) EffectiveArea = 0.18;
-    if (fabs(eta) >= 1.0 && fabs(eta) < 1.479) EffectiveArea = 0.20;
-    if (fabs(eta) >= 1.479 && fabs(eta) < 2.0) EffectiveArea = 0.15;
-    if (fabs(eta) >= 2.0 && fabs(eta) < 2.2) EffectiveArea = 0.19;
-    if (fabs(eta) >= 2.2 && fabs(eta) < 2.3) EffectiveArea = 0.21;
-    if (fabs(eta) >= 2.3 && fabs(eta) < 2.4) EffectiveArea = 0.22;
-    if (fabs(eta) >= 2.4) EffectiveArea = 0.29;
+    if (TMath::Abs(eta) >= 0.0 && TMath::Abs(eta) < 1.0) EffectiveArea = 0.18;
+    if (TMath::Abs(eta) >= 1.0 && TMath::Abs(eta) < 1.479) EffectiveArea = 0.20;
+    if (TMath::Abs(eta) >= 1.479 && TMath::Abs(eta) < 2.0) EffectiveArea = 0.15;
+    if (TMath::Abs(eta) >= 2.0 && TMath::Abs(eta) < 2.2) EffectiveArea = 0.19;
+    if (TMath::Abs(eta) >= 2.2 && TMath::Abs(eta) < 2.3) EffectiveArea = 0.21;
+    if (TMath::Abs(eta) >= 2.3 && TMath::Abs(eta) < 2.4) EffectiveArea = 0.22;
+    if (TMath::Abs(eta) >= 2.4) EffectiveArea = 0.29;
     return EffectiveArea;
 }
 
 
 //Muon PF Isolation
 
-double Iso_Mu_dBeta(myobject const& a) {
+float Iso_Mu_dBeta(myobject const& a) {
 
 
-    double MuIsoTrk = a.pfIsoCharged;
-    double MuIsoEcal = a.pfIsoGamma;
-    double MuIsoHcal = a.pfIsoNeutral;
-    double MuIsoPU = a.pfIsoPU;
+    //    float MuIsoTrk = a.pfIsoCharged; //has been changed at 19 April to be sync with inclusive H->tautau
+    float MuIsoTrk = a.pfIsoAll;
+    float MuIsoEcal = a.pfIsoGamma;
+    float MuIsoHcal = a.pfIsoNeutral;
+    float MuIsoPU = a.pfIsoPU;
 
-    double relIso = (MuIsoTrk) / a.pt;
+    float relIso = (MuIsoTrk) / a.pt;
     if (MuIsoEcal + MuIsoHcal - 0.5 * MuIsoPU > 0)
         relIso = (MuIsoTrk + MuIsoEcal + MuIsoHcal - 0.5 * MuIsoPU) / (a.pt);
 
@@ -65,16 +67,17 @@ double Iso_Mu_dBeta(myobject const& a) {
 
 //Electron PF Isolation
 
-double Iso_Ele_dBeta(myobject const& a) {
+float Iso_Ele_dBeta(myobject const& a) {
 
 
 
-    double EleIsoTrk = a.pfIsoCharged;
-    double EleIsoEcal = a.pfIsoGamma;
-    double EleIsoHcal = a.pfIsoNeutral;
-    double EleIsoPU = a.pfIsoPU;
+    //    float EleIsoTrk = a.pfIsoCharged; //has been changed at 19 April to be sync with inclusive H->tautau
+    float EleIsoTrk = a.pfIsoAll;
+    float EleIsoEcal = a.pfIsoGamma;
+    float EleIsoHcal = a.pfIsoNeutral;
+    float EleIsoPU = a.pfIsoPU;
 
-    double relIso = (EleIsoTrk) / a.pt;
+    float relIso = (EleIsoTrk) / a.pt;
     if (EleIsoEcal + EleIsoHcal - 0.5 * EleIsoPU > 0)
         relIso = (EleIsoTrk + EleIsoEcal + EleIsoHcal - 0.5 * EleIsoPU) / (a.pt);
 
@@ -83,33 +86,33 @@ double Iso_Ele_dBeta(myobject const& a) {
 
 //Electron PF Isolation
 
-double Iso_Ele_Rho(myevent *m, myobject const& a) {
+float Iso_Ele_Rho(myevent *m, myobject const& a) {
 
 
 
-    //    double EleIsoTrk = a.pfIsoCharged;
-    double EleIsoTrk = a.pfIsoAll;
-    double EleIsoEcal = a.pfIsoGamma;
-    double EleIsoHcal = a.pfIsoNeutral;
-    double corr = m->RhoCorr * EAElectron(a.eta_SC);
+    //    float EleIsoTrk = a.pfIsoCharged;
+    float EleIsoTrk = a.pfIsoAll;
+    float EleIsoEcal = a.pfIsoGamma;
+    float EleIsoHcal = a.pfIsoNeutral;
+    float corr = m->RhoCorr * EAElectron(a.eta_SC);
 
-    double relIso = (EleIsoTrk) / a.pt;
+    float relIso = (EleIsoTrk) / a.pt;
     if (EleIsoEcal + EleIsoHcal - corr > 0)
         relIso = (EleIsoTrk + EleIsoEcal + EleIsoHcal - corr) / (a.pt);
 
     return relIso;
 }
 
-double Iso_Mu_Rho(myevent *m, myobject const& a) {
+float Iso_Mu_Rho(myevent *m, myobject const& a) {
 
 
-    //    double MuIsoTrk = a.pfIsoCharged;
-    double MuIsoTrk = a.pfIsoAll;
-    double MuIsoEcal = a.pfIsoGamma;
-    double MuIsoHcal = a.pfIsoNeutral;
-    double corr = m->RhoCorr * EAMuon(a.eta);
+    //    float MuIsoTrk = a.pfIsoCharged;
+    float MuIsoTrk = a.pfIsoAll;
+    float MuIsoEcal = a.pfIsoGamma;
+    float MuIsoHcal = a.pfIsoNeutral;
+    float corr = m->RhoCorr * EAMuon(a.eta);
 
-    double relIso = (MuIsoTrk) / a.pt;
+    float relIso = (MuIsoTrk) / a.pt;
     if (MuIsoEcal + MuIsoHcal - corr > 0)
         relIso = (MuIsoTrk + MuIsoEcal + MuIsoHcal - corr) / (a.pt);
 
@@ -117,15 +120,28 @@ double Iso_Mu_Rho(myevent *m, myobject const& a) {
 
 }
 
-bool Id_Mu(myobject const& a) {
+bool Id_Mu_Loose(myobject const& a) {
 
     bool muPF = a.isPFMuon;
     bool muGlobal = a.isGlobalMuon;
     bool muTracker = a.isTrackerMuon;
-    double MuChi2 = a.normalizedChi2;
+
+    if (muPF && muGlobal && muTracker)
+        return true;
+    else
+        return false;
+
+}
+
+bool Id_Mu_Tight(myobject const& a) {
+
+    bool muPF = a.isPFMuon;
+    bool muGlobal = a.isGlobalMuon;
+    bool muTracker = a.isTrackerMuon;
+    float MuChi2 = a.normalizedChi2;
     int MuValHit = a.numberOfValidMuonHits;
     int numMatchStat = a.numMatchStation;
-    double dZ_in = a.dZ_in;
+    float dZ_in = a.dZ_in;
     int intrkLayerpixel_ = a.intrkLayerpixel;
     int trkLayerMeasure_ = a.trkLayerMeasure;
 
@@ -137,35 +153,61 @@ bool Id_Mu(myobject const& a) {
 }
 
 //https://twiki.cern.ch/twiki/bin/view/Main/HVVElectronId2012/
-//bool EleMVANonTrigId(float pt, float eta, double value){
+//bool EleMVANonTrigId(float pt, float eta, float value){
 
-bool EleMVANonTrigId(myobject const& a) {
+bool EleMVANonTrigId_Loose(myobject const& a) {
     bool passingId = false;
-    double pt = a.pt;
-    double eta = a.eta;
-    double value = a.Id_mvaNonTrg;
+    float pt = a.pt;
+    float eta = a.eta_SC;
+    float value = a.Id_mvaNonTrg;
 
-    if (pt > 5. && pt < 10. && fabs(eta) < 0.8 && value > 0.47)
+    //Similar to HZZ4L analysis
+    if (pt > 5. && pt < 10. && TMath::Abs(eta) < 0.8 && value > 0.47)
         passingId = true;
-    if (pt > 5. && pt < 10. && fabs(eta) >= 0.8 && fabs(eta) < 1.479 && value > 0.004)
+    if (pt > 5. && pt < 10. && TMath::Abs(eta) >= 0.8 && TMath::Abs(eta) < 1.479 && value > 0.004)
         passingId = true;
-    if (pt > 5. && pt < 10. && fabs(eta) >= 1.479 && value > 0.295)
+    if (pt > 5. && pt < 10. && TMath::Abs(eta) >= 1.479 && value > 0.295)
         passingId = true;
 
-    if (pt > 10. && fabs(eta) < 0.8 && value > 0.5)
+    if (pt > 10. && TMath::Abs(eta) < 0.8 && value > 0.5)
         passingId = true;
-    if (pt > 10. && fabs(eta) >= 0.8 && fabs(eta) < 1.479 && value > 0.12)
+    if (pt > 10. && TMath::Abs(eta) >= 0.8 && TMath::Abs(eta) < 1.479 && value > 0.12)
         passingId = true;
-    if (pt > 10. && fabs(eta) >= 1.479 && value > 0.6)
+    if (pt > 10. && TMath::Abs(eta) >= 1.479 && value > 0.6)
         passingId = true;
-    //  if(value>10.)cout<<"pt==== "<<pt<<" "<<"eta=== "<<eta<<" "<<"value=== "<<value<<endl;
+
+    bool numHit = a.numHitEleInner < 2;
+    return numHit && passingId;
+}
+
+bool EleMVANonTrigId_Tight(myobject const& a) {
+    bool passingId = false;
+    float pt = a.pt;
+    float eta = a.eta_SC;
+    float value = a.Id_mvaNonTrg;
+
+    //Similar to HTT analysis
+    if (pt < 20. && TMath::Abs(eta) < 0.8 && value > 0.925)
+        passingId = true;
+    if (pt < 20. && TMath::Abs(eta) >= 0.8 && TMath::Abs(eta) < 1.479 && value > 0.915)
+        passingId = true;
+    if (pt < 20. && TMath::Abs(eta) >= 1.479 && value > 0.965)
+        passingId = true;
+
+    if (pt > 20. && TMath::Abs(eta) < 0.8 && value > 0.905)
+        passingId = true;
+    if (pt > 20. && TMath::Abs(eta) >= 0.8 && TMath::Abs(eta) < 1.479 && value > 0.955)
+        passingId = true;
+    if (pt > 20. && TMath::Abs(eta) >= 1.479 && value > 0.975)
+        passingId = true;
     bool numHit = a.numHitEleInner < 2;
     return numHit && passingId;
 }
 
 bool getTauIsolation(std::string channel, myobject const& a) {
     if (channel == "mmtt" || channel == "eett") {
-        if (a.byMediumCombinedIsolationDeltaBetaCorr3Hits)
+        //        if (a.byMediumCombinedIsolationDeltaBetaCorr3Hits) //changed in 19April
+        if (a.byLooseCombinedIsolationDeltaBetaCorr3Hits)
             return true;
         else
             return false;
@@ -186,7 +228,8 @@ bool getEleRejection(std::string channel, myobject const& a) {
             return false;
     }
     if (channel == "mmet" || channel == "eeet") {
-        if (a.discriminationByElectronMVA2Tight)
+        //        if (a.discriminationByElectronMVA2Tight) //changed in 19April
+        if (a.discriminationByElectronMVA3Tight)
             return true;
         else
             return false;

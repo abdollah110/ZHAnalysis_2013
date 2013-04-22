@@ -1038,7 +1038,8 @@ int main(int argc, char** argv) {
                             bool mu_Iso_2 = Iso_Mu_dBeta(BareMuon[j]) < loose_Iso_Mu;
                             bool mu_Id_1 = Id_Mu_Loose(BareMuon[i]);
                             bool mu_Id_2 = Id_Mu_Loose(BareMuon[j]);
-                            bool first_l_HighPt = BareMuon[i].pt > 20 || BareMuon[j].pt > 20;
+                            if (BareMuon[i].pt < BareMuon[j].pt) swap(BareMuon[i], BareMuon[j]);
+                            bool first_l_HighPt = BareMuon[i].pt > 20 ;
                             bool Z_Charge = BareMuon[i].charge * BareMuon[j].charge < 0;
                             bool Leading_Z_Mass = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                             bool bjet_num = num_Bjet < 1;
@@ -1408,6 +1409,7 @@ int main(int argc, char** argv) {
                             bool ele_Iso_2 = Iso_Ele_dBeta(BareElectron[j]) < loose_Iso_Ele;
                             bool ele_Id_1 = EleMVANonTrigId_Loose(BareElectron[i]);
                             bool ele_Id_2 = EleMVANonTrigId_Loose(BareElectron[j]);
+                            if (BareElectron[i].pt < BareElectron[j].pt) swap(BareElectron[i], BareElectron[j]);
                             bool first_l_HighPt = BareElectron[i].pt > 20 || BareElectron[j].pt > 20;
                             bool Z_Charge = BareElectron[i].charge * BareElectron[j].charge < 0;
                             bool Leading_Z_Mass = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;

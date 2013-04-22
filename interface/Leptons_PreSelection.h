@@ -306,6 +306,9 @@ vector <myobject> myCleanBareLepton(myevent *m, string lep) {
     vector<myobject> Muon_Vector = NoIdIsoMuon(m);
     vector<myobject> Electron_Vector = NoIdIsoElectron(m);
     vector<myobject> Tau_Vector = NoIsoTau(m);
+    //Good Vector
+    vector<myobject> goodmu_ = myCleanLepton(m, "mu");
+    vector<myobject> goodelectron_ = myCleanLepton(m, "ele");
 
     //#####################  CleanMuon
     if (lep == "mu") {
@@ -318,8 +321,8 @@ vector <myobject> myCleanBareLepton(myevent *m, string lep) {
     if (lep == "ele") {
         for (int a = 0; a < Electron_Vector.size(); a++) {
             bool Keep_obj = true;
-            for (int b = 0; b < Muon_Vector.size(); b++) {
-                if (Id_Mu_Loose(Muon_Vector[b]) && deltaR(Electron_Vector[a], Muon_Vector[b]) < 0.1)
+            for (int b = 0; b < goodmu_.size(); b++) {
+                if (deltaR(Electron_Vector[a], goodmu_[b]) < 0.1)
                     Keep_obj = false;
             }
             if (Keep_obj == true)
@@ -331,12 +334,12 @@ vector <myobject> myCleanBareLepton(myevent *m, string lep) {
     if (lep == "tau") {
         for (int a = 0; a < Tau_Vector.size(); a++) {
             bool Keep_obj = true;
-            for (int b = 0; b < Electron_Vector.size(); b++) {
-                if (EleMVANonTrigId_Loose(Electron_Vector[b]) && deltaR(Tau_Vector[a], Electron_Vector[b]) < 0.1)
+            for (int b = 0; b < goodelectron_.size(); b++) {
+                if (deltaR(Tau_Vector[a], goodelectron_[b]) < 0.1)
                     Keep_obj = false;
             }
-            for (int c = 0; c < Muon_Vector.size(); c++) {
-                if (Id_Mu_Loose(Muon_Vector[c]) && deltaR(Tau_Vector[a], Muon_Vector[c]) < 0.1)
+            for (int c = 0; c < goodmu_.size(); c++) {
+                if (deltaR(Tau_Vector[a], goodmu_[c]) < 0.1)
                     Keep_obj = false;
             }
             if (Keep_obj == true)

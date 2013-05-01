@@ -41,6 +41,8 @@ float l1M, l1Px, l1Py, l1Pz, l1E, l1Pt, l1Phi, l1Eta, l1Charge, l1_muIso, l1_ele
 float l2M, l2Px, l2Py, l2Pz, l2E, l2Pt, l2Phi, l2Eta, l2Charge, l2_muIso, l2_eleIso, l2_eleMVANonTrg, l2_eleNumHit = -10;
 float l3M, l3Px, l3Py, l3Pz, l3E, l3Pt, l3Phi, l3Eta, l3Charge, l3_muIso, l3_eleIso, l3_eleMVANonTrg, l3_eleNumHit, l3_tauIsoMVA2raw = -10;
 float l4M, l4Px, l4Py, l4Pz, l4E, l4Pt, l4Phi, l4Eta, l4Charge, l4_muIso, l4_eleIso, l4_eleMVANonTrg, l4_eleNumHit, l4_tauIsoMVA2raw = -10;
+float l3_RefJetPt, l3_RefJetEta, l3_RefJetPhi = -10;
+float l4_RefJetPt, l4_RefJetEta, l4_RefJetPhi = -10;
 bool l1_muId, l1_eleId, l2_muId, l2_eleId, l3_muId_Loose, l3_muId_Tight, l3_eleId_Loose, l3_eleId_Tight, l4_muId_Loose, l4_eleId_Loose, l4_muId_Tight, l4_eleId_Tight;
 bool l3_tauIsoL, l3_tauIsoM, l3_tauIsoT, l3_tauRejMuL, l3_tauRejMuM, l3_tauRejMuT, l3_tauRejEleL, l3_tauRejEleM, l3_tauRejEleMVA;
 bool l3_tauIso3HitL, l3_tauIso3HitM, l3_tauIso3HitT, l3_tauRejMu2L, l3_tauRejMu2M, l3_tauRejMu2T, l3_tauRejEleMVA3L, l3_tauRejEleMVA3M, l3_tauRejEleMVA3T;
@@ -56,6 +58,8 @@ int num_PV, num_bjet, num_goodjet;
 int mu_Size, BareMuon_Size, electron_Size, BareElectron_Size, tau_Size, BareTau_Size;
 int mu_partTight_Size, ele_partTight_Size;
 float l3_CloseJetPt, l4_CloseJetPt;
+float l3_CloseJetEta, l4_CloseJetEta;
+float l3_CloseJetPhi, l4_CloseJetPhi;
 
 void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int channel, myobject obj1, myobject obj2, myobject obj3, myobject obj4) {
 
@@ -83,17 +87,19 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     metPhi = Met.front().phi;
     pfmetPhi = PFMet.front().phi;
     eff_Correction = cor_eff;
-    //lepton size
     mu_Size = myCleanLepton(m, "mu").size();
     BareMuon_Size = myCleanBareLepton(m, "mu").size();
     electron_Size = myCleanLepton(m, "ele").size();
     BareElectron_Size = myCleanBareLepton(m, "ele").size();
     tau_Size = myCleanLepton(m, "tau").size();
     BareTau_Size = myCleanBareLepton(m, "tau").size();
-
     mu_partTight_Size = LeptonSubSet(m, "mu_tight_partly").size();
     ele_partTight_Size = LeptonSubSet(m, "ele_tight_partly").size();
-
+    vector<myobject> Vertex = m->Vertex;
+    num_PV = Vertex.size();
+    num_bjet = bjet_Multiplicity(m);
+    pu_Weight = PU_Weight;
+    num_goodjet = GoodJet(m).size();
 
     l1M = obj1.mass;
     l1Px = obj1.px;
@@ -110,7 +116,6 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     l1_eleMVANonTrg = obj1.Id_mvaNonTrg;
     l1_eleNumHit = obj1.numHitEleInner;
     l1Charge = obj1.charge;
-
 
     l2M = obj2.mass;
     l2Px = obj2.px;
@@ -168,8 +173,12 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     l3_tauRejEleMVA3M = obj3.discriminationByElectronMVA3Medium;
     l3_tauRejEleMVA3T = obj3.discriminationByElectronMVA3Tight;
     l3Charge = obj3.charge;
-    l3_CloseJetPt = Find_Closet_Jet(obj3, m);
-    //    l3_CloseJetPt = ((Channel % 10 == 1 || Channel % 10 == 5) && Channel < 99) ? l3Pt : Find_Closet_Jet(obj3, m);
+    l3_CloseJetPt = Find_Closet_Jet(obj3, m)[0];
+    l3_CloseJetEta = Find_Closet_Jet(obj3, m)[1];
+    l3_CloseJetPhi = Find_Closet_Jet(obj3, m)[2];
+    l3_RefJetPt = obj3.jetPt;
+    l3_RefJetEta = obj3.jetEta;
+    l3_RefJetPhi = obj3.jetPhi;
 
     l4M = obj4.mass;
     l4Px = obj4.px;
@@ -211,14 +220,14 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     l4_tauRejEleMVA3M = obj4.discriminationByElectronMVA3Medium;
     l4_tauRejEleMVA3T = obj4.discriminationByElectronMVA3Tight;
     l4Charge = obj4.charge;
-    l4_CloseJetPt = Find_Closet_Jet(obj4, m);
-    //    l4_CloseJetPt = ((Channel % 10 == 1 || Channel % 10 == 5) && Channel < 99) ? l4Pt : Find_Closet_Jet(obj4, m);
+    l4_CloseJetPt = Find_Closet_Jet(obj4, m)[0];
+    l4_CloseJetEta = Find_Closet_Jet(obj4, m)[1];
+    l4_CloseJetPhi = Find_Closet_Jet(obj4, m)[2];
+    l4_RefJetPt = obj4.jetPt;
+    l4_RefJetEta = obj4.jetEta;
+    l4_RefJetPhi = obj4.jetPhi;
 
-    vector<myobject> Vertex = m->Vertex;
-    num_PV = Vertex.size();
-    num_bjet = bjet_Multiplicity(m);
-    pu_Weight = PU_Weight;
-    num_goodjet = GoodJet(m).size();
+
 
 
     Run_Tree->Fill();

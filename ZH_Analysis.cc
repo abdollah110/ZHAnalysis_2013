@@ -187,6 +187,8 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l3Phi", &l3Phi, "l3Phi/F");
     Run_Tree->Branch("l3Charge", &l3Charge, "l3Charge/F");
     Run_Tree->Branch("l3_CloseJetPt", &l3_CloseJetPt, "l3_CloseJetPt/F");
+    Run_Tree->Branch("l3_CloseJetEta", &l3_CloseJetEta, "l3_CloseJetEta/F");
+    Run_Tree->Branch("l3_CloseJetPhi", &l3_CloseJetPhi, "l3_CloseJetPhi/F");
     Run_Tree->Branch("l3_muId_Loose", &l3_muId_Loose, "l3_muId_Loose/O");
     Run_Tree->Branch("l3_muId_Tight", &l3_muId_Tight, "l3_muId_Tight/O");
     Run_Tree->Branch("l3_eleId_Loose", &l3_eleId_Loose, "l3_eleId_Loose/O");
@@ -218,6 +220,11 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l3_tauRejEleMVA3L", &l3_tauRejEleMVA3L, "l3_tauRejEleMVA3L/O");
     Run_Tree->Branch("l3_tauRejEleMVA3M", &l3_tauRejEleMVA3M, "l3_tauRejEleMVA3M/O");
     Run_Tree->Branch("l3_tauRejEleMVA3T", &l3_tauRejEleMVA3T, "l3_tauRejEleMVA3T/O");
+    Run_Tree->Branch("l3_RefJetPt", &l3_RefJetPt, "l3_RefJetPt/F");
+    Run_Tree->Branch("l3_RefJetEta", &l3_RefJetEta, "l3_RefJetEta/F");
+    Run_Tree->Branch("l3_RefJetPhi", &l3_RefJetPhi, "l3_RefJetPhi/F");
+
+
 
     Run_Tree->Branch("l4M", &l4M, "l4M/F");
     Run_Tree->Branch("l4E", &l4E, "l4E/F");
@@ -237,6 +244,8 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l4_eleMVANonTrg", &l4_eleMVANonTrg, "l4_eleMVANonTrg/F");
     Run_Tree->Branch("l4_eleNumHit", &l4_eleNumHit, "l4_eleNumHit/F");
     Run_Tree->Branch("l4_CloseJetPt", &l4_CloseJetPt, "l4_CloseJetPt/F");
+    Run_Tree->Branch("l4_CloseJetEta", &l4_CloseJetEta, "l4_CloseJetEta/F");
+    Run_Tree->Branch("l4_CloseJetPhi", &l4_CloseJetPhi, "l4_CloseJetPhi/F");
     Run_Tree->Branch("l4_tauIsoVL", &l4_tauIsoVL, "l4_tauIsoVL/O");
     Run_Tree->Branch("l4_tauIso3HitL", &l4_tauIso3HitL, "l4_tauIso3HitL/O");
     Run_Tree->Branch("l4_tauIso3HitM", &l4_tauIso3HitM, "l4_tauIso3HitM/O");
@@ -260,6 +269,9 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l4_tauRejEleMVA3L", &l4_tauRejEleMVA3L, "l4_tauRejEleMVA3L/O");
     Run_Tree->Branch("l4_tauRejEleMVA3M", &l4_tauRejEleMVA3M, "l4_tauRejEleMVA3M/O");
     Run_Tree->Branch("l4_tauRejEleMVA3T", &l4_tauRejEleMVA3T, "l4_tauRejEleMVA3T/O");
+    Run_Tree->Branch("l4_RefJetPt", &l4_RefJetPt, "l4_RefJetPt/F");
+    Run_Tree->Branch("l4_RefJetEta", &l4_RefJetEta, "l4_RefJetEta/F");
+    Run_Tree->Branch("l4_RefJetPhi", &l4_RefJetPhi, "l4_RefJetPhi/F");
     //#################################################################################################
     //###################      Starting the analysis, making loop over files    #######################
     //#################################################################################################
@@ -328,7 +340,7 @@ int main(int argc, char** argv) {
             float loose_Iso_Mu = 0.30;
             float tight_Iso_Ele = 0.15; // it eas 0.10
             float loose_Iso_Ele = 0.30;
-            float loose_Iso_Lepton = 0.20; // it was 0.3
+            float loose_Iso_Lepton = 0.30; // it was 0.3
             float z_lowMass = 60;
             float z_highMass = 120;
 
@@ -360,7 +372,6 @@ int main(int argc, char** argv) {
                         for (int j = i + 1; j < mu_.size(); j++) {
                             for (int k = 0; k < tau_.size(); k++) {
                                 for (int l = k + 1; l < tau_.size(); l++) {
-
                                     float Zboson_Mass = InvarMass_2(mu_[i], mu_[j]);
                                     float Higgs_Mass = InvarMass_2(tau_[k], tau_[l]);
                                     Cor_eff = getCorrFactor("mmtt", status_sample.c_str(), mu_[i], mu_[j], tau_[k], tau_[l]);
@@ -563,6 +574,7 @@ int main(int argc, char** argv) {
                                     bool generalCuts = bjet_num && first_l_HighPt && Z_Charge && Z_Mass_b && Overlap_Dz && SumPtCut && H_Charge;
                                     bool specialCuts = Di_mu_Iso && Di_mu_Id && mu_Iso && mu_Id && electron_Iso && electron_Id;
                                     if (generalCuts && specialCuts) {
+
 
                                         //Filling the tree
                                         MyChannel = 4;
@@ -1039,7 +1051,7 @@ int main(int argc, char** argv) {
                             bool mu_Id_1 = Id_Mu_Loose(BareMuon[i]);
                             bool mu_Id_2 = Id_Mu_Loose(BareMuon[j]);
                             if (BareMuon[i].pt < BareMuon[j].pt) swap(BareMuon[i], BareMuon[j]);
-                            bool first_l_HighPt = BareMuon[i].pt > 20 ;
+                            bool first_l_HighPt = BareMuon[i].pt > 20;
                             bool Z_Charge = BareMuon[i].charge * BareMuon[j].charge < 0;
                             bool Leading_Z_Mass = Zboson_Mass > z_lowMass && Zboson_Mass < z_highMass;
                             bool bjet_num = num_Bjet < 1;

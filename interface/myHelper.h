@@ -79,8 +79,8 @@ float TMass_F(float et1, float et2, float px1, float px2, float py1, float py2) 
 
 }
 
-float InvarMass_F(float et1, float et2, float px1, float px2, float py1, float py2, float pz1, float pz2) {
-    return sqrt(pow(et1 + et2, 2) - pow(px1 + px2, 2) - pow(py1 + py2, 2) - pow(pz1 + pz2, 2));
+float InvarMass_F(float e1, float e2, float px1, float px2, float py1, float py2, float pz1, float pz2) {
+    return sqrt(pow(e1 + e2, 2) - pow(px1 + px2, 2) - pow(py1 + py2, 2) - pow(pz1 + pz2, 2));
 }
 
 #endif	/* MYHELPER_H */

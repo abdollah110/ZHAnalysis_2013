@@ -83,20 +83,31 @@ double H_Pt(myobject const& a, myobject const& b, myobject const& c, myobject co
     return LorentzV_H.Pt();
 }
 
-float Find_Closet_Jet(myobject const& a, myevent *m) {
+vector<float> Find_Closet_Jet(myobject const& a, myevent *m) {
+    vector <float> JetInfo;
+    JetInfo.clear();
     vector<myobject> Jet = GoodJet(m);
     double fake_Pt = a.pt;
+    double fake_Eta = a.eta;
+    double fake_Phi = a.phi;
     double Refer_R = 100;
 
 
     for (int i = 0; i < Jet.size(); i++) {
         if (deltaR(a, Jet[i]) < Refer_R) {
             Refer_R = deltaR(a, Jet[i]);
-            if (Refer_R < 0.5 && Jet[i].pt >= a.pt)
+            if (Refer_R < 0.5 && Jet[i].pt >= a.pt) {
                 fake_Pt = Jet[i].pt;
+                fake_Eta = Jet[i].eta;
+                fake_Phi = Jet[i].phi;
+
+            }
         }
     }
-    return fake_Pt;
+    JetInfo.push_back(fake_Pt);
+    JetInfo.push_back(fake_Eta);
+    JetInfo.push_back(fake_Phi);
+    return JetInfo;
 }
 
 bool WZ_Rej(myevent *m, myobject const& a) {

@@ -148,7 +148,7 @@ vector<myobject> NoIsoTau(myevent *m) {
     for (int i = 0; i < tau.size(); i++) {
         float tauPt = tau[i].pt;
         float tauEta = tau[i].eta;
-        if (tauPt > 0 && TMath::Abs(tauEta) < 2.3 &&
+        if (tauPt > 5 && TMath::Abs(tauEta) < 2.3 &&
                 tau[i].discriminationByDecayModeFinding
                 //              &&   tau[i].discriminationByElectronLoose && tau[i].discriminationByMuonLoose //changed in 19April
                 )

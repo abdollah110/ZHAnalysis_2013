@@ -30,19 +30,20 @@
 
 using namespace TMVA;
 
-Float_t N_LT, N_IsoTot, N_MET;
-float mvaXXX(TMVA::Reader *reader, float val_N_LT = 20, float val_N_IsoTot = 20, float val_N_MET = 20) {
-//#ifdef __CINT__
+Float_t N_LT, N_IsoTau1, N_IsoTau2, N_IsoTot, N_MET;
+
+float mvaXXX(TMVA::Reader *reader, float val_N_LT = 20, float val_N_MET = 20, float val_N_IsoTau1 = 20, float val_N_IsoTau2 = 20) {
+    //#ifdef __CINT__
     gROOT->ProcessLine(".O0"); // turn off optimization in CINT
-//#endif
+    //#endif
 
     //---------------------------------------------------------------
 
     // This loads the library
-//    TMVA::Tools::Instance();
+    //    TMVA::Tools::Instance();
 
 
-//    std::cout << "==> Start TMVAClassificationApplication" << std::endl;
+    //    std::cout << "==> Start TMVAClassificationApplication" << std::endl;
 
     // --- Create the Reader object
 
@@ -50,13 +51,14 @@ float mvaXXX(TMVA::Reader *reader, float val_N_LT = 20, float val_N_IsoTot = 20,
 
 
     N_LT = val_N_LT;
-    N_IsoTot = val_N_IsoTot;
     N_MET = val_N_MET;
+    N_IsoTau1 = val_N_IsoTau1;
+    N_IsoTau2 = val_N_IsoTau2;
 
 
-//    return 88;
+    //    return 88;
     return reader->EvaluateMVA("BDT method");
 
-//    delete reader;
+    //    delete reader;
 
 }

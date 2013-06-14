@@ -32,7 +32,7 @@
 unsigned int Channel = 0;
 unsigned int Run = 0;
 unsigned int Lumi = 0;
-unsigned int Event_ = 0;
+unsigned int Event = 0;
 float IMass = 0;
 float ZMass = 0;
 float HMass = 0;

@@ -976,12 +976,12 @@ int main(int argc, char** argv) {
                                     bool preSelection = Overlap_Dz && No_extra_lepton && ele_numHit && bjet_num && first_l_HighPt && mu_Iso_1 && mu_Iso_2 && mu_Id_1 && mu_Id_2 && Z_Charge && Leading_Z_Mass;
                                     bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge && ele_Rejection;
                                     bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge && ele_Rejection;
-
+                                    bool tauPtCheck = ((mc11 || mc12) ? BareTau[l].pt > 10 : BareTau[l].pt > 5); // This is to have less candidate in ZZ4L events for SVMass 
 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
                                     //*********************************************************************************
-                                    if (preSelection) {
+                                    if (preSelection && tauPtCheck) {
                                         fillTree(Run_Tree, m, PU_Weight, Cor_eff, 92, BareMuon[i], BareMuon[j], BareElectron[k], BareTau[l]);
                                     }
 
@@ -1096,12 +1096,12 @@ int main(int argc, char** argv) {
                                     bool preSelection = Overlap_Dz && No_extra_lepton;
                                     bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge && tau_Mu_Veto;
                                     bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge && tau_Mu_Veto;
-
+                                    bool tauPtCheck = ((mc11 || mc12) ? BareTau[l].pt > 10 : BareTau[l].pt > 5); // This is to have less candidate in ZZ4L events for SVMass 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
                                     //*********************************************************************************
 
-                                    if (preSelection) {
+                                    if (preSelection && tauPtCheck) {
                                         fillTree(Run_Tree, m, PU_Weight, Cor_eff, 93, BareMuon[p], BareMuon[q], BareMuon[k], BareTau[l]);
                                     }
 
@@ -1348,11 +1348,11 @@ int main(int argc, char** argv) {
                                     bool preSelection = bjet_num && No_extra_lepton && Overlap_Dz && ele_Iso_1 && ele_Iso_2 && ele_Id_1 && ele_Id_2 && first_l_HighPt && Z_Charge && Leading_Z_Mass;
                                     bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge && tau_Mu_Veto;
                                     bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge && tau_Mu_Veto;
-
+                                    bool tauPtCheck = ((mc11 || mc12) ? BareTau[l].pt > 10 : BareTau[l].pt > 5); // This is to have less candidate in ZZ4L events for SVMass 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
                                     //*********************************************************************************
-                                    if (preSelection) {
+                                    if (preSelection && tauPtCheck) {
                                         fillTree(Run_Tree, m, PU_Weight, Cor_eff, 96, BareElectron[i], BareElectron[j], BareMuon[k], BareTau[l]);
                                     }
                                     //                                    if (preSelection && FR_Application) {
@@ -1469,11 +1469,11 @@ int main(int argc, char** argv) {
                                     bool preSelection = Overlap_Dz && No_extra_lepton && ele_numHit;
                                     bool FR_Application = SumPtCut && BareTau[l].pt > 20 && H_Charge && ele_Rejection;
                                     bool FR_Estimation_tau0 = BareTau[l].pt > 0 && !H_Charge && ele_Rejection;
-
+                                    bool tauPtCheck = ((mc11 || mc12) ? BareTau[l].pt > 10 : BareTau[l].pt > 5); // This is to have less candidate in ZZ4L events for SVMass 
                                     //*********************************************************************************
                                     //***************************Fake Rate Application ***************************
                                     //*********************************************************************************
-                                    if (preSelection) {
+                                    if (preSelection && tauPtCheck) {
                                         fillTree(Run_Tree, m, PU_Weight, Cor_eff, 97, BareElectron[p], BareElectron[q], BareElectron[k], BareTau[l]);
                                     }
                                     //                                    if (preSelection && FR_Application) {

@@ -1,0 +1,18 @@
+rm limitDir/Visible_Total_Total_0.3_0.txt
+cp limitDir/Visible_Total_Total_0.3_0.root setups/std/em/htt_em.inputs-sm-8TeV.root
+./add_bbb_errors.py -f 'em:8TeV:00,01,02,03,04,05,06,07,:Zjets' -i setups/std -o  setups/std-bin-by-bin --normalize --threshold 0.10
+create-datacard.py -i  setups/std-bin-by-bin/em/htt_em.inputs-sm-8TeV.root -o card0.txt -c setups/std-bin-by-bin/em/cgs-sm-8TeV-00.conf  -u setups/std-bin-by-bin/em/unc-sm-8TeV-00.vals  -d setups/std-bin-by-bin/em/unc-sm-8TeV-00.conf 125 
+create-datacard.py -i  setups/std-bin-by-bin/em/htt_em.inputs-sm-8TeV.root -o card1.txt -c setups/std-bin-by-bin/em/cgs-sm-8TeV-01.conf  -u setups/std-bin-by-bin/em/unc-sm-8TeV-01.vals  -d setups/std-bin-by-bin/em/unc-sm-8TeV-01.conf 125 
+create-datacard.py -i  setups/std-bin-by-bin/em/htt_em.inputs-sm-8TeV.root -o card2.txt -c setups/std-bin-by-bin/em/cgs-sm-8TeV-02.conf  -u setups/std-bin-by-bin/em/unc-sm-8TeV-02.vals  -d setups/std-bin-by-bin/em/unc-sm-8TeV-02.conf 125 
+create-datacard.py -i  setups/std-bin-by-bin/em/htt_em.inputs-sm-8TeV.root -o card3.txt -c setups/std-bin-by-bin/em/cgs-sm-8TeV-03.conf  -u setups/std-bin-by-bin/em/unc-sm-8TeV-03.vals  -d setups/std-bin-by-bin/em/unc-sm-8TeV-03.conf 125 
+create-datacard.py -i  setups/std-bin-by-bin/em/htt_em.inputs-sm-8TeV.root -o card4.txt -c setups/std-bin-by-bin/em/cgs-sm-8TeV-04.conf  -u setups/std-bin-by-bin/em/unc-sm-8TeV-04.vals  -d setups/std-bin-by-bin/em/unc-sm-8TeV-04.conf 125 
+create-datacard.py -i  setups/std-bin-by-bin/em/htt_em.inputs-sm-8TeV.root -o card5.txt -c setups/std-bin-by-bin/em/cgs-sm-8TeV-05.conf  -u setups/std-bin-by-bin/em/unc-sm-8TeV-05.vals  -d setups/std-bin-by-bin/em/unc-sm-8TeV-05.conf 125 
+create-datacard.py -i  setups/std-bin-by-bin/em/htt_em.inputs-sm-8TeV.root -o card6.txt -c setups/std-bin-by-bin/em/cgs-sm-8TeV-06.conf  -u setups/std-bin-by-bin/em/unc-sm-8TeV-06.vals  -d setups/std-bin-by-bin/em/unc-sm-8TeV-06.conf 125 
+create-datacard.py -i  setups/std-bin-by-bin/em/htt_em.inputs-sm-8TeV.root -o card7.txt -c setups/std-bin-by-bin/em/cgs-sm-8TeV-07.conf  -u setups/std-bin-by-bin/em/unc-sm-8TeV-07.vals  -d setups/std-bin-by-bin/em/unc-sm-8TeV-07.conf 125 
+combineCards.py card0.txt card1.txt card2.txt card3.txt card4.txt card5.txt card6.txt card7.txt  > limitDir/Visible_Total_Total_0.3_0.txt
+echo "**************************************** " 
+echo "************* Visible_Total_Total_0.3_0 ************* " 
+echo "****************************************"  
+combine -M Asymptotic -m 125 limitDir/Visible_Total_Total_0.3_0.txt  -H ProfileLikelihood -n Visible_Total_Total_0.3_0  -t  -1  
+rm card0.txt card1.txt  roostats-* 
+

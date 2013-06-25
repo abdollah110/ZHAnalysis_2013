@@ -1,0 +1,601 @@
+./Make.sh Val1_FullHisto.cc
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 40 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.2_40.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.2_40.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.2_40.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 45 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.2_45.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.2_45.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.2_45.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 50 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.2_50.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.2_50.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.2_50.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 55 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.2_55.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.2_55.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.2_55.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.2 60 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.2_60.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.2_60.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.2_60.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 40 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.25_40.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.25_40.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.25_40.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 45 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.25_45.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.25_45.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.25_45.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 50 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.25_50.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.25_50.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.25_50.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 55 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.25_55.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.25_55.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.25_55.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.25 60 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.25_60.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.25_60.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.25_60.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 40 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.3_40.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.3_40.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.3_40.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 45 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.3_45.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.3_45.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.3_45.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 50 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.3_50.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.3_50.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.3_50.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 55 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.3_55.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.3_55.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.3_55.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.3 60 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.3_60.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.3_60.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.3_60.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 40 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.35_40.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.35_40.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.35_40.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 45 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.35_45.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.35_45.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.35_45.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 50 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.35_50.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.35_50.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.35_50.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 55 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.35_55.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.35_55.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.35_55.root 
+
+
+rm *.root
+rm outRoot/*.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhtt110.root  ../ROOTFiles/Results/zhtt110.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhtt115.root  ../ROOTFiles/Results/zhtt115.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhtt120.root  ../ROOTFiles/Results/zhtt120.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhtt125.root  ../ROOTFiles/Results/zhtt125.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhtt130.root  ../ROOTFiles/Results/zhtt130.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhtt135.root  ../ROOTFiles/Results/zhtt135.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhtt140.root  ../ROOTFiles/Results/zhtt140.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhtt145.root  ../ROOTFiles/Results/zhtt145.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhww110.root  ../ROOTFiles/Results/zhww110.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhww115.root  ../ROOTFiles/Results/zhww115.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhww120.root  ../ROOTFiles/Results/zhww120.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhww125.root  ../ROOTFiles/Results/zhww125.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhww130.root  ../ROOTFiles/Results/zhww130.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhww135.root  ../ROOTFiles/Results/zhww135.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhww140.root  ../ROOTFiles/Results/zhww140.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/zhww145.root  ../ROOTFiles/Results/zhww145.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/ZZ4L.root  ../ROOTFiles/Results/ZZ4L.root
+./Val1_FullHisto.exe  MT 3HitL 0.35 60 outRoot/Data.root  ../ROOTFiles/Results/Data.root
+cp  outRoot/Data.root valid_Mega.root 
+root .x -q Val2_FRMeasure.cc 
+root .x -q Val3_BGestimation.cc 
+python make_Results_2DTable.py 
+python make_Results_Histograms.py 
+mv tableAll.pdf  limitDir/MT3HitL_0.35_60.pdf 
+mv TotalRootForLimit_SV.root  limitDir/SV_MT_3HitL_0.35_60.root 
+mv TotalRootForLimit_Visible.root  limitDir/Visible_MT_3HitL_0.35_60.root 
+
+

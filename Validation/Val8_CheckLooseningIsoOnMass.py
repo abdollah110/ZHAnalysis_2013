@@ -44,7 +44,7 @@ if __name__ == "__main__":
     
 
     _file_input = TFile("valid_Mega.root", "OPEN")
-    hist_Data = _file_input.Get("VisibleMass_Shape_lltt")
+    hist_Data = _file_input.Get("SVMass_Shape_lltt_MVAIso0.2_LT30")
 
     hist_Data.GetYaxis().SetTitle("a.u.");
     hist_Data.GetYaxis().SetLabelSize(.03);
@@ -57,10 +57,10 @@ if __name__ == "__main__":
     hist_Data.SetLineColor(0)
     hist_Data.Draw()
 
-    testFiles = ['SVMass_Shape_lltt_00','SVMass_Shape_lltt_04', 'SVMass_Shape_lltt_05','SVMass_Shape_lltt_06','SVMass_Shape_lltt_07', 'SVMass_Shape_lltt_08']
-#    testFiles = ['OS_H_SVMass_Shape_lltt_07','SS_H_SVMass_Shape_lltt_07']
-#    testFiles = ['OS_H_VisibleMass_Shape_lltt_07','SS_H_VisibleMass_Shape_lltt_07']
-#    testFiles = ['OS_H_VisibleMass_Shape_lltt_07','OS_H_VisibleMass_Shape_lltt_00']
+
+#    testFiles = ['SVMass_Shape_lltt_MVAIso0.3_LT70','SVMass_Shape_lltt_MVAIso0.5_LT70', 'SVMass_Shape_lltt_MVAIso0.7_LT70']
+    testFiles = ['SVMass_Shape_lltt_MVAIso0.3_LT30','SVMass_Shape_lltt_MVAIso0.3_LT50', 'SVMass_Shape_lltt_MVAIso0.3_LT70']
+
     outHist = [0] * 6
     outFile = [0] * 6
     outName = [0] * 6
@@ -69,39 +69,11 @@ if __name__ == "__main__":
         outHist[i] = _file_input.Get(testFiles[i])
         print outHist[i].GetName() , outHist[i].Integral()
         outHist[i].Rebin(reB)
-#        outHist[i].SetMinimum(0)
-#        outHist[i].SetMaximum(0.6)
-#        outHist[i].GetXaxis().SetRangeUser(0, 300);
         outHist[i].SetLineColor(i+1)
         outHist[i].SetLineWidth(2)
         outHist[i].DrawNormalized("same")
         outName[i]=testFiles[i]
         
-#        hist_BGNormalization = outFile[i].Get("histo_Reducible")
-#        outHist[i] = XXX.Clone()
-#
-#        BGNormalization = int(hist_BGNormalization.GetBinContent(2)+hist_BGNormalization.GetBinContent(7))
-#        BGNormalization += int(hist_BGNormalization.GetBinContent(3)+hist_BGNormalization.GetBinContent(6))
-#        outHist[i].Scale(BGNormalization / outHist[i].Integral())
-#        print i, outHist[i].GetName(), outHist[i].Integral()
-#        outHist[i].SetLineColor(i + 2)
-#        outHist[i].SetLineWidth( 2)
-#        outHist[i].Draw("same")
-#        outName[i]=testFiles[i][:-5]
-#        outEst[i]=BGNormalization
-
-
-   
-#
-#    l = TLegend(0.40, 0.70, 0.7, 0.9, "", "brNDC")
-#    l.SetBorderSize(0)
-#    l.SetFillColor(0)
-#    l.SetTextSize(.03)
-##    l.AddEntry(hist_Data, "Data", "p")
-##    l.AddEntry(outHist[i], "BG Est.(one  tau Iso Reverted)", "lpf")
-##    l.AddEntry(hist_Estimation_ff, "BG Est.(both tau Iso Reverted)", "lpf")
-#    l.Draw()
-#
     #Text in Histogram
     t = TLatex()
     t.SetNDC()
@@ -109,11 +81,12 @@ if __name__ == "__main__":
     t.SetTextAlign(12)
     t.SetTextSize(0.025)
     t.DrawLatex(0.1, .92, "CMS Preliminary 2012")
-    t.DrawLatex(0.5, .92, "#sqrt{s} = 8 TeV, L = 19.0 fb^{-1}")
-    t.DrawLatex(0.5, .60, "Data, SS, 10 GeV Tau ")
+    t.DrawLatex(0.4, .92, "#sqrt{s} = 8 TeV, L = 19.8 fb^{-1}")
+    t.DrawLatex(0.7, .92, "SS Data")
+    t.DrawLatex(0.8, .92, "#tau#tau")
     for i in range(len(testFiles)):
         t.SetTextColor(i + 1)
-        t.DrawLatex(0.5, .52-((i + 1) / 20.), outName[i] )
+        t.DrawLatex(0.5, .87-((i + 1) / 20.), outName[i] )
 
 
 

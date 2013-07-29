@@ -43,14 +43,16 @@ if __name__ == "__main__":
     
 
     _file_input = TFile("valid_Mega.root", "OPEN")
-    hist_Data = _file_input.Get("H_SVMass_lltt_pp")
-    XXX = _file_input.Get("H_SVMass_Shape_lltt_07")
+    hist_Data = _file_input.Get("SVMass_tt_pp")
+    XXX = _file_input.Get("SVMass_Shape_lltt_MVAIso0.3_LT30")
     XXX.Rebin(reB)
 
     hist_Data.GetYaxis().SetTitle("# of Events");
-    hist_Data.GetXaxis().SetTitle("di-#tau  mass [GeV]");
+    hist_Data.GetXaxis().SetTitle("#tau#tau  mass [GeV]");
     hist_Data.GetYaxis().SetLabelSize(.03);
+    hist_Data.GetYaxis().SetTitleSize(.04);
     hist_Data.GetXaxis().SetLimits(0, 300)
+    hist_Data.GetXaxis().SetTitleSize(.04);
     hist_Data.Rebin(reB)
     hist_Data.SetMarkerStyle(20)
     hist_Data.SetMarkerSize(1.3)
@@ -59,8 +61,8 @@ if __name__ == "__main__":
     print "Data integral=  ", DataNormalization
 
 # Using OLDVal3____.py
-#    testFiles = ['tauFR_pt.root']
-    testFiles = [ 'tauCloseJet_pt.root','tauCloseJet_ptEta.root']
+    testFiles = ['Newtest.root']
+#    testFiles = [ 'tauCloseJet_pt.root','tauCloseJet_ptEta.root']
 #    testFiles = ['tauFR_pt.root', 'tauCloseJet_pt.root', 'tauRefJet_pt.root','tauFR_ptEta.root', 'tauCloseJet_ptEta.root', 'tauRefJet_ptEta.root']
 #    testFiles = ['tauFRx0.8.root', 'tauFRx0.9.root', 'tauFRx1.0.root','tauFRx1.1.root', 'tauFRx1.2.root']
     outHist = [0] * 6
@@ -72,27 +74,27 @@ if __name__ == "__main__":
         hist_BGNormalization = outFile[i].Get("histo_Reducible")
         outHist[i] = XXX.Clone()
 
-        BGNormalization = int(hist_BGNormalization.GetBinContent(1)+hist_BGNormalization.GetBinContent(5))
+        BGNormalization = int(hist_BGNormalization.GetBinContent(1) + hist_BGNormalization.GetBinContent(5))
         outHist[i].Scale(BGNormalization / outHist[i].Integral())
         print i, outHist[i].GetName(), outHist[i].Integral()
-        clr =  i+1
-        if i==4: clr = 7
-        outHist[i].SetLineColor(clr)
-        outHist[i].SetLineWidth( 2)
+        clr = i + 1
+        if i == 4: clr = 7
+        outHist[i].SetLineColor(clr+1)
+        outHist[i].SetLineWidth(2)
         outHist[i].GetXaxis().SetLimits(0, 300)
         outHist[i].Draw("same")
-        outName[i]=testFiles[i][:-5]
-        outEst[i]=BGNormalization
+        outName[i] = testFiles[i][:-5]
+        outEst[i] = BGNormalization
 
 
    
 
-    l = TLegend(0.40, 0.70, 0.7, 0.9, "", "brNDC")
+    l = TLegend(0.35, 0.70, 0.7, 0.9, "", "brNDC")
     l.SetBorderSize(0)
     l.SetFillColor(0)
     l.SetTextSize(.03)
-#    l.AddEntry(hist_Data, "Data", "p")
-#    l.AddEntry(outHist[i], "BG Est.(one  tau Iso Reverted)", "lpf")
+    l.AddEntry(hist_Data, "SS Data ", "p")
+    l.AddEntry(outHist[i], "BG Est.(Shape from Relaxed Tau Iso.)", "lpf")
 #    l.AddEntry(hist_Estimation_ff, "BG Est.(both tau Iso Reverted)", "lpf")
     l.Draw()
 
@@ -101,16 +103,18 @@ if __name__ == "__main__":
     t.SetNDC()
     t.SetTextFont(62)
     t.SetTextAlign(12)
-    t.SetTextSize(0.025)
+    t.SetTextSize(0.03)
     t.DrawLatex(0.1, .92, "CMS Preliminary 2012")
-    t.DrawLatex(0.5, .92, "#sqrt{s} = 8 TeV, L = 19.0 fb^{-1}")
-    t.DrawLatex(0.5, .60, "Data, SS, 10 GeV Tau LooseIso")
-    t.DrawLatex(0.5, .52, "Data = " + str(DataNormalization) )
-    for i in range(len(testFiles)):
-        clr =  i+1
-        if i==4: clr = 7
-        t.SetTextColor(clr)
-        t.DrawLatex(0.5, .52-((i+1)/20.),  outName[i] +" = " + str(outEst[i]) )
+    t.DrawLatex(0.45, .92, "#sqrt{s} = 8 TeV, L = 19.8 fb^{-1}")
+    t.DrawLatex(0.80, .92, "ll#tau#tau")
+#    t.DrawLatex(0.5, .60, "Data, SS, 10 GeV Tau LooseIso")
+#    t.DrawLatex(0.5, .52, "Data = " + str(DataNormalization))
+############### Tp Print Normalization in the plots
+#    for i in range(len(testFiles)):
+#        clr = i + 1
+#        if i == 4: clr = 7
+#        t.SetTextColor(clr)
+#        t.DrawLatex(0.5, .52-((i + 1) / 20.), outName[i] + " = " + str(outEst[i]))
 
 
 

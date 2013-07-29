@@ -43,13 +43,28 @@ if __name__ == "__main__":
     
 
     _file_input = TFile("valid_Mega.root", "OPEN")
-    hist_Data = _file_input.Get("VisibleMass_lllt_pp")
-    XXX = _file_input.Get("H_VisibleMass_Shape_lllt")
+    hist_Data = _file_input.Get("SVMass_lt_pp")
+    XXX = _file_input.Get("SVMass_Shape_lllt")
     XXX.Rebin(reB)
 
+
+#    hist_Data.GetYaxis().SetTitle("# of Events");
+#    hist_Data.GetXaxis().SetTitle("l#tau visible mass [GeV]");
+#    hist_Data.GetXaxis().SetRangeUser(0, 300);
+#    hist_Data.Rebin(reB)
+#    hist_Data.SetMarkerStyle(20)
+#    hist_Data.SetMarkerSize(1.3)
+#    hist_Data.Draw("pe")
+#    DataNormalization = int(hist_Data.Integral())
+#    print "Data integral=  ", DataNormalization
+
+
     hist_Data.GetYaxis().SetTitle("# of Events");
-    hist_Data.GetXaxis().SetTitle("l#tau visible mass [GeV]");
-    hist_Data.GetXaxis().SetRangeUser(0, 300);
+    hist_Data.GetXaxis().SetTitle("l#tau  mass [GeV]");
+    hist_Data.GetYaxis().SetLabelSize(.03);
+    hist_Data.GetYaxis().SetTitleSize(.04);
+    hist_Data.GetXaxis().SetRangeUser(0, 300)
+    hist_Data.GetXaxis().SetTitleSize(.04);
     hist_Data.Rebin(reB)
     hist_Data.SetMarkerStyle(20)
     hist_Data.SetMarkerSize(1.3)
@@ -57,7 +72,7 @@ if __name__ == "__main__":
     DataNormalization = int(hist_Data.Integral())
     print "Data integral=  ", DataNormalization
 
-    testFiles = ['tauJetlepJet.root']
+    testFiles = ['Newtest.root']
 #    testFiles = ['tauJetlepPt.root', 'tauPtlepPt.root', 'tauJetlepJet.root']
     outHist = [0] * 6
     outFile = [0] * 6
@@ -81,12 +96,13 @@ if __name__ == "__main__":
 
    
 
-    l = TLegend(0.40, 0.70, 0.7, 0.9, "", "brNDC")
+
+    l = TLegend(0.35, 0.70, 0.7, 0.9, "", "brNDC")
     l.SetBorderSize(0)
     l.SetFillColor(0)
     l.SetTextSize(.03)
-#    l.AddEntry(hist_Data, "Data", "p")
-#    l.AddEntry(outHist[i], "BG Est.(one  tau Iso Reverted)", "lpf")
+    l.AddEntry(hist_Data, "SS Data ", "p")
+    l.AddEntry(outHist[i], "BG Est.(Shape from Relaxed Isolation)", "lpf")
 #    l.AddEntry(hist_Estimation_ff, "BG Est.(both tau Iso Reverted)", "lpf")
     l.Draw()
 
@@ -95,14 +111,33 @@ if __name__ == "__main__":
     t.SetNDC()
     t.SetTextFont(62)
     t.SetTextAlign(12)
-    t.SetTextSize(0.025)
+    t.SetTextSize(0.03)
     t.DrawLatex(0.1, .92, "CMS Preliminary 2012")
-    t.DrawLatex(0.5, .92, "#sqrt{s} = 8 TeV, L = 19.0 fb^{-1}")
-    t.DrawLatex(0.5, .60, "Data, SS, 10 GeV Tau LooseIso")
-    t.DrawLatex(0.5, .52, "Data = " + str(DataNormalization) )
-    for i in range(len(testFiles)):
-        t.SetTextColor(i+2)
-        t.DrawLatex(0.5, .52-((i+1)/20.),  outName[i] +" = " + str(outEst[i]) )
+    t.DrawLatex(0.45, .92, "#sqrt{s} = 8 TeV, L = 19.8 fb^{-1}")
+    t.DrawLatex(0.77, .92, "lle#tau + ll#mu#tau")
+#
+#    l = TLegend(0.40, 0.70, 0.7, 0.9, "", "brNDC")
+#    l.SetBorderSize(0)
+#    l.SetFillColor(0)
+#    l.SetTextSize(.03)
+##    l.AddEntry(hist_Data, "Data", "p")
+##    l.AddEntry(outHist[i], "BG Est.(one  tau Iso Reverted)", "lpf")
+##    l.AddEntry(hist_Estimation_ff, "BG Est.(both tau Iso Reverted)", "lpf")
+#    l.Draw()
+#
+#    #Text in Histogram
+#    t = TLatex()
+#    t.SetNDC()
+#    t.SetTextFont(62)
+#    t.SetTextAlign(12)
+#    t.SetTextSize(0.025)
+#    t.DrawLatex(0.1, .92, "CMS Preliminary 2012")
+#    t.DrawLatex(0.5, .92, "#sqrt{s} = 8 TeV, L = 19.0 fb^{-1}")
+#    t.DrawLatex(0.5, .60, "Data, SS, 10 GeV Tau LooseIso")
+#    t.DrawLatex(0.5, .52, "Data = " + str(DataNormalization) )
+#    for i in range(len(testFiles)):
+#        t.SetTextColor(i+2)
+#        t.DrawLatex(0.5, .52-((i+1)/20.),  outName[i] +" = " + str(outEst[i]) )
 
 
 

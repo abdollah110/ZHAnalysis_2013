@@ -42,8 +42,8 @@ void M_FR(int WP, std::string type, std::string files, std::string num, std::str
     cout << "---------------------------------------------------------------" << endl;
     cout << num.c_str() << " = " << Numerator->Integral(11, 200) << "/" << Denumerator->Integral(11, 200) << "  =  " << ConstFR << endl;
     cout << "---------------------------------------------------------------" << endl;
-    TH1D *Num_rebin = (TH1D*) Numerator->Rebin(5);
-    TH1D *Denum_rebin = (TH1D*) Denumerator->Rebin(5);
+    TH1D *Num_rebin = (TH1D*) Numerator->Rebin(10);
+    TH1D *Denum_rebin = (TH1D*) Denumerator->Rebin(10);
 
     TGraphAsymmErrors * TGraph_FR = new TGraphAsymmErrors(Num_rebin, Denum_rebin);
 
@@ -96,7 +96,7 @@ void Val2_FRMeasure() {
     TH2F * Fit_Value_emu = new TH2F("Fit_Value_emu", "Fit_Value_emu", 20, 0, 20, 20, 0, 20);
 
     Double_t fMin = 10;
-//    Double_t fMax = 90;
+    //    Double_t fMax = 90;
     Double_t fMax = 300;
 
     //#########################
@@ -137,10 +137,14 @@ void Val2_FRMeasure() {
     //    M_FR(28, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Medium_E", "FakeRate_TT_Tau_Pt_Before_E", Fit_Value_tau, fMin, fMax);
     //    M_FR(29, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_E", "FakeRate_TT_Tau_Pt_Before_E", Fit_Value_tau, fMin, fMax);
     M_FR(30, "Line2Par", "valid_Mega.root", "FakeRate_TT_Tau_Eta_After_Loose_RefJet", "FakeRate_TT_Tau_Eta_Before_RefJet", Fit_Value_tau, fMin, fMax);
+    //#########################
+    //Jet-->Tau FR in Ltau Final state
+    M_FR(34, "Exp3Par", "valid_Mega.root", "FakeRate_LT_Tau_Pt_After_Loose_CloseJet_B", "FakeRate_LT_Tau_Pt_Before_CloseJet_B", Fit_Value_tau, fMin, fMax);
+    M_FR(37, "Exp3Par", "valid_Mega.root", "FakeRate_LT_Tau_Pt_After_Loose_CloseJet_E", "FakeRate_LT_Tau_Pt_Before_CloseJet_E", Fit_Value_tau, fMin, fMax);
 
     //E-Mu Fake Rate
     fMin = 10;
-//    fMax = 90;
+    //    fMax = 90;
     fMax = 100;
     M_FR(1, "Line2Par", "valid_Mega.root", "4objFR_Ele_NumLoose_0", "4objFR_Ele_Denum_0", Fit_Value_emu, fMin, fMax);
     M_FR(2, "Line2Par", "valid_Mega.root", "4objFR_Ele_NumTight_0", "4objFR_Ele_Denum_0", Fit_Value_emu, fMin, fMax);

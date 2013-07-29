@@ -220,7 +220,6 @@ int main(int argc, char** argv) {
     int Ev_double_mu = 0;
 
     Int_t nentries_wtn = (Int_t) Run_Tree->GetEntries();
-    int y = 0;
     for (Int_t i = 0; i < nentries_wtn; i++) {
         Run_Tree->GetEntry(i);
         if (i % 10000 == 0) fprintf(stdout, "\r  Processed events: %8d of %8d ", i, nentries_wtn);
@@ -230,7 +229,7 @@ int main(int argc, char** argv) {
         //values
         //###############################################################################################
         float dMZ_Diff = 10;
-        float looseLep = 0.3;
+        float looseLep = 0.5;
         float looseEle = 0.3;
         float looseMu = 0.3;
         float tightEle = 0.10;
@@ -243,12 +242,16 @@ int main(int argc, char** argv) {
         bool SS = l3Charge * l4Charge > 0;
         bool OS = l3Charge * l4Charge < 0;
         float CutOnTauPt = 15;
-        bool tau3_IsoB = l3_tauIso3HitL;
-        bool tau4_IsoB = l4_tauIso3HitL;
+        //        bool tau3_IsoB = l3_tauIso3HitL;
+        //        bool tau4_IsoB = l4_tauIso3HitL;
         //        bool LTcut = l3_CloseJetPt + l4_CloseJetPt > 50;
-        bool LTcut = l3Pt + l4Pt > 75;
-        //        bool tau3_IsoB = l3_tauIsoMVA2raw > .5;
-        //        bool tau4_IsoB = l4_tauIsoMVA2raw > .5;
+        float Valu_LT = l3Pt + l4Pt;
+        bool LTcut = l3Pt + l4Pt > 70;
+        bool LTcut_MT = l3Pt + l4Pt > 0;
+        bool LTcut_ET = l3Pt + l4Pt > 0;
+        bool LTcut_EM = l3Pt + l4Pt > 20;
+        bool tau3_IsoB = l3_tauIsoMVA2raw > .8;
+        bool tau4_IsoB = l4_tauIsoMVA2raw > .8;
 
         //####################################################
         // MMTT FakeRateation
@@ -258,23 +261,22 @@ int main(int argc, char** argv) {
         TLorentzVector Total = l3 + l4;
         TLorentzVector scaleUpl3 = l3 * 1.03;
 
-        if ((Channel == 91) && LTcut && l3Pt > CutOnTauPt && l4Pt > CutOnTauPt && l3_tauRejMu2L && l3_tauRejEleL && l4_tauRejMu2L && l4_tauRejEleL) {
-//            cout << HMass <<" "<< Total.M()<<" " <<HMass - Total.M() << endl;
+        if ((Channel == 91) && l3Pt > CutOnTauPt && l4Pt > CutOnTauPt && l3_tauRejMu2L && l3_tauRejEleL && l4_tauRejMu2L && l4_tauRejEleL) {
 
             //4 Categories
-            if (charge_Type && !tau3_IsoB && !tau4_IsoB && (Event != Event_Double[1][1])) {
+            if (LTcut && charge_Type && !tau3_IsoB && !tau4_IsoB && (Event != Event_Double[1][1])) {
                 fillTreeN(BG_Tree, Channel, 0, HMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
                 Event_Double[1][1] = Event;
             }
-            if (charge_Type && tau3_IsoB && !tau4_IsoB && (Event != Event_Double[2][1])) {
+            if (LTcut && charge_Type && tau3_IsoB && !tau4_IsoB && (Event != Event_Double[2][1])) {
                 fillTreeN(BG_Tree, Channel, 1, HMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
                 Event_Double[2][1] = Event;
             }
-            if (charge_Type && !tau3_IsoB && tau4_IsoB && (Event != Event_Double[3][1])) {
+            if (LTcut && charge_Type && !tau3_IsoB && tau4_IsoB && (Event != Event_Double[3][1])) {
                 fillTreeN(BG_Tree, Channel, 2, HMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
                 Event_Double[3][1] = Event;
             }
-            if (charge_Type && tau3_IsoB && tau4_IsoB && (Event != Event_Double[0][1])) {
+            if (LTcut && charge_Type && tau3_IsoB && tau4_IsoB && (Event != Event_Double[0][1])) {
                 plotFill("VisibleMass_tt_pp", HMass, pt_Bin, 0, pt_Bin);
                 plotFill("SVMass_tt_pp", SVMass, pt_Bin, 0, pt_Bin);
                 plotFill("SVMass_mmtt_pp", SVMass, pt_Bin, 0, pt_Bin);
@@ -282,57 +284,28 @@ int main(int argc, char** argv) {
                 Event_Double[0][1] = Event;
             }
             //Shape of Reducible BG
-            if (SS && l3_tauIsoMVA2raw > 0.7 && l4_tauIsoMVA2raw > 0.7 && (Event != Event_Double[4][1])) {
-                plotFill("VisibleMass_Shape_lltt", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("Z_Mass_Shape_lltt", ZMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
-                Event_Double[4][1] = Event;
+            for (int ni = 2; ni < 9; ni++) {
+                for (int nj = 3; nj < 8; nj++) {
+                    std::string textVis = "VisibleMass_Shape_lltt_MVAIso0.";
+                    std::string textSVM = "SVMass_Shape_lltt_MVAIso0.";
+                    std::ostringstream stri;
+                    std::ostringstream strj;
+                    stri << ni;
+                    strj << nj * 10;
+                    textVis = textVis + stri.str() + "_LT" + strj.str();
+                    textSVM = textSVM + stri.str() + "_LT" + strj.str();
+                    if (Valu_LT > (nj * 10.) && SS && l3_tauIsoMVA2raw > (ni * .1) && l4_tauIsoMVA2raw > (ni * .1)) {
+                        plotFill(textVis, HMass, pt_Bin, 0, pt_Bin);
+                        plotFill(textSVM, SVMass, pt_Bin, 0, pt_Bin);
+                    }
+                }
             }
-            if (SS && l3_tauIsoMVA2raw > 0 && l4_tauIsoMVA2raw > 0) {
-                plotFill("VisibleMass_Shape_lltt_00", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SS_VisibleMass_Shape_lltt_00", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SVMass_Shape_lltt_00", SVMass, pt_Bin, 0, pt_Bin);
-                plotFill("SS_SVMass_Shape_lltt_00", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            if (SS && l3_tauIsoMVA2raw > 0.4 && l4_tauIsoMVA2raw > 0.4) {
-                plotFill("VisibleMass_Shape_lltt_04", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SVMass_Shape_lltt_04", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            if (SS && l3_tauIsoMVA2raw > 0.5 && l4_tauIsoMVA2raw > 0.5) {
-                plotFill("VisibleMass_Shape_lltt_05", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SVMass_Shape_lltt_05", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            if (SS && l3_tauIsoMVA2raw > 0.6 && l4_tauIsoMVA2raw > 0.6) {
-                plotFill("VisibleMass_Shape_lltt_06", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SVMass_Shape_lltt_06", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            if (SS && l3_tauIsoMVA2raw > 0.7 && l4_tauIsoMVA2raw > 0.7) {
-                plotFill("VisibleMass_Shape_lltt_07", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SS_VisibleMass_Shape_lltt_07", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SVMass_Shape_lltt_07", SVMass, pt_Bin, 0, pt_Bin);
-                plotFill("SS_SVMass_Shape_lltt_07", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            if (SS && l3_tauIsoMVA2raw > 0.8 && l4_tauIsoMVA2raw > 0.8) {
-                plotFill("VisibleMass_Shape_lltt_08", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SVMass_Shape_lltt_08", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            //            Opposite sign
-            if (OS && l3_tauIsoMVA2raw > 0 && l4_tauIsoMVA2raw > 0) {
-                plotFill("OS_VisibleMass_Shape_lltt_00", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("OS_SVMass_Shape_lltt_00", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            if (OS && l3_tauIsoMVA2raw > 0.7 && l4_tauIsoMVA2raw > 0.7) {
-                plotFill("OS_VisibleMass_Shape_lltt_07", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("OS_SVMass_Shape_lltt_07", SVMass, pt_Bin, 0, pt_Bin);
-            }
-
         }
-
-
         //####################################################
         //  Fake Rate Application (MMET)
         //####################################################
 
-        if (Channel == 92 && charge_Type && LTcut && l4Pt > CutOnTauPt && mu_Size == 2 && l4_tauRejEleMVA3T && l4_tauRejMu2L) {
+        if (Channel == 92 && charge_Type && LTcut_ET && l4Pt > CutOnTauPt && mu_Size == 2 && l4_tauRejEleMVA3T && l4_tauRejMu2L) {
 
 
 
@@ -356,9 +329,9 @@ int main(int argc, char** argv) {
                 Event_Double[0][2] = Event;
             }
             //Shape of Reducible BG
-            if (SS && l4_tauIsoMVA2raw > 0.7 && (l3_eleId_Loose && (l3_eleIso < 1.0)) && (Event != Event_Double[4][2])) {
-                plotFill("VisibleMass_Shape_llet", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("VisibleMass_Shape_lllt", HMass, pt_Bin, 0, pt_Bin);
+            if (SS && l4_tauIsoMVA2raw > 0.3 && ((l3_eleIso < 2.0)) && (Event != Event_Double[4][2])) {
+                plotFill("SVMass_Shape_llet", SVMass, pt_Bin, 0, pt_Bin);
+                plotFill("SVMass_Shape_lllt", SVMass, pt_Bin, 0, pt_Bin);
                 Event_Double[4][2] = Event;
             }
 
@@ -368,7 +341,7 @@ int main(int argc, char** argv) {
         //  Fake Rate Application (MMMT)
         //####################################################
 
-        if (Channel == 93 && charge_Type && LTcut && l4Pt > CutOnTauPt && electron_Size == 0 && l4_tauRejEleL && l4_tauRejMu2T) {
+        if (Channel == 93 && charge_Type && LTcut_MT && l4Pt > CutOnTauPt && electron_Size == 0 && l4_tauRejEleL && l4_tauRejMu2T) {
 
             if (!tau4_IsoB && (!l3_muId_Loose || !(l3_muIso < looseMu)) && (Event != Event_Double[1][3])) {
                 fillTreeN(BG_Tree, Channel, 0, HMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
@@ -390,9 +363,9 @@ int main(int argc, char** argv) {
                 Event_Double[0][3] = Event;
             }
             //Shape of Reducible BG
-            if (SS && l4_tauIsoMVA2raw > 0.7 && (l3_muId_Loose && (l3_muIso < 1.0)) && (Event != Event_Double[4][3])) {
-                plotFill("VisibleMass_Shape_llmt", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("VisibleMass_Shape_lllt", HMass, pt_Bin, 0, pt_Bin);
+            if (SS && l4_tauIsoMVA2raw > 0.3 && ((l3_muIso < 2.0)) && (Event != Event_Double[4][3])) {
+                plotFill("SVMass_Shape_llmt", SVMass, pt_Bin, 0, pt_Bin);
+                plotFill("SVMass_Shape_lllt", SVMass, pt_Bin, 0, pt_Bin);
                 Event_Double[4][3] = Event;
             }
 
@@ -401,7 +374,7 @@ int main(int argc, char** argv) {
         //####################################################
         //  Fake Rate Application (mmme)
         //####################################################
-        if (Channel == 94 && charge_Type) {
+        if (Channel == 94 && charge_Type && LTcut_EM) {
 
             if ((!l4_eleId_Loose || !(l4_eleIso < looseLep)) && (!l3_muId_Loose || !(l3_muIso < looseLep)) && (Event != Event_Double[1][4])) {
                 fillTreeN(BG_Tree, Channel, 0, HMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
@@ -433,23 +406,23 @@ int main(int argc, char** argv) {
         //####################################################
         //####################################################
 
-        if ((Channel == 95) && LTcut && l3Pt > CutOnTauPt && l4Pt > CutOnTauPt && l3_tauRejMu2L && l3_tauRejEleL && l4_tauRejMu2L && l4_tauRejEleL) {
+        if ((Channel == 95) && l3Pt > CutOnTauPt && l4Pt > CutOnTauPt && l3_tauRejMu2L && l3_tauRejEleL && l4_tauRejMu2L && l4_tauRejEleL) {
 
 
             //4 Categories
-            if (charge_Type && !tau3_IsoB && !tau4_IsoB && (Event != Event_Double[1][5])) {
+            if (LTcut && charge_Type && !tau3_IsoB && !tau4_IsoB && (Event != Event_Double[1][5])) {
                 fillTreeN(BG_Tree, Channel, 0, HMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
                 Event_Double[1][5] = Event;
             }
-            if (charge_Type && tau3_IsoB && !tau4_IsoB && (Event != Event_Double[2][5])) {
+            if (LTcut && charge_Type && tau3_IsoB && !tau4_IsoB && (Event != Event_Double[2][5])) {
                 fillTreeN(BG_Tree, Channel, 1, HMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
                 Event_Double[2][5] = Event;
             }
-            if (charge_Type && !tau3_IsoB && tau4_IsoB && (Event != Event_Double[3][5])) {
+            if (LTcut && charge_Type && !tau3_IsoB && tau4_IsoB && (Event != Event_Double[3][5])) {
                 fillTreeN(BG_Tree, Channel, 2, HMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
                 Event_Double[3][5] = Event;
             }
-            if (charge_Type && tau3_IsoB && tau4_IsoB && (Event != Event_Double[0][5])) {
+            if (LTcut && charge_Type && tau3_IsoB && tau4_IsoB && (Event != Event_Double[0][5])) {
                 plotFill("VisibleMass_tt_pp", HMass, pt_Bin, 0, pt_Bin);
                 plotFill("SVMass_tt_pp", SVMass, pt_Bin, 0, pt_Bin);
                 plotFill("SVMass_eett_pp", SVMass, pt_Bin, 0, pt_Bin);
@@ -457,55 +430,28 @@ int main(int argc, char** argv) {
                 Event_Double[0][5] = Event;
             }
             //Shape of Reducible BG
-            if (SS && l3_tauIsoMVA2raw > 0.7 && l4_tauIsoMVA2raw > 0.7 && (Event != Event_Double[4][5])) {
-                plotFill("VisibleMass_Shape_lltt", HMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
-                plotFill("Z_Mass_Shape_lltt", ZMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
-                Event_Double[4][5] = Event;
+            for (int ni = 2; ni < 9; ni++) {
+                for (int nj = 3; nj < 8; nj++) {
+                    std::string textVis = "VisibleMass_Shape_lltt_MVAIso0.";
+                    std::string textSVM = "SVMass_Shape_lltt_MVAIso0.";
+                    std::ostringstream stri;
+                    std::ostringstream strj;
+                    stri << ni;
+                    strj << nj * 10;
+                    textVis = textVis + stri.str() + "_LT" + strj.str();
+                    textSVM = textSVM + stri.str() + "_LT" + strj.str();
+                    if (Valu_LT > (nj * 10.) && SS && l3_tauIsoMVA2raw > (ni * .1) && l4_tauIsoMVA2raw > (ni * .1)) {
+                        plotFill(textVis, HMass, pt_Bin, 0, pt_Bin);
+                        plotFill(textSVM, SVMass, pt_Bin, 0, pt_Bin);
+                    }
+                }
             }
-            if (SS && l3_tauIsoMVA2raw > 0 && l4_tauIsoMVA2raw > 0) {
-                plotFill("VisibleMass_Shape_lltt_00", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SS_VisibleMass_Shape_lltt_00", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SVMass_Shape_lltt_00", SVMass, pt_Bin, 0, pt_Bin);
-                plotFill("SS_SVMass_Shape_lltt_00", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            if (SS && l3_tauIsoMVA2raw > 0.4 && l4_tauIsoMVA2raw > 0.4) {
-                plotFill("VisibleMass_Shape_lltt_04", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SVMass_Shape_lltt_04", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            if (SS && l3_tauIsoMVA2raw > 0.5 && l4_tauIsoMVA2raw > 0.5) {
-                plotFill("VisibleMass_Shape_lltt_05", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SVMass_Shape_lltt_05", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            if (SS && l3_tauIsoMVA2raw > 0.6 && l4_tauIsoMVA2raw > 0.6) {
-                plotFill("VisibleMass_Shape_lltt_06", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SVMass_Shape_lltt_06", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            if (SS && l3_tauIsoMVA2raw > 0.7 && l4_tauIsoMVA2raw > 0.7) {
-                plotFill("VisibleMass_Shape_lltt_07", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SS_VisibleMass_Shape_lltt_07", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SVMass_Shape_lltt_07", SVMass, pt_Bin, 0, pt_Bin);
-                plotFill("SS_SVMass_Shape_lltt_07", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            if (SS && l3_tauIsoMVA2raw > 0.8 && l4_tauIsoMVA2raw > 0.8) {
-                plotFill("VisibleMass_Shape_lltt_08", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("SVMass_Shape_lltt_08", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            //                  Opposite sign
-            if (OS && l3_tauIsoMVA2raw > 0 && l4_tauIsoMVA2raw > 0) {
-                plotFill("OS_VisibleMass_Shape_lltt_00", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("OS_SVMass_Shape_lltt_00", SVMass, pt_Bin, 0, pt_Bin);
-            }
-            if (OS && l3_tauIsoMVA2raw > 0.7 && l4_tauIsoMVA2raw > 0.7) {
-                plotFill("OS_VisibleMass_Shape_lltt_07", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("OS_SVMass_Shape_lltt_07", SVMass, pt_Bin, 0, pt_Bin);
-            }
-
         }
         //####################################################
         //  Fake Rate Application (EEMT)
         //####################################################
 
-        if (Channel == 96 && charge_Type && LTcut && l4Pt > CutOnTauPt && electron_Size == 2 && l4_tauRejEleL && l4_tauRejMu2T) {
+        if (Channel == 96 && charge_Type && LTcut_MT && l4Pt > CutOnTauPt && electron_Size == 2 && l4_tauRejEleL && l4_tauRejMu2T) {
 
             if (!tau4_IsoB && (!l3_muId_Loose || !(l3_muIso < looseMu)) && (Event != Event_Double[1][6])) {
                 fillTreeN(BG_Tree, Channel, 0, HMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
@@ -527,9 +473,9 @@ int main(int argc, char** argv) {
                 Event_Double[0][6] = Event;
             }
             //Shape of Reducible BG
-            if (SS && l4_tauIsoMVA2raw > 0.7 && (l3_muId_Loose && (l3_muIso < 1.0)) && (Event != Event_Double[4][6])) {
-                plotFill("VisibleMass_Shape_llmt", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("VisibleMass_Shape_lllt", HMass, pt_Bin, 0, pt_Bin);
+            if (SS && l4_tauIsoMVA2raw > 0.3 && ((l3_muIso < 2.0)) && (Event != Event_Double[4][6])) {
+                plotFill("SVMass_Shape_llmt", SVMass, pt_Bin, 0, pt_Bin);
+                plotFill("SVMass_Shape_lllt", SVMass, pt_Bin, 0, pt_Bin);
                 Event_Double[4][6] = Event;
             }
         }
@@ -537,7 +483,7 @@ int main(int argc, char** argv) {
         //  Fake Rate Application (EEET)
         //####################################################
 
-        if (Channel == 97 && charge_Type && LTcut && l4Pt > CutOnTauPt && mu_Size == 0 && l4_tauRejEleMVA3T && l4_tauRejMu2L) {
+        if (Channel == 97 && charge_Type && LTcut_ET && l4Pt > CutOnTauPt && mu_Size == 0 && l4_tauRejEleMVA3T && l4_tauRejMu2L) {
 
             if (!tau4_IsoB && (!l3_eleId_Loose || !(l3_eleIso < looseEle)) && (Event != Event_Double[1][7])) {
                 fillTreeN(BG_Tree, Channel, 0, HMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
@@ -559,9 +505,9 @@ int main(int argc, char** argv) {
                 Event_Double[0][7] = Event;
             }
             //Shape of Reducible BG
-            if (SS && l4_tauIsoMVA2raw > 0.7 && (l3_eleId_Loose && (l3_eleIso < 1.0)) && (Event != Event_Double[4][7])) {
-                plotFill("VisibleMass_Shape_llet", HMass, pt_Bin, 0, pt_Bin);
-                plotFill("VisibleMass_Shape_lllt", HMass, pt_Bin, 0, pt_Bin);
+            if (SS && l4_tauIsoMVA2raw > 0.3 && ((l3_eleIso < 2.0)) && (Event != Event_Double[4][7])) {
+                plotFill("SVMass_Shape_llet", SVMass, pt_Bin, 0, pt_Bin);
+                plotFill("SVMass_Shape_lllt", SVMass, pt_Bin, 0, pt_Bin);
                 Event_Double[4][7] = Event;
             }
 
@@ -570,7 +516,7 @@ int main(int argc, char** argv) {
         //####################################################
         //  Fake Rate Application (eeem)
         //####################################################
-        if (Channel == 98 && charge_Type) {
+        if (Channel == 98 && charge_Type && LTcut_EM) {
 
             if ((!l3_eleId_Loose || !(l3_eleIso < looseLep)) && (!l4_muId_Loose || !(l4_muIso < looseLep)) && (Event != Event_Double[1][8])) {
                 fillTreeN(BG_Tree, Channel, 0, HMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
@@ -610,7 +556,8 @@ int main(int argc, char** argv) {
         //####################################################
         bool FR_Estimation = true;
 
-        if ((Channel == 91 || Channel == 95) && SS && LTcut && l3Pt > CutOnTauPt && l4Pt > CutOnTauPt && l3_tauRejMu2L && l3_tauRejEleL && l4_tauRejMu2L && l4_tauRejEleL && Event != Ev_double_tau) {
+        if ((Channel == 91 || Channel == 95) && SS && l3Pt + l4Pt > 60 && l3Pt > CutOnTauPt && l4Pt > CutOnTauPt && l3_tauRejMu2L && l3_tauRejEleL && l4_tauRejMu2L && l4_tauRejEleL && Event != Ev_double_tau) {
+            //        if ((Channel == 91 || Channel == 95) && SS && LTcut && l3Pt > CutOnTauPt && l4Pt > CutOnTauPt && l3_tauRejMu2L && l3_tauRejEleL && l4_tauRejMu2L && l4_tauRejEleL && Event != Ev_double_tau) {
             //        if ((Channel == 91 || Channel == 95) && SS && LTcut && l3Pt > CutOnTauPt && l4Pt > CutOnTauPt && l3_tauRejMu2L && l3_tauRejEleL && l4_tauRejMu2L && l4_tauRejEleL && Event != Ev_double_tau) {
 
             Ev_double_tau = Event;
@@ -728,12 +675,24 @@ int main(int argc, char** argv) {
         if (FR_Estimation) plotFill("FakeRate_TT_Tau_Eta_Before_CloseJet", l4_CloseJetEta, 250, -2.5, 2.5);
         if (FR_Estimation && tau3_IsoB) plotFill("FakeRate_TT_Tau_Eta_After_Loose_CloseJet", l3_CloseJetEta, 250, -2.5, 2.5);
         if (FR_Estimation && tau4_IsoB) plotFill("FakeRate_TT_Tau_Eta_After_Loose_CloseJet", l4_CloseJetEta, 250, -2.5, 2.5);
+
+
+        //####################################################
+        //  tauFR in Ltau Final State
+        //####################################################
+        //        bool lepFR_denum_0 = ((Channel == 92 && electron_Size < 2) || (Channel == 97 && electron_Size < 4) || (Channel == 93 && mu_Size < 4) || (Channel == 96 && mu_Size < 2)) && SS && WZ_Rej_B(l3Pt, l3Px, l3Py, met, metPhi) && l4Pt > 15 && l4_tauRejMu2L && l4_tauRejEleL;
+        bool lepFR_denum_0 = SS && l4Pt > 15 && (((Channel == 92 || Channel == 97) && (l4_tauRejEleMVA3T && l4_tauRejMu2L)) || ((Channel == 93 || Channel == 96) && l4_tauRejEleL && l4_tauRejMu2T));
+        if (lepFR_denum_0 && l4_CloseJetEta < 1.4) plotFill("FakeRate_LT_Tau_Pt_Before_CloseJet_B", l4_CloseJetPt, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
+        if (lepFR_denum_0 && l4_CloseJetEta > 1.4) plotFill("FakeRate_LT_Tau_Pt_Before_CloseJet_E", l4_CloseJetPt, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
+        if (lepFR_denum_0 && tau4_IsoB && l4_CloseJetEta < 1.4) plotFill("FakeRate_LT_Tau_Pt_After_Loose_CloseJet_B", l4_CloseJetPt, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
+        if (lepFR_denum_0 && tau4_IsoB && l4_CloseJetEta > 1.4) plotFill("FakeRate_LT_Tau_Pt_After_Loose_CloseJet_E", l4_CloseJetPt, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
+
         //####################################################
         // Ele Mu  Fake Rate Measurements
         //####################################################
         //5 GeV Tau
         bool eleFR_denum_0 = ((Channel == 92 && electron_Size < 2) || (Channel == 97 && electron_Size < 4)) && SS && WZ_Rej_B(l3Pt, l3Px, l3Py, met, metPhi) && l4Pt > 5 && l4_tauRejEleMVA3T && l4_tauRejMu2L;
-        if (Event != Ev_double_ele) {
+        if (eleFR_denum_0 && Event != Ev_double_ele) {
             Ev_double_ele = Event;
             if (eleFR_denum_0) plotFill("4objFR_Ele_Denum_0", l3Pt, pt_Bin, 0, pt_Bin);
             if (eleFR_denum_0) plotFill("4objFR_Ele_Denum_0_Jet", l3_CloseJetPt, pt_Bin, 0, pt_Bin);
@@ -743,7 +702,7 @@ int main(int argc, char** argv) {
             if (eleFR_denum_0 && l3_eleId_Tight && l3_eleIso < tightEle) plotFill("4objFR_Ele_NumTight_0_Jet", l3_CloseJetPt, pt_Bin, 0, pt_Bin);
         }
         bool muFR_denum_0 = ((Channel == 93 && mu_Size < 4) || (Channel == 96 && mu_Size < 2)) && SS && WZ_Rej_B(l3Pt, l3Px, l3Py, met, metPhi) && l4Pt > 5 && l4_tauRejEleL && l4_tauRejMu2T;
-        if (Event != Ev_double_mu) {
+        if (muFR_denum_0 && Event != Ev_double_mu) {
             Ev_double_mu = Event;
             if (muFR_denum_0) plotFill("4objFR_Mu_Denum_0", l3Pt, pt_Bin, 0, pt_Bin);
             if (muFR_denum_0) plotFill("4objFR_Mu_Denum_0_Jet", l3_CloseJetPt, pt_Bin, 0, pt_Bin);

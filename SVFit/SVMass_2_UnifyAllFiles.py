@@ -36,7 +36,7 @@ import os
 
 if __name__ == "__main__":
     TextSamples = open("textSample.txt", "r")
-    AllRootDir = "forLaptop/"
+    AllRootDir = "forLaptop_2/"
 #    FinalState = ['mmet_tot', 'mmmt_tot', 'mmme_tot', 'eett_tot', 'eemt_tot', 'eeet_tot', 'eeem_tot']
     for Sample in TextSamples.readlines():
 

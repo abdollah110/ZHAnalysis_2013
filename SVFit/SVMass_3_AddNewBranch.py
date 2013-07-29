@@ -31,9 +31,9 @@ import os
 
 if __name__ == "__main__":
 
-    TextSamples = open("textSample.txt", "r")
-    OriginalFilesLoc = "../SVFit/"
-    MassFileLoc = "../SVFit/"
+    TextSamples = open("../ROOTFiles_V3/textSample.txt", "r")
+    OriginalFilesLoc = "../ROOTFiles_V3/Results/"
+    MassFileLoc = "../ROOTFiles_V3/svmass/"
 #    OriginalFilesLoc = "../ROOTFiles/Results/"
 #    MassFileLoc = "../ROOTFiles/svmasses/"
     FinalState = ['mmet_tot', 'mmmt_tot', 'mmme_tot', 'eett_tot', 'eemt_tot', 'eeet_tot', 'eeem_tot']

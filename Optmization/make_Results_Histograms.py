@@ -29,12 +29,21 @@ n_bin = 15
 low_bin = 0
 high_bin = 300
 reb_ = high_bin / n_bin
-DIR_ROOT = 'outRoot/'
+DIR_ROOT = 'outRoot_V3/'
+channel = ["mmtt", "mmet", "mmmt", "mmme", "eett", "eemt", "eeet", "eeem"]
+signal = ['zhtt','zhww']
+signalname = ['ZH_htt','ZH_hww']
+mass = [110, 115, 120, 125, 130, 135, 140, 145]
+#BackGround = ['ZZ4L', 'GGToZZ2L2L']
+#BackGroundname = ['ZZ', 'GGToZZ2L2L']
+BackGround = ['ZZ4L','Data', 'GGToZZ2L2L']
+BackGroundname = ['ZZ','data_obs', 'GGToZZ2L2L']
+lenghtSig = len(signal) * len(mass)
 
 
-def SET(bb,signal, mass, channel,HiggsMass ):
-    myfile = TFile(DIR_ROOT + str(signal) + str(mass) + '.root')
-    Histo =  myfile.Get(HiggsMass + str(channel)+"_pp")
+def _Return_Value_Signal(bb,signal, mass, channel,histoName,PostFix,CoMEnergy ):
+    myfile = TFile(DIR_ROOT + str(signal) + str(mass) +CoMEnergy+ '.root')
+    Histo =  myfile.Get(histoName + str(channel)+"_pp"+ PostFix)
     binCont = 0
     binErr = 0
     if Histo:
@@ -44,20 +53,29 @@ def SET(bb,signal, mass, channel,HiggsMass ):
     myfile.Close()
     return binCont , binErr
 
-#if __name__ == "__main__":
-def MakeTheHistogram(fileOutName, histoName):
-    myOut = TFile(fileOutName, 'RECREATE')
-#    myOut = TFile('TotalRootForLimit.root', 'RECREATE')
-    HiggsMass = histoName
-    Table_File = TFile('FullResults.root')
+def _Return_Value_BG(bb,backG, channel,histoName,PostFix,CoMEnergy ):
+    myfile = TFile(DIR_ROOT + str(backG)  +CoMEnergy+ '.root')
+    Histo =  myfile.Get(histoName + str(channel)+"_pp"+ PostFix)
+    binCont = 0
+    binErr = 0
+    if Histo:
+        Histo.Rebin(reb_)
+        binCont = Histo.GetBinContent(bb)
+        binErr = Histo.GetBinError(bb)
+    myfile.Close()
+    return binCont , binErr
+
+def MakeTheHistogram(histoName,CoMEnergy):
+    myOut = TFile("TotalRootForLimit_"+histoName+CoMEnergy+".root" , 'RECREATE')
+    Table_File = TFile("Yield"+CoMEnergy+""+".root")
     Table_Hist = Table_File.Get('FullResults')
-    channel = ["mmtt", "mmet", "mmmt", "mmme", "eett", "eemt", "eeet", "eeem"]
-    signal = ['zhtt','zhww']
-    signalname = ['ZH_htt','ZH_hww']
-    mass = [110, 115, 120, 125, 130, 135, 140, 145]
-    BackGround = ['ZZ4L','Data']
-    BackGroundname = ['ZZ','data_obs']
-    lenghtSig = len(signal) * len(mass)
+    #ScaleUp
+    Table_FileUp = TFile("Yield"+CoMEnergy+"_Up"+".root")
+    Table_HistUp = Table_FileUp.Get('FullResults')
+    #ScaleDown
+    Table_FileDown = TFile("Yield"+CoMEnergy+"_Down"+".root")
+    Table_HistDown = Table_FileDown.Get('FullResults')
+
 
     for chl in range(len(channel)):
         print channel[chl]
@@ -66,42 +84,86 @@ def MakeTheHistogram(fileOutName, histoName):
         ###################################### Filling Signal ZH and WH ########
         for sig in range(len(signal)):
             for m in range(len(mass)):#    for m in range(110, 145, 5):
+                ################################################
+                #Norm
                 MMM.cd()
-                normal = Table_Hist.GetBinContent(chl + 1, sig * len(mass) + m + 1)
                 NewHist =TH1F(str(signalname[sig]) + str(mass[m]),"",n_bin,low_bin,high_bin)
                 for bb in range(0,n_bin):
-                    NewHist.SetBinContent(bb,SET(bb,signal[sig], mass[m], channel[chl], HiggsMass)[0])
-                    NewHist.SetBinError(bb,SET(bb,signal[sig], mass[m], channel[chl],HiggsMass)[1])
+                    NewHist.SetBinContent(bb,_Return_Value_Signal(bb,signal[sig], mass[m], channel[chl], histoName, "",CoMEnergy)[0])
+                    NewHist.SetBinError(bb,_Return_Value_Signal(bb,signal[sig], mass[m], channel[chl],histoName, "",CoMEnergy)[1])
 
+                normal = Table_Hist.GetBinContent(chl + 1, sig * len(mass) + m + 1)
                 if NewHist.Integral(): NewHist.Scale(normal/NewHist.Integral())
+                ################################################
+                #ScaleUp
+                MMM.cd()
+                NewHistUp =TH1F(str(signalname[sig]) + str(mass[m])+"_tauESUp","",n_bin,low_bin,high_bin)
+                for bb in range(0,n_bin):
+                    NewHistUp.SetBinContent(bb,_Return_Value_Signal(bb,signal[sig], mass[m], channel[chl], histoName, "_Up",CoMEnergy)[0])
+                    NewHistUp.SetBinError(bb,_Return_Value_Signal(bb,signal[sig], mass[m], channel[chl],histoName, "_Up",CoMEnergy)[1])
+
+                normalUp = Table_HistUp.GetBinContent(chl + 1, sig * len(mass) + m + 1)
+                if NewHistUp.Integral(): NewHistUp.Scale(normalUp/NewHistUp.Integral())
+                ################################################
+                #ScaleDown
+                MMM.cd()
+                NewHistDown =TH1F(str(signalname[sig]) + str(mass[m])+"_tauESDown","",n_bin,low_bin,high_bin)
+                for bb in range(0,n_bin):
+                    NewHistDown.SetBinContent(bb,_Return_Value_Signal(bb,signal[sig], mass[m], channel[chl], histoName, "_Down",CoMEnergy)[0])
+                    NewHistDown.SetBinError(bb,_Return_Value_Signal(bb,signal[sig], mass[m], channel[chl],histoName, "_Down",CoMEnergy)[1])
+
+                normalDown = Table_HistDown.GetBinContent(chl + 1, sig * len(mass) + m + 1)
+                if NewHistDown.Integral(): NewHistDown.Scale(normalDown/NewHistDown.Integral())
                 myOut.Write()
+
         ###################################### Filling Reducible ########
         MMM.cd()
-        normal = Table_Hist.GetBinContent(chl + 1, lenghtSig  + 2)
         NewHist =TH1F('Zjets',"",n_bin,low_bin,high_bin)
-        myfile = TFile(DIR_ROOT + 'Data.root')
-        Histo =  myfile.Get("VisibleMass_Shape_"+ channel[chl])
+        myfile = TFile(DIR_ROOT + 'Data'+CoMEnergy+'.root')
+#        Histo =  myfile.Get("VisibleMass_Shape_"+ channel[chl])  ## BUG found in 21 July
+        Histo =  myfile.Get(histoName+"Shape_"+ channel[chl])
         Histo.Rebin(reb_)
         for bb in range(0,n_bin):
             NewHist.SetBinContent(bb,Histo.GetBinContent(bb))
             NewHist.SetBinError(bb,Histo.GetBinError(bb))
+        normal = Table_Hist.GetBinContent(chl + 1, lenghtSig  + 2)
         NewHist.Scale(normal/NewHist.Integral())
         myOut.Write()
         ###################################### Filling ZZ and Data ########
         for bg in range (len(BackGround)):
+            #  Norm   #####################################
             MMM.cd()
-            normal = Table_Hist.GetBinContent(chl + 1, lenghtSig + bg + 3)
             NewHist =TH1F(BackGroundname[bg],"",n_bin,low_bin,high_bin)
-            myfile = TFile(DIR_ROOT + str(BackGround[bg]) + '.root')
-            Histo = myfile.Get(HiggsMass + str(channel[chl])+"_pp")
-            Histo.Rebin(reb_)
             for bb in range(0,n_bin):
-                NewHist.SetBinContent(bb,Histo.GetBinContent(bb))
-                NewHist.SetBinError(bb,Histo.GetBinError(bb))
-            myfile.Close()
-            NewHist.Scale(normal/NewHist.Integral())
+                    NewHist.SetBinContent(bb,_Return_Value_BG(bb,BackGround[bg], channel[chl], histoName, "",CoMEnergy)[0])
+                    NewHist.SetBinError(bb,_Return_Value_BG(bb,BackGround[bg], channel[chl],histoName, "",CoMEnergy)[1])
+
+            normal = Table_Hist.GetBinContent(chl + 1, lenghtSig + bg + 3)
+            if NewHist.Integral(): NewHist.Scale(normal/NewHist.Integral())
+            #  ScaleUp   #####################################
+            MMM.cd()
+            NewHistUp =TH1F(BackGroundname[bg]+"_tauESUp","",n_bin,low_bin,high_bin)
+            for bb in range(0,n_bin):
+                    NewHistUp.SetBinContent(bb,_Return_Value_BG(bb,BackGround[bg], channel[chl], histoName, "_Up",CoMEnergy)[0])
+                    NewHistUp.SetBinError(bb,_Return_Value_BG(bb,BackGround[bg], channel[chl],histoName, "_Up",CoMEnergy)[1])
+
+            normalUp = Table_HistUp.GetBinContent(chl + 1, lenghtSig + bg + 3)
+            if NewHistUp.Integral(): NewHistUp.Scale(normalUp/NewHistUp.Integral())
+            #  ScaleDown   #####################################
+            MMM.cd()
+            NewHistDown =TH1F(BackGroundname[bg]+"_tauESDown","",n_bin,low_bin,high_bin)
+            for bb in range(0,n_bin):
+                    NewHistDown.SetBinContent(bb,_Return_Value_BG(bb,BackGround[bg], channel[chl], histoName, "_Down",CoMEnergy)[0])
+                    NewHistDown.SetBinError(bb,_Return_Value_BG(bb,BackGround[bg], channel[chl],histoName, "_Down",CoMEnergy)[1])
+
+            normalDown = Table_HistDown.GetBinContent(chl + 1, lenghtSig + bg + 3)
+            if NewHistDown.Integral(): NewHistDown.Scale(normalDown/NewHistDown.Integral())
             myOut.Write()
+
+            
 if __name__ == "__main__":
-    MakeTheHistogram("TotalRootForLimit_SV.root", "SVMass_")
-    MakeTheHistogram("TotalRootForLimit_Visible.root", "VisibleMass_")
+    MakeTheHistogram("SVMass_","_8TeV")
+#    MakeTheHistogram("VisibleMass_","_8TeV")
+#    MakeTheHistogram("SVMass_","_7TeV")
+#    MakeTheHistogram("VisibleMass_","_7TeV")
             

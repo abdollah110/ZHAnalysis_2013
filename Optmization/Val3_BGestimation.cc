@@ -65,7 +65,7 @@ void PrintResults(TH2F* Chnl_estimate, TH2F* Chnl_event, std::string name) {
 
         cout << cen_val << "&";
         float obs = 0;
-        if (arrayPP[j - 1]) obs = arrayPP[j - 1]->Integral();
+        //        if (arrayPP[j - 1]) obs = arrayPP[j - 1]->Integral();
         cout << int(obs) << " \\\\ " << endl;
         Total_Est += cen_val;
         Total_Obs += obs;
@@ -138,6 +138,14 @@ std::vector<float> * Get_FitParameter(std::string firstLeg) {
         for (int i = 1; i <= 3; i++) leg1->push_back(Fit_Value_tau->GetBinContent(8, 2 * (i - 1) + 1));
     if (firstLeg == "tauTight_E")
         for (int i = 1; i <= 3; i++) leg1->push_back(Fit_Value_tau->GetBinContent(9, 2 * (i - 1) + 1));
+
+    //apply the Eta dependecy for Ltau CloseJet
+    if (firstLeg == "tauLoose_ltau_Jet")
+        for (int i = 1; i <= 3; i++) leg1->push_back(Fit_Value_tau->GetBinContent(31, 2 * (i - 1) + 1));
+    if (firstLeg == "tauLoose_ltau_Jet_B")
+        for (int i = 1; i <= 3; i++) leg1->push_back(Fit_Value_tau->GetBinContent(34, 2 * (i - 1) + 1));
+    if (firstLeg == "tauLoose_ltau_Jet_E")
+        for (int i = 1; i <= 3; i++) leg1->push_back(Fit_Value_tau->GetBinContent(37, 2 * (i - 1) + 1));
 
     //apply the Eta dependecy CloseJet
     if (firstLeg == "tauLoose_Jet_B")
@@ -258,7 +266,8 @@ void Val3_BGestimation() {
     TH2F* Chnl_estimate = new TH2F("Chnl_estimate", "Chnl_estimate", 10, 0, 10, 10, 0, 10);
     TH2F* Chnl_event = new TH2F("Chnl_event", "Chnl_event", 10, 0, 10, 10, 0, 10);
 
-    bool FRvsJetandEta = 1;
+    bool FRvsJetandEta = 0;
+    bool FRvsJetandEta_dedicatedTauFR_LTau = 1;
     bool FRvsJet = 0;
     bool FRvsLepton = 0;
 
@@ -279,6 +288,27 @@ void Val3_BGestimation() {
         Estim_BG(6, "E", "muTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
         Estim_BG(7, "B", "eleTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
         Estim_BG(7, "E", "eleTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(4, "NoEta", "muLoose_Jet", "l3_CloseJetPt_", 1, "eleLoose_Jet", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(8, "NoEta", "eleLoose_Jet", "l3_CloseJetPt_", 1, "muLoose_Jet", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+    }
+
+    if (FRvsJetandEta_dedicatedTauFR_LTau) {
+        Estim_BG(1, "BB", "tauLoose_Jet_B", "l3_CloseJetPt_", 1, "tauLoose_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(1, "BE", "tauLoose_Jet_B", "l3_CloseJetPt_", 1, "tauLoose_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(1, "EB", "tauLoose_Jet_E", "l3_CloseJetPt_", 1, "tauLoose_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(1, "EE", "tauLoose_Jet_E", "l3_CloseJetPt_", 1, "tauLoose_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(5, "BB", "tauLoose_Jet_B", "l3_CloseJetPt_", 1, "tauLoose_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(5, "BE", "tauLoose_Jet_B", "l3_CloseJetPt_", 1, "tauLoose_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(5, "EB", "tauLoose_Jet_E", "l3_CloseJetPt_", 1, "tauLoose_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(5, "EE", "tauLoose_Jet_E", "l3_CloseJetPt_", 1, "tauLoose_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(2, "B", "eleTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(2, "E", "eleTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(3, "B", "muTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(3, "E", "muTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(6, "B", "muTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(6, "E", "muTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(7, "B", "eleTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(7, "E", "eleTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
         Estim_BG(4, "NoEta", "muLoose_Jet", "l3_CloseJetPt_", 1, "eleLoose_Jet", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
         Estim_BG(8, "NoEta", "eleLoose_Jet", "l3_CloseJetPt_", 1, "muLoose_Jet", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
     }

@@ -20,7 +20,7 @@ import os
   ###########   Parameters  ##########
 FitType = ["SV_"] #Two types of the limit
 #FitType = ["Visible_","SV_"] #Two types of the limit
-limitDir = "FinalLimit/"
+limitDir = "limitDir/"
 #limitDir = "final_LimitRoot_NewSystematics/"
 #limitDir = "limitDir/"
     
@@ -101,7 +101,7 @@ def DoCompareLimitPlots(Channel, tauIsolation, leptonIsolation, LTCut,lowY, high
         t.SetTextAlign(12)
         t.SetTextSize(0.035)
         t.DrawLatex(0.1, .92, "CMS Preliminary 2012")
-        t.DrawLatex(0.35, .92, "#sqrt{s} = 8 TeV, L = 19.0 fb^{-1}")
+        t.DrawLatex(0.35, .92, "#sqrt{s} = 8 TeV, L = 19.8 fb^{-1}")
         t.SetTextColor(2)
         t.DrawLatex(0.65, .92, " LL"+Channel)
         t.DrawLatex(0.75, .92, cut0+"Mass")
@@ -114,36 +114,41 @@ def DoCompareLimitPlots(Channel, tauIsolation, leptonIsolation, LTCut,lowY, high
 if __name__ == "__main__":
 
 
-    lowY = 7
-    highY = 11
+    lowY = 11
+    highY = 19
     tauIsolation = ["3HitL", "3HitM", "MVAL", "MVAM"]
     leptonIsolation = [0.3]
     LTCut = [60, 65,70,75, 80]
+#    LTCut = [60, 65,70,75, 80, 85]
     DoMakeHistoFRomLimitTree("TT",leptonIsolation, tauIsolation,  LTCut)
     DoCompareLimitPlots("TT", leptonIsolation,tauIsolation,  LTCut, lowY, highY)
 
 
-    lowY = 7.5
-    highY = 8.5
+#    lowY = 8.1
+#    highY = 8.5
+    lowY = 8
+    highY = 10
     tauIsolation = ["3HitL"]
-    leptonIsolation = [ 0.20, 0.25, 0.30, 0.35]
-    LTCut = [ 40,45, 50,55, 60]
+    leptonIsolation = [   0.20, 0.25, 0.30, 0.35]
+#    leptonIsolation = [ 0.20, 0.25, 0.30, 0.35]
+    LTCut = [ 35,40,45, 50,55]
     DoMakeHistoFRomLimitTree("MT", tauIsolation, leptonIsolation, LTCut)
     DoCompareLimitPlots("MT", tauIsolation, leptonIsolation, LTCut, lowY, highY)
 
 
 
-    lowY = 11.5
-    highY = 12.5
+    lowY = 12
+    highY = 16
     tauIsolation = ["3HitL"]
     leptonIsolation = [ 0.20, 0.25, 0.30, 0.35]
-    LTCut = [30, 35,40,45, 50]
+    LTCut = [25,30, 35,40,45]
+#    LTCut = [ 35,40,45, 50, 55]
     DoMakeHistoFRomLimitTree("ET", tauIsolation, leptonIsolation, LTCut)
     DoCompareLimitPlots("ET", tauIsolation, leptonIsolation, LTCut, lowY, highY)
 
 
-    lowY = 6
-    highY = 7.5
+    lowY = 5
+    highY = 7
     tauIsolation = ["3HitL"]
     leptonIsolation = [ 0.20, 0.25, 0.30,0.35]
     LTCut = [20,25, 30,35, 40]

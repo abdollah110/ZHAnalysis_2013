@@ -37,7 +37,7 @@ def XSection(mX):
     if mX == 135:  return [.00139, .00917]
     if mX == 140:  return [.00097, .0101]
     if mX == 145:  return [.00064, .0142]
-    if mX == 'ZZ4L': return 0.130 * .504
+    if mX == 'ZZ4L': return 0.130 
     if mX == 'Data': return 1
     if mX == 'WZ3L': return 1.057 * .403
     if mX == 'TT2L2Nu2B': return 23.64 * .155

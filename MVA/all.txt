@@ -1,0 +1,20 @@
+./Make.sh DoMVA1.cc
+
+#./Make.sh MVAMakePlots.cc
+#./MVAMakePlots.exe postMVAZH.root ../NewResults/totOut_ZH_HToTauTau_M-125_lepdecay_8TeV-p.root
+#./MVAMakePlots.exe postMVAZZ.root ../NewResults/totOut_ZZTo4L_TuneZ2star_8TeV_p.root
+#./MVAMakePlots.exe postMVAData.root ../NewResults/Data2012.root
+#./MVAMakePlots.exe OS llltMVAZH.root ../NewResults/totOut_ZH_HToTauTau_M-125_lepdecay_8TeV-p.root
+#./MVAMakePlots.exe OS llltMVAZZ.root ../NewResults/totOut_ZZTo4L_TuneZ2star_8TeV_p.root
+#./MVAMakePlots.exe OS llltMVAData.root ../NewResults/Data2012.root
+#./MVAMakePlots.exe SS llltMVARed.root ../NewResults/Data2012.root
+
+./DoMVA1.exe OS llltMVAZH.root     ../ROOTFiles/Results/zhtt125.root
+./DoMVA1.exe OS llltMVAZZ.root     ../ROOTFiles/Results/ZZ4L.root
+
+./DoMVA1.exe OS llltMVAData.root    ../ROOTFiles/Results/Data.root
+./DoMVA1.exe SS DataSS.root    ../ROOTFiles/Results/Data.root
+
+./DoMVA1.exe OS DYOS.root    ../ROOTFiles/Results/otherRoot/totOut_DYJetsToLL_M-50_TuneZ2Star_8TeV-mad.root
+./DoMVA1.exe SS DYSS.root    ../ROOTFiles/Results/otherRoot/totOut_DYJetsToLL_M-50_TuneZ2Star_8TeV-mad.root
+

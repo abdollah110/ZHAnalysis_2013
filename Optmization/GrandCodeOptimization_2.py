@@ -19,11 +19,7 @@ import os
 
   ###########   Parameters  ##########
 FitType = ["SV_"] #Two types of the limit
-#FitType = ["Visible_","SV_"] #Two types of the limit
 limitDir = "limitDir/"
-#limitDir = "final_LimitRoot_NewSystematics/"
-#limitDir = "limitDir/"
-    
 
 def DoMakeHistoFRomLimitTree(Channel, FirstIsoCut, SecondIsoCut, LTCut):
     print "\n\n*********************" , Channel
@@ -114,41 +110,32 @@ def DoCompareLimitPlots(Channel, tauIsolation, leptonIsolation, LTCut,lowY, high
 if __name__ == "__main__":
 
 
-    lowY = 11
-    highY = 19
+    lowY = 10
+    highY = 16
     tauIsolation = ["3HitL", "3HitM", "MVAL", "MVAM"]
     leptonIsolation = [0.3]
     LTCut = [60, 65,70,75, 80]
-#    LTCut = [60, 65,70,75, 80, 85]
     DoMakeHistoFRomLimitTree("TT",leptonIsolation, tauIsolation,  LTCut)
     DoCompareLimitPlots("TT", leptonIsolation,tauIsolation,  LTCut, lowY, highY)
 
-
-#    lowY = 8.1
-#    highY = 8.5
-    lowY = 8
-    highY = 10
+    lowY = 8.5
+    highY = 9.5
     tauIsolation = ["3HitL"]
-    leptonIsolation = [   0.20, 0.25, 0.30, 0.35]
-#    leptonIsolation = [ 0.20, 0.25, 0.30, 0.35]
+    leptonIsolation = [ 0.20, 0.25, 0.30, 0.35]
     LTCut = [ 35,40,45, 50,55]
     DoMakeHistoFRomLimitTree("MT", tauIsolation, leptonIsolation, LTCut)
     DoCompareLimitPlots("MT", tauIsolation, leptonIsolation, LTCut, lowY, highY)
 
-
-
     lowY = 12
-    highY = 16
+    highY = 14
     tauIsolation = ["3HitL"]
-    leptonIsolation = [ 0.20, 0.25, 0.30, 0.35]
+    leptonIsolation = [ 0.10, 0.15, 0.20, 0.25]
     LTCut = [25,30, 35,40,45]
-#    LTCut = [ 35,40,45, 50, 55]
     DoMakeHistoFRomLimitTree("ET", tauIsolation, leptonIsolation, LTCut)
     DoCompareLimitPlots("ET", tauIsolation, leptonIsolation, LTCut, lowY, highY)
 
-
-    lowY = 5
-    highY = 7
+    lowY = 13
+    highY = 16
     tauIsolation = ["3HitL"]
     leptonIsolation = [ 0.20, 0.25, 0.30,0.35]
     LTCut = [20,25, 30,35, 40]

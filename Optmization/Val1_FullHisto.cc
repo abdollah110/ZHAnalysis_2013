@@ -260,10 +260,10 @@ int main(int argc, char** argv) {
         float optimum_Lt_ET = 25;
         float optimum_Lt_EM = 35;
         float optimum_MT_Isolation = 0.30;
-        float optimum_ET_Isolation = 0.30;
+        float optimum_ET_Isolation = 0.20;
         float optimum_EM_Isolation = 0.30;
         //#################################        Loose Cut for Shape      #############################
-        float value_looserTauIso = 0.3;
+        float value_looserTauIso = 0.0;
         float value_looserLepIso = 2.0;
         //###############################################################################################
         //###############################################################################################
@@ -395,7 +395,8 @@ int main(int argc, char** argv) {
                 fillTreeN(BG_Tree, Channel, 2, VisibleMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
                 Event_Double[3][2] = Event;
             }
-            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[0][2]) && electron_Size == 1) {
+//            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[0][2]) && electron_Size == 1) {
+            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[0][2]) ) {
                 plotFill("VisibleMass_lt_pp", VisibleMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("VisibleMass_mmet_pp", VisibleMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_lt_pp", SVMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
@@ -424,7 +425,7 @@ int main(int argc, char** argv) {
             LTcut_et = ((chanelType.compare("ET") == 0) ? scaleUpl3.Pt() + scaleUpl4.Pt() > float_LTCut : (scaleUpl3.Pt() + scaleUpl4.Pt() > optimum_Lt_ET));
             float VisibleMassUp = TotalScaledUp.M();
 
-            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[5][2]) && electron_Size == 1) {
+            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[5][2]) ) {
                 plotFill("VisibleMass_mmet_pp_Up", VisibleMassUp, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_mmet_pp_Up", SVMassUp, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 Event_Double[5][2] = Event;
@@ -443,7 +444,7 @@ int main(int argc, char** argv) {
             LTcut_et = ((chanelType.compare("ET") == 0) ? scaleDownl3.Pt() + scaleDownl4.Pt() > float_LTCut : (scaleDownl3.Pt() + scaleDownl4.Pt() > optimum_Lt_ET));
             float VisibleMassDown = TotalScaledDown.M();
 
-            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[6][2]) && electron_Size == 1) {
+            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[6][2]) ) {
                 plotFill("VisibleMass_mmet_pp_Down", VisibleMassDown, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_mmet_pp_Down", SVMassDown, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 Event_Double[6][2] = Event;
@@ -468,7 +469,8 @@ int main(int argc, char** argv) {
                 fillTreeN(BG_Tree, Channel, 2, VisibleMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
                 Event_Double[3][3] = Event;
             }
-            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[0][3]) && mu_Size == 3) {
+//            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[0][3]) && mu_Size == 3) {
+            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[0][3])) {
                 plotFill("VisibleMass_lt_pp", VisibleMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("VisibleMass_mmmt_pp", VisibleMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_lt_pp", SVMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
@@ -497,7 +499,7 @@ int main(int argc, char** argv) {
             LTcut_mt = ((chanelType.compare("MT") == 0) ? scaleUpl3.Pt() + scaleUpl4.Pt() > float_LTCut : (scaleUpl3.Pt() + scaleUpl4.Pt() > optimum_Lt_MT));
             float VisibleMassUp = TotalScaledUp.M();
 
-            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[5][3]) && mu_Size == 3) {
+            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[5][3]) ) {
                 plotFill("VisibleMass_mmmt_pp_Up", VisibleMassUp, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_mmmt_pp_Up", SVMassUp, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 Event_Double[5][3] = Event;
@@ -516,7 +518,7 @@ int main(int argc, char** argv) {
             LTcut_mt = ((chanelType.compare("MT") == 0) ? scaleDownl3.Pt() + scaleDownl4.Pt() > float_LTCut : (scaleDownl3.Pt() + scaleDownl4.Pt() > optimum_Lt_MT));
             float VisibleMassDown = TotalScaledDown.M();
 
-            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[6][3]) && mu_Size == 3) {
+            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[6][3])) {
                 plotFill("VisibleMass_mmmt_pp_Down", VisibleMassDown, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_mmmt_pp_Down", SVMassDown, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 Event_Double[6][3] = Event;
@@ -540,7 +542,8 @@ int main(int argc, char** argv) {
                 fillTreeN(BG_Tree, Channel, 2, VisibleMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
                 Event_Double[3][4] = Event;
             }
-            if (LTcut_em && charge_Type && (l4_eleId_Loose && l4_eleIso < looseLep) && (l3_muId_Loose && l3_muIso < looseLep) && (Event != Event_Double[0][4]) && mu_Size == 3 && electron_Size == 1) {
+//            if (LTcut_em && charge_Type && (l4_eleId_Loose && l4_eleIso < looseLep) && (l3_muId_Loose && l3_muIso < looseLep) && (Event != Event_Double[0][4]) && mu_Size == 3 && electron_Size == 1) {
+            if (LTcut_em && charge_Type && (l4_eleId_Loose && l4_eleIso < looseLep) && (l3_muId_Loose && l3_muIso < looseLep) && (Event != Event_Double[0][4])) {
                 plotFill("VisibleMass_ll_pp", VisibleMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("VisibleMass_mmme_pp", VisibleMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_ll_pp", SVMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
@@ -656,7 +659,8 @@ int main(int argc, char** argv) {
                 fillTreeN(BG_Tree, Channel, 2, VisibleMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
                 Event_Double[3][6] = Event;
             }
-            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[0][6]) && mu_Size == 1) {
+//            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[0][6]) && mu_Size == 1) {
+            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[0][6]) ) {
                 plotFill("VisibleMass_lt_pp", VisibleMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("VisibleMass_eemt_pp", VisibleMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_lt_pp", SVMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
@@ -685,7 +689,7 @@ int main(int argc, char** argv) {
             LTcut_mt = ((chanelType.compare("MT") == 0) ? scaleUpl3.Pt() + scaleUpl4.Pt() > float_LTCut : (scaleUpl3.Pt() + scaleUpl4.Pt() > optimum_Lt_MT));
             float VisibleMassUp = TotalScaledUp.M();
 
-            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[5][6]) && mu_Size == 1) {
+            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[5][6])) {
                 plotFill("VisibleMass_eemt_pp_Up", VisibleMassUp, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_eemt_pp_Up", SVMassUp, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 Event_Double[5][6] = Event;
@@ -705,7 +709,7 @@ int main(int argc, char** argv) {
             LTcut_mt = ((chanelType.compare("MT") == 0) ? scaleDownl3.Pt() + scaleDownl4.Pt() > float_LTCut : (scaleDownl3.Pt() + scaleDownl4.Pt() > optimum_Lt_MT));
             float VisibleMassDown = TotalScaledDown.M();
 
-            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[6][6]) && mu_Size == 1) {
+            if (LTcut_mt && charge_Type && tau4_IsoB && (l3_muId_Tight && (l3_muIso < TightMu)) && (Event != Event_Double[6][6])) {
                 plotFill("VisibleMass_eemt_pp_Down", VisibleMassDown, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_eemt_pp_Down", SVMassDown, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 Event_Double[6][6] = Event;
@@ -729,7 +733,8 @@ int main(int argc, char** argv) {
                 fillTreeN(BG_Tree, Channel, 2, VisibleMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
                 Event_Double[3][7] = Event;
             }
-            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[0][7]) && electron_Size == 3) {
+//            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[0][7]) && electron_Size == 3) {
+            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[0][7]) ) {
                 plotFill("VisibleMass_lt_pp", VisibleMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("VisibleMass_eeet_pp", VisibleMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_lt_pp", SVMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
@@ -757,7 +762,7 @@ int main(int argc, char** argv) {
             LTcut_et = ((chanelType.compare("ET") == 0) ? scaleUpl3.Pt() + scaleUpl4.Pt() > float_LTCut : (scaleUpl3.Pt() + scaleUpl4.Pt() > optimum_Lt_ET));
             float VisibleMassUp = TotalScaledUp.M();
 
-            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[5][7]) && electron_Size == 3) {
+            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[5][7]) ) {
                 plotFill("VisibleMass_eeet_pp_Up", VisibleMassUp, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_eeet_pp_Up", SVMassUp, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 Event_Double[5][7] = Event;
@@ -776,7 +781,7 @@ int main(int argc, char** argv) {
             LTcut_et = ((chanelType.compare("ET") == 0) ? scaleDownl3.Pt() + scaleDownl4.Pt() > float_LTCut : (scaleDownl3.Pt() + scaleDownl4.Pt() > optimum_Lt_ET));
             float VisibleMassDown = TotalScaledDown.M();
 
-            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[6][7]) && electron_Size == 3) {
+            if (LTcut_et && charge_Type && tau4_IsoB && (l3_eleId_Tight && (l3_eleIso < TightEle)) && (Event != Event_Double[6][7]) ) {
                 plotFill("VisibleMass_eeet_pp_Down", VisibleMassDown, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_eeet_pp_Down", SVMassDown, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 Event_Double[6][7] = Event;
@@ -801,7 +806,8 @@ int main(int argc, char** argv) {
                 fillTreeN(BG_Tree, Channel, 2, VisibleMass, SVMass, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta, l4Pt, l4Eta, l4_CloseJetPt, l4_CloseJetEta);
                 Event_Double[3][8] = Event;
             }
-            if (LTcut_em && charge_Type && (l3_eleId_Loose && l3_eleIso < looseLep) && (l4_muId_Loose && l4_muIso < looseLep) && (Event != Event_Double[0][8]) && electron_Size == 3 && mu_Size == 1) {
+//            if (LTcut_em && charge_Type && (l3_eleId_Loose && l3_eleIso < looseLep) && (l4_muId_Loose && l4_muIso < looseLep) && (Event != Event_Double[0][8]) && electron_Size == 3 && mu_Size == 1) {
+            if (LTcut_em && charge_Type && (l3_eleId_Loose && l3_eleIso < looseLep) && (l4_muId_Loose && l4_muIso < looseLep) && (Event != Event_Double[0][8]) ) {
                 plotFill("VisibleMass_ll_pp", VisibleMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("VisibleMass_eeem_pp", VisibleMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);
                 plotFill("SVMass_ll_pp", SVMass, pt_Bin, 0, pt_Bin, pu_Weight * eff_Correction);

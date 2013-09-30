@@ -29,25 +29,35 @@ OriginRootDir = '../ROOTFiles_V3/Results/'
 SubRootDir = 'outRoot_V3/'
 
 def luminosity(CoMEnergy):
-    if CoMEnergy == '_8TeV': return  19765 #19242
+    if CoMEnergy == '_8TeV': return  19712 #19242
     if CoMEnergy == '_7TeV': return  4982 
 
-def XSection(mX,CoMEnergy ):
+def XSection(mX, CoMEnergy):
     if CoMEnergy == '_8TeV':
-        if mX == 110: return  [.00471, .00206]
-        if mX == 115:  return [.00392, .00336]
-        if mX == 120:  return [.00319, .00479]
-        if mX == 125:  return [.00251, .00640]
-        if mX == 130:  return [.00191, .00789]
-        if mX == 135:  return [.00139, .00917]
-        if mX == 140:  return [.00097, .0102] # changed 0.0101 to 0.0102
-        if mX == 145:  return [.00064, .0107] # Changed from 0.0140 to 0.0107
-        if mX == 'ZZ4L': return 0.130
-        if mX == 'Data': return 1
-        if mX == 'WZ3L': return 1.057
-        if mX == 'TT2L2Nu2B': return 23.64
-        if mX == 'GGToZZ2L2L': return 0.01203
-        if mX == 'GGToZZ4L': return 0.0048
+        if mX == 90:  return [0.009186, 0.0001740]  # first argument is ZH_HTT and second is WH_ZH_TTH_HWW_Leptonic
+        if mX == 95:  return [0.007884, 0.0003351]
+        if mX == 100: return [0.006775, 0.0006694]
+        if mX == 105: return [0.005794, 0.001268]
+        if mX == 110: return [0.004918, 0.002178]    #  [.00471, .00206]  ????
+        if mX == 115: return [0.004102, 0.003407]  # [.00392, .00336]
+        if mX == 120: return [0.003349, 0.004866] # [.00319, .00479]
+        if mX == 125: return [0.002651, 0.006503]  # [.00251, .00640]
+        if mX == 130: return [0.002021, 0.008042]  #[.00191, .00789]
+        if mX == 135: return [0.001478, 0.009342]  #[.00139, .00917]
+        if mX == 140: return [0.001030, 0.01032]  #[.00097, .0102] # changed 0.0101 to 0.0102
+        if mX == 145: return [0.000681, 0.01095]   #[.00064, .0107] # Changed from 0.0140 to 0.0107
+        if mX == 150: return [0.000417, 0.01126]
+        if mX == 155: return [0.000218, 0.01136]
+        if mX == 160: return [0.000073, 0.01133]
+        if mX == 'ZZ4L':        return 0.130
+        if mX == 'Data':        return 1
+        if mX == 'TT2L2Nu':     return 23.64
+        if mX == 'GGToZZ2L2L':  return 0.01203
+        if mX == 'GGToZZ4L':    return 0.0048
+        if mX == 'TTZJets':     return 0.208
+        if mX == 'WZ3L':        return 0
+        if mX == 'WZJets3L':    return 1.057
+        if mX == 'DYJets':      return 3504.
     if CoMEnergy == '_7TeV':
         if mX == 110: return  [0.003815, .00177]
         if mX == 115:  return [0.003173 , .00275]

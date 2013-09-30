@@ -27,10 +27,8 @@ signal = ['zhtt', 'zhww']
 mass = [110, 115, 120, 125, 130, 135, 140, 145]
 BackGround = ['ZZ4L', 'Data', 'GGToZZ2L2L']
 
-#FitType = ["Visible_","SV_"] #Two types of the limit
 FitType = ["SV_"] #Two types of the limit
 energy_Index = "_8TeV"
-#energy_Index = ""
 
 def DoTheOptimization(Channel, tauIsolation, leptonIsolation, LTCut):
     print "\n\n*********************" , Channel
@@ -65,7 +63,6 @@ def DoTheOptimization(Channel, tauIsolation, leptonIsolation, LTCut):
                 outCommand = outCommand + "mv tableAll_Up_8TeV.pdf  " + limitDir + Channel + str(cut1) + "_" + str(cut2) + "_" + str(cut3) + "_Up.pdf \n"
                 outCommand = outCommand + "mv tableAll_Down_8TeV.pdf  " + limitDir + Channel + str(cut1) + "_" + str(cut2) + "_" + str(cut3) + "_Down.pdf \n"
                 outCommand = outCommand + "mv TotalRootForLimit_SVMass__8TeV.root  " + limitDir + "SV_" + Channel + "_" + str(cut1) + "_" + str(cut2) + "_" + str(cut3) + ".root \n\n\n"
-#                outCommand = outCommand + "mv TotalRootForLimit_Visible.root  " + limitDir + "Visible_" + Channel + "_" + str(cut1) + "_" + str(cut2) + "_" + str(cut3) + ".root \n\n\n"
                 OutFile.write(outCommand)
                 
 def DoLimitMeasurement(Channel, tauIsolation, leptonIsolation, LTCut):
@@ -131,10 +128,10 @@ def DoLimitMeasurement_BBB(Channel, tauIsolation, leptonIsolation, LTCut):
                     
 def DoLimitMeasurement_NEW_HTT(Channel, tauIsolation, leptonIsolation, LTCut):
     print "\n\n*********************" , Channel
-    if Channel == "TT" : numChannel = "tt"
-    if Channel == "MT" : numChannel = "mt"
-    if Channel == "ET" : numChannel = "et"
-    if Channel == "EM" : numChannel = "em"
+    if Channel == "EM" : numChannel = ["llem","03",3]
+    if Channel == "MT" : numChannel = ["llmt","04",4]
+    if Channel == "ET" : numChannel = ["llet","05",5]
+    if Channel == "TT" : numChannel = ["lltt","06",6]
     for cut0 in FitType:
         OutFile = open("RunLimit_"+str(cut0) + Channel + ".txt", 'w')
         for cut1 in tauIsolation:
@@ -143,114 +140,24 @@ def DoLimitMeasurement_NEW_HTT(Channel, tauIsolation, leptonIsolation, LTCut):
                     outCommand = ""
                     name=  str(cut0) + Channel + "_" + str(cut1) + "_" + str(cut2) + "_" + str(cut3)
                     nameRoot = name + ".root"
-#                    nameCard = name + ".txt"
-#
-#                    OriginalFiles = "setups/std/em/"
-#                    limFiles = "setups/std-bin-by-bin/em/"
-#                    BBB_Root = limFiles + "htt_em.inputs-sm-8TeV.root"
 
-
-                    outCommand = outCommand + "rrm -rf HiggsAnalysis/HiggsToTauTau/setup/*/*.* \n"
-                    outCommand = outCommand + "source copy_cgs_8TeV.sh \n"
-                    outCommand = outCommand + "cp " +limitDir + nameRoot + "  HiggsAnalysis/HiggsToTauTau/setup/"+numChannel+"/htt_"+numChannel+".inputs-sm-8TeV.root\n"
-
-                    outCommand = outCommand + "rrm -rf aux/ \n"
-                    outCommand = outCommand + "rrm -rf setups/ \n"
-                    outCommand = outCommand + "rrm -rf LIMITS/ \n"
-                    outCommand = outCommand + "mkdir -p setups aux \n"
-                    outCommand = outCommand + "cp -r HiggsAnalysis/HiggsToTauTau/setup setups/std \n"
-                    
-                    outCommand = outCommand + "./add_bbb_errors_1.py -f '"+numChannel+":8TeV:00:Zjets' -i setups/std -o setups/std-bin-by-bin \n"
-                    outCommand = outCommand + "./add_bbb_errors_2.py -f '"+numChannel+":8TeV:00:Zjets' -i setups/std-bin-by-bin -o setups/std-bin-by-bin2 \n"
-                    outCommand = outCommand + " mkdir -p aux/std/sm  \n"
-
-
-                    outCommand = outCommand + "setup-datacards.py -i setups/std-bin-by-bin2 -o aux/std/sm -c '" +numChannel+"'  --sm-categories-"+numChannel+ " '0'  -p 8TeV -a sm 125-125:5 \n"
-                    outCommand = outCommand + "mkdir -p LIMITS  \n"
-                    outCommand = outCommand + "mkdir -p LIMITS/std  \n"
-
-                    outCommand = outCommand + "setup-htt.py -i aux/std/sm -o LIMITS/std/sm -s chn  -p 8TeV -c '"+numChannel+"' --sm-categories-"+numChannel+" '0'  -a sm 125-125:5  \n"
+                    outCommand = outCommand + "rrm -rf HiggsAnalysis/HiggsToTauTau/setup/vhtt/*.root \n"
+                    outCommand = outCommand + "cp " +limitDir + nameRoot + "  HiggsAnalysis/HiggsToTauTau/setup/vhtt/vhtt.inputs-sm-8TeV.root \n"
+                    outCommand = outCommand + "rrm -rf setups \n"
+                    outCommand = outCommand + "mkdir -p setups/std  \n"
+                    outCommand = outCommand + "cp -r HiggsAnalysis/HiggsToTauTau/setup/* setups/std \n"
+                    outCommand = outCommand + "./add_bbb_errors_VH.py -f 'vhtt:8TeV:%s:Zjets' -i  setups/std -o setups/std-bin-by-bin \n" %numChannel[1]
+                    outCommand = outCommand + 'setup-datacards.py -i NewOptimization/FinalOPtimization_7_updateXSection/setups/std-bin-by-bin -p 8TeV --a sm 125-125:5 -c vhtt --sm-categories-vhtt "%d" \n'  %numChannel[2]
+                    outCommand = outCommand + './setup_htt_channels.py -o limits -c vhtt -p 8TeV --sm-categories-vhtt "%d " 125-125:5  \n' %numChannel[2]
                     outCommand = outCommand + 'echo "**************************************** " \n'
                     outCommand = outCommand + 'echo "************* ' + name + ' ************* " \n'
                     outCommand = outCommand + 'echo "****************************************"  \n'
-                    outCommand = outCommand + "limit.py --asymptotic --expectedOnly --no-prefit LIMITS/std/sm/"+numChannel+"/125 \n"
-
-                    outCommand = outCommand + "cp  LIMITS/std/sm/"+numChannel+"/125/higgsCombine-exp.Asymptotic.mH125.root  RESULTS/"+ "higgsCombine" + name + ".Asymptotic.mH125.root"+ "\n"
-                    outCommand = outCommand + "cp  LIMITS/std/sm/"+numChannel+"/125/htt_"+numChannel+"_0_8TeV.txt  RESULTS/"+ "Datacards" + name + ".txt"+ "\n\n\n"
+                    outCommand = outCommand + "limit.py --asymptotic --expectedOnly --no-prefit limits/%s/125 \n" %numChannel[0]
+                    outCommand = outCommand + "cp  limits/%s/125/higgsCombine-exp.Asymptotic.mH125.root   limitDir/higgsCombine" %numChannel[0] + name + ".Asymptotic.mH125.root \n"
+                    outCommand = outCommand + "cp  limits/%s/125/vhtt_%d_8TeV.txt                          limitDir/card"        %(numChannel[0], numChannel[2])  + name + ".txt \n\n\n"
 
 
                     OutFile.write(outCommand)
-
-def DoLimitMeasurement_NEW_HTT_NoBBB(Channel, tauIsolation, leptonIsolation, LTCut):
-    print "\n\n*********************" , Channel
-    if Channel == "TT" : numChannel = "tt"
-    if Channel == "MT" : numChannel = "mt"
-    if Channel == "ET" : numChannel = "et"
-    if Channel == "EM" : numChannel = "em"
-    for cut0 in FitType:
-        OutFile = open("RunLimit_"+str(cut0) + Channel + ".txt", 'w')
-        for cut1 in tauIsolation:
-            for cut2 in leptonIsolation:
-                for cut3 in LTCut:
-                    outCommand = ""
-                    name=  str(cut0) + Channel + "_" + str(cut1) + "_" + str(cut2) + "_" + str(cut3)
-                    nameRoot = name + ".root"
-#                    nameCard = name + ".txt"
-#
-#                    OriginalFiles = "setups/std/em/"
-#                    limFiles = "setups/std-bin-by-bin/em/"
-#                    BBB_Root = limFiles + "htt_em.inputs-sm-8TeV.root"
-
-
-                    outCommand = outCommand + "rrm -rf HiggsAnalysis/HiggsToTauTau/setup/*/*.* \n"
-                    outCommand = outCommand + "source copy_cgs_8TeV.sh \n"
-                    outCommand = outCommand + "cp " +limitDir + nameRoot + "  HiggsAnalysis/HiggsToTauTau/setup/"+numChannel+"/htt_"+numChannel+".inputs-sm-8TeV.root\n"
-
-                    outCommand = outCommand + " rrm -rf aux/ \n"
-                    outCommand = outCommand + "rrm -rf setups/ \n"
-                    outCommand = outCommand + "rrm -rf LIMITS/ \n"
-                    outCommand = outCommand + "mkdir -p setups aux \n"
-                    outCommand = outCommand + "cp -r HiggsAnalysis/HiggsToTauTau/setup setups/std \n"
-
-#                    outCommand = outCommand + "./add_bbb_errors_1.py -f '"+numChannel+":8TeV:00:Zjets' -i setups/std -o setups/std-bin-by-bin \n"
-#                    outCommand = outCommand + "./add_bbb_errors_2.py -f '"+numChannel+":8TeV:00:Zjets' -i setups/std-bin-by-bin -o setups/std-bin-by-bin2 \n"
-                    outCommand = outCommand + " mkdir -p aux/std/sm  \n"
-
-
-                    outCommand = outCommand + "setup-datacards.py -i setups/std -o aux/std/sm -c '" +numChannel+"'  --sm-categories-"+numChannel+ " '0'  -p 8TeV -a sm 125-125:5 \n"
-                    outCommand = outCommand + "mkdir -p LIMITS  \n"
-                    outCommand = outCommand + "mkdir -p LIMITS/std  \n"
-
-                    outCommand = outCommand + "setup-htt.py -i aux/std/sm -o LIMITS/std/sm -s chn  -p 8TeV -c '"+numChannel+"' --sm-categories-"+numChannel+" '0'  -a sm 125-125:5  \n"
-                    outCommand = outCommand + "limit.py --asymptotic --expectedOnly --no-prefit LIMITS/std/sm/"+numChannel+"/125 \n"
-
-                    outCommand = outCommand + "cp  LIMITS/std/sm/"+numChannel+"/125/higgsCombine-exp.Asymptotic.mH125.root  RESULTS/"+ "higgsCombine" + name + ".Asymptotic.mH125.root"+ "\n"
-                    outCommand = outCommand + "cp  LIMITS/std/sm/"+numChannel+"/125/htt_"+numChannel+"_0_8TeV.txt  RESULTS/"+ "Datacards" + name + ".txt"+ "\n\n\n"
-
-
-#
-#                    outCommand = outCommand + "./add_bbb_errors.py -f 'em:8TeV:"
-#                    for subChannel in range(len(numChannel)):
-#                        outCommand = outCommand + numChannel[subChannel] + ","
-#                    outCommand = outCommand + ":Zjets' -i setups/std -o  setups/std-bin-by-bin --normalize --threshold 0.10\n" #(this adds bin-by-bin errors to Zjets background, in the em
-#
-#
-#                    for subChannel in range(len(numChannel)):
-#                        outCommand = outCommand + "create-datacard.py -i  " + BBB_Root +  " -o " + "card"+str(subChannel)+".txt" + " -c " + limFiles+ "cgs-sm-8TeV-"+numChannel[subChannel]+ ".conf " + " -u " + limFiles+ "unc-sm-8TeV-"+numChannel[subChannel]+ ".vals " + " -d " + limFiles+ "unc-sm-8TeV-"+numChannel[subChannel]+ ".conf 125 \n"
-#
-#                    outCommand = outCommand + "combineCards.py "
-#                    for subChannel in range(len(numChannel)):
-#                        outCommand = outCommand +  "card"+str(subChannel)+".txt "
-#
-#                    outCommand = outCommand + " > " + limitDir +nameCard + "\n"
-#
-#                    outCommand = outCommand + 'echo "**************************************** " \n'
-#                    outCommand = outCommand + 'echo "************* ' + name + ' ************* " \n'
-#                    outCommand = outCommand + 'echo "****************************************"  \n'
-#                    outCommand = outCommand + "combine -M Asymptotic -m 125 " + limitDir + nameCard + "  -H ProfileLikelihood -n " + name + "  -t  -1  \n"
-#                    outCommand = outCommand + "rm card0.txt card1.txt  roostats-* \n\n"
-                    OutFile.write(outCommand)
-
 
 
 
@@ -258,41 +165,28 @@ def DoLimitMeasurement_NEW_HTT_NoBBB(Channel, tauIsolation, leptonIsolation, LTC
 if __name__ == "__main__":
 
     
-
-#    tauIsolation = ["Total"]
-#    leptonIsolation = [0.3]
-#    LTCut = [0]
-#    DoTheOptimization("Total", tauIsolation, leptonIsolation, LTCut)
-#    DoLimitMeasurement_BBB("Total", tauIsolation, leptonIsolation, LTCut)
-
     tauIsolation = ["3HitL", "3HitM", "MVAL", "MVAM"]
     leptonIsolation = [0.3]
     LTCut = [60, 65,70,75, 80]
     DoTheOptimization("TT", tauIsolation, leptonIsolation, LTCut)
-#    DoLimitMeasurement_BBB("TT", tauIsolation, leptonIsolation, LTCut)
     DoLimitMeasurement_NEW_HTT("TT", tauIsolation, leptonIsolation, LTCut)
-#    DoLimitMeasurement_NEW_HTT_NoBBB("TT", tauIsolation, leptonIsolation, LTCut)
 
     tauIsolation = ["3HitL"]
     leptonIsolation = [ 0.20, 0.25, 0.30, 0.35]
     LTCut = [ 35,40,45, 50,55]
     DoTheOptimization("MT", tauIsolation, leptonIsolation, LTCut)
-#    DoLimitMeasurement_BBB("MT", tauIsolation, leptonIsolation, LTCut)
     DoLimitMeasurement_NEW_HTT("MT", tauIsolation, leptonIsolation, LTCut)
-#    DoLimitMeasurement_NEW_HTT_NoBBB("MT", tauIsolation, leptonIsolation, LTCut)
 
     tauIsolation = ["3HitL"]
-    leptonIsolation = [ 0.20, 0.25, 0.30, 0.35]
+    leptonIsolation = [ 0.10, 0.15, 0.20, 0.25]
     LTCut = [25,30, 35,40,45]
     DoTheOptimization("ET", tauIsolation, leptonIsolation, LTCut)
-#    DoLimitMeasurement_BBB("ET", tauIsolation, leptonIsolation, LTCut)
     DoLimitMeasurement_NEW_HTT("ET", tauIsolation, leptonIsolation, LTCut)
-#    DoLimitMeasurement_NEW_HTT_NoBBB("ET", tauIsolation, leptonIsolation, LTCut)
 
     tauIsolation = ["3HitL"]
     leptonIsolation = [ 0.20, 0.25, 0.30,0.35]
     LTCut = [20,25, 30,35, 40]
     DoTheOptimization("EM", tauIsolation, leptonIsolation, LTCut)
-#    DoLimitMeasurement_BBB("EM", tauIsolation, leptonIsolation, LTCut)
     DoLimitMeasurement_NEW_HTT("EM", tauIsolation, leptonIsolation, LTCut)
-#    DoLimitMeasurement_NEW_noBBB("EM", tauIsolation, leptonIsolation, LTCut)
+
+

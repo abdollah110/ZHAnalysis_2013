@@ -31,14 +31,18 @@ def MakeTheHistogram(histoName,CoMEnergy):
     Table_Hist = Table_File.Get('FullResults')
 
     for chl in range(len(channel)):
-        print "--------------------------------------------------------------------"
+#        print "--------------------------------------------------------------------"
         norm = Table_Hist.GetBinContent(chl + 1, 1)
         tauUp = Table_Hist.GetBinContent(chl + 1, 2)
         tauDown = Table_Hist.GetBinContent(chl + 1, 3)
         lepUp = Table_Hist.GetBinContent(chl + 1, 4)
         lepDown = Table_Hist.GetBinContent(chl + 1, 5)
-        print channel[chl], "  Tau Systematic: Up= ", math.ceil((tauUp-norm)/norm *100)  ,"%","   Down= ", math.ceil((tauDown-norm)/norm *100) , "%"
-        print channel[chl], "  EMU Systematic: Up= ", math.ceil((lepUp-norm)/norm *100)  ,"%", "  Down= ", math.ceil((lepDown-norm)/norm *100) , "%"
+#        print channel[chl], "  Tau Systematic: Up= ", math.ceil((tauUp-norm)/norm *100)  ,"%"
+#        print channel[chl], "  EMU Systematic: Up= ", math.ceil((lepUp-norm)/norm *100)  ,"%"
+        print channel[chl], "  Tau Systematic: = +", math.ceil((tauUp-norm)/norm *100)  ,"%", "", math.ceil((tauDown-norm)/norm *100) , "%"
+        print channel[chl], "  EMU Systematic: = +", math.ceil((lepUp-norm)/norm *100)  ,"%", "", math.ceil((lepDown-norm)/norm *100) , "%"
+#        print channel[chl], "  Tau Systematic: Up= ", math.ceil((tauUp-norm)/norm *100)  ,"%","   Down= ", math.ceil((tauDown-norm)/norm *100) , "%"
+#        print channel[chl], "  EMU Systematic: Up= ", math.ceil((lepUp-norm)/norm *100)  ,"%", "  Down= ", math.ceil((lepDown-norm)/norm *100) , "%"
             
 if __name__ == "__main__":
     MakeTheHistogram("SVMass_","_8TeV")

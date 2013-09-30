@@ -40,6 +40,7 @@ void PrintResults(TH2F* Chnl_estimate, TH2F* Chnl_event, std::string name) {
     TFile * OutFile = new TFile(name.c_str(), "RECREATE");
     OutFile->cd();
     TH1F * histo_Reducible = new TH1F("histo_Reducible", "histo_Reducible", 10, 0, 10);
+    TH1F * histo_ReducibleEr = new TH1F("histo_ReducibleEr", "histo_ReducibleEr", 10, 0, 10);
 
     cout.setf(ios::fixed, ios::floatfield);
     cout.precision(2);
@@ -47,29 +48,47 @@ void PrintResults(TH2F* Chnl_estimate, TH2F* Chnl_event, std::string name) {
     cout << "\\centering" << endl;
     cout << "\\caption{ events}" << endl;
     cout << "\\label{table:events}" << endl;
-    cout << "\\begin{tabular}{|c|c|c|c|c|c|c| }" << endl;
+    cout << "\\begin{tabular}{|c|c|c|c|c| }" << endl;
+//    cout << "\\begin{tabular}{|c|c|c|c|c|c| }" << endl;
     cout << "\\hline" << endl;
-    cout << "FR type & channel & Cat0 & Cat1 & Cat2 &  1+2-0 & Selected" << " \\\\" << endl;
+    cout << " channel & Cat0 & Cat1 & Cat2 &  1+2-0 " << " \\\\" << endl;
+//    cout << " channel & Cat0 & Cat1 & Cat2 &  1+2-0 & Selected" << " \\\\" << endl;
     cout << "\\hline" << endl;
 
 
     float Total_Est = 0;
     float Total_Obs = 0;
     for (int j = 1; j <= 8; j++) {
-        cout << j << "&" << array[j - 1] << "&";
-        double cen_val = 0;
-        for (int i = 1; i <= 3; i++) {
-            cout << Chnl_estimate->GetBinContent(i + 1, j + 1) << "(" << int(Chnl_event->GetBinContent(i + 1, j + 1)) << ")" << "&";
-        }
-        cen_val = Chnl_estimate->GetBinContent(3, j + 1) + Chnl_estimate->GetBinContent(4, j + 1) - Chnl_estimate->GetBinContent(2, j + 1);
+        cout << array[j - 1] << "&";
 
-        cout << cen_val << "&";
+        float Est_cat0 = Chnl_estimate->GetBinContent(2, j + 1);
+        float Est_cat1 = Chnl_estimate->GetBinContent(3, j + 1);
+        float Est_cat2 = Chnl_estimate->GetBinContent(4, j + 1);
+
+        int Num_cat0 = Chnl_event->GetBinContent(2, j + 1);
+        int Num_cat1 = Chnl_event->GetBinContent(3, j + 1);
+        int Num_cat2 = Chnl_event->GetBinContent(4, j + 1);
+
+        float Er_cat0 = 1. / sqrt(Num_cat0) * Est_cat0;
+        float Er_cat1 = 1. / sqrt(Num_cat1) * Est_cat1;
+        float Er_cat2 = 1. / sqrt(Num_cat2) * Est_cat2;
+
+        float cen_val = Est_cat1 + Est_cat2 - Est_cat0;
+        float cen_Er = Er_cat0 + Er_cat1 + Er_cat2;
+
+        cout << Est_cat0 << "(" << Num_cat0 << ")" << "&";
+        cout << Est_cat1 << "(" << Num_cat1 << ")" << "&";
+        cout << Est_cat2 << "(" << Num_cat2 << ")" << "&";
+        cout << cen_val << "$\\pm$" << cen_Er ;
+
         float obs = 0;
         //        if (arrayPP[j - 1]) obs = arrayPP[j - 1]->Integral();
-        cout << int(obs) << " \\\\ " << endl;
+        cout <<  " \\\\ " << endl;
+//        cout << "&"<<int(obs) << " \\\\ " << endl;
         Total_Est += cen_val;
         Total_Obs += obs;
         histo_Reducible->SetBinContent(j, cen_val);
+        histo_ReducibleEr->SetBinContent(j, cen_Er);
     }
     cout << "\\hline" << "\n\\end{tabular}" << "\n\\end{table}" << "\n\n\n";
     cout << "Total Reducible BG =  " << Total_Est << endl;
@@ -124,6 +143,16 @@ std::vector<float> * Get_FitParameter(std::string firstLeg) {
         for (int i = 1; i <= 3; i++) leg1->push_back(Fit_Value_emu->GetBinContent(4, 2 * (i - 1) + 1));
     if (firstLeg == "muTight_Jet")
         for (int i = 1; i <= 3; i++) leg1->push_back(Fit_Value_emu->GetBinContent(8, 2 * (i - 1) + 1));
+
+    //ele Mu 3 Object
+    if (firstLeg == "3obj_eleLoose_Jet")
+        for (int i = 1; i <= 3; i++) leg1->push_back(Fit_Value_emu->GetBinContent(9, 2 * (i - 1) + 1));
+    if (firstLeg == "3obj_muLoose_Jet")
+        for (int i = 1; i <= 3; i++) leg1->push_back(Fit_Value_emu->GetBinContent(11, 2 * (i - 1) + 1));
+    if (firstLeg == "3obj_eleTight_Jet")
+        for (int i = 1; i <= 3; i++) leg1->push_back(Fit_Value_emu->GetBinContent(10, 2 * (i - 1) + 1));
+    if (firstLeg == "3obj_muTight_Jet")
+        for (int i = 1; i <= 3; i++) leg1->push_back(Fit_Value_emu->GetBinContent(12, 2 * (i - 1) + 1));
 
     //apply the Eta dependecy
     if (firstLeg == "tauLoose_B")
@@ -268,6 +297,7 @@ void Val3_BGestimation() {
 
     bool FRvsJetandEta = 0;
     bool FRvsJetandEta_dedicatedTauFR_LTau = 1;
+    bool FRvsJetandEta_dedicatedTauFR_LTau_3ObjFR = 0;
     bool FRvsJet = 0;
     bool FRvsLepton = 0;
 
@@ -312,6 +342,26 @@ void Val3_BGestimation() {
         Estim_BG(4, "NoEta", "muLoose_Jet", "l3_CloseJetPt_", 1, "eleLoose_Jet", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
         Estim_BG(8, "NoEta", "eleLoose_Jet", "l3_CloseJetPt_", 1, "muLoose_Jet", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
     }
+    if (FRvsJetandEta_dedicatedTauFR_LTau_3ObjFR) {
+        Estim_BG(1, "BB", "tauLoose_Jet_B", "l3_CloseJetPt_", 1, "tauLoose_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(1, "BE", "tauLoose_Jet_B", "l3_CloseJetPt_", 1, "tauLoose_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(1, "EB", "tauLoose_Jet_E", "l3_CloseJetPt_", 1, "tauLoose_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(1, "EE", "tauLoose_Jet_E", "l3_CloseJetPt_", 1, "tauLoose_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(5, "BB", "tauLoose_Jet_B", "l3_CloseJetPt_", 1, "tauLoose_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(5, "BE", "tauLoose_Jet_B", "l3_CloseJetPt_", 1, "tauLoose_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(5, "EB", "tauLoose_Jet_E", "l3_CloseJetPt_", 1, "tauLoose_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(5, "EE", "tauLoose_Jet_E", "l3_CloseJetPt_", 1, "tauLoose_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(2, "B", "3obj_eleTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(2, "E", "3obj_eleTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(3, "B", "3obj_muTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(3, "E", "3obj_muTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(6, "B", "3obj_muTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(6, "E", "3obj_muTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(7, "B", "3obj_eleTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_B", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(7, "E", "3obj_eleTight_Jet", "l3_CloseJetPt_", 1, "tauLoose_ltau_Jet_E", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(4, "NoEta", "3obj_muLoose_Jet", "l3_CloseJetPt_", 1, "3obj_eleLoose_Jet", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+        Estim_BG(8, "NoEta", "3obj_eleLoose_Jet", "l3_CloseJetPt_", 1, "3obj_muLoose_Jet", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
+    }
 
     if (FRvsJet) {
         Estim_BG(1, "NoEta", "tauLoose_Jet", "l3_CloseJetPt_", 1, "tauLoose_Jet", "l4_CloseJetPt_", 1, Chnl_estimate, Chnl_event);
@@ -337,4 +387,6 @@ void Val3_BGestimation() {
 
     PrintResults(Chnl_estimate, Chnl_event, "Reducible.root");
 }
+
+
 

@@ -71,7 +71,7 @@ void M_FR(int WP, std::string type, std::string files, std::string num, std::str
     canvas->SetTitle("");
     TGraph_FR->GetYaxis()->SetRangeUser(.001, 10);
     TGraph_FR->GetYaxis()->SetTitle("Fake Rate");
-    TGraph_FR->GetXaxis()->SetRangeUser(0, xAxisMax);
+    TGraph_FR->GetXaxis()->SetRangeUser(10, xAxisMax);
     TGraph_FR->GetXaxis()->SetTitle("Jet Pt [GeV]");
     //    TGraph_FR->GetName();
     TGraph_FR->SetTitle("");
@@ -85,7 +85,7 @@ void M_FR(int WP, std::string type, std::string files, std::string num, std::str
     t.SetTextAlign(12);
     t.SetTextSize(0.045);
     t.DrawLatex(0.1, .92, "CMS Preliminary 2012");
-    t.DrawLatex(0.5, .92, "#sqrt{s} = 8 TeV, L = 19.8 fb^{-1}");
+    t.DrawLatex(0.5, .92, "#sqrt{s} = 8 TeV, L = 19.7 fb^{-1}");
     std::string lepName;
     //    cout << "++++++++++++++++++++++++++  "<<num.find("Mu") << num << endl;
     if (num.find("Mu") < 20) lepName = "Mu Loose Fake Rate";
@@ -166,7 +166,7 @@ void M_FR(int WP, std::string type, std::string files, std::string num, std::str
         grshade_L->SetPoint(n + i, x[n - i - 1], ymin_Line[n - i - 1]);
     }
 
-    grshade->SetFillColor(1);
+    grshade->SetFillColor(5);
     grshade->SetFillStyle(3008);
     grshade->Draw("f");
 
@@ -189,7 +189,7 @@ void M_FR(int WP, std::string type, std::string files, std::string num, std::str
     t.SetTextAlign(12);
     t.SetTextSize(0.045);
     t.DrawLatex(0.1, .92, "CMS Preliminary 2012");
-    t.DrawLatex(0.5, .92, "#sqrt{s} = 8 TeV, L = 19.8 fb^{-1}");
+    t.DrawLatex(0.5, .92, "#sqrt{s} = 8 TeV, L = 19.7 fb^{-1}");
     t.DrawLatex(0.4, .75, lepName.c_str());
     //    t.DrawLatex(0.3, .85, num.c_str());
 
@@ -198,8 +198,8 @@ void M_FR(int WP, std::string type, std::string files, std::string num, std::str
     l->SetFillColor(0);
     l->SetTextSize(.04);
     l->AddEntry(grshade, "Fit Uncertainty", "f");
-    std::string error_ = "30% Uncertainty";
-    if (num.find("Tau") < 40) error_ = "20% Uncertainty";
+    std::string error_ = "30% Error Band";
+    if (num.find("Tau") < 40) error_ = "20% Error Band";
     l->AddEntry(grshade_L, error_.c_str(), "f");
     l->Draw();
 
@@ -220,16 +220,16 @@ void Val2_FRMeasure() {
 
     //#########################
     //Tau Fake Rate
-    M_FR(1, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Loose", "FakeRate_TT_Tau_Pt_Before", Fit_Value_tau, fMin, fMax);
+//    M_FR(1, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Loose", "FakeRate_TT_Tau_Pt_Before", Fit_Value_tau, fMin, fMax);
     //    M_FR(2, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Medium", "FakeRate_TT_Tau_Pt_Before", Fit_Value_tau, fMin, fMax);
     //    M_FR(3, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Tight", "FakeRate_TT_Tau_Pt_Before", Fit_Value_tau, fMin, fMax);
-    M_FR(4, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Loose_B", "FakeRate_TT_Tau_Pt_Before_B", Fit_Value_tau, fMin, fMax);
+//    M_FR(4, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Loose_B", "FakeRate_TT_Tau_Pt_Before_B", Fit_Value_tau, fMin, fMax);
     //    M_FR(5, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Medium_B", "FakeRate_TT_Tau_Pt_Before_B", Fit_Value_tau, fMin, fMax);
     //    M_FR(6, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_B", "FakeRate_TT_Tau_Pt_Before_B", Fit_Value_tau, fMin, fMax);
-    M_FR(7, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Loose_E", "FakeRate_TT_Tau_Pt_Before_E", Fit_Value_tau, fMin, fMax);
+//    M_FR(7, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Loose_E", "FakeRate_TT_Tau_Pt_Before_E", Fit_Value_tau, fMin, fMax);
     //    M_FR(8, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Medium_E", "FakeRate_TT_Tau_Pt_Before_E", Fit_Value_tau, fMin, fMax);
     //    M_FR(9, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_E", "FakeRate_TT_Tau_Pt_Before_E", Fit_Value_tau, fMin, fMax);
-    M_FR(10, "Line2Par", "valid_Mega.root", "FakeRate_TT_Tau_Eta_After_Loose", "FakeRate_TT_Tau_Eta_Before", Fit_Value_tau, fMin, fMax);
+//    M_FR(10, "Line2Par", "valid_Mega.root", "FakeRate_TT_Tau_Eta_After_Loose", "FakeRate_TT_Tau_Eta_Before", Fit_Value_tau, fMin, fMax);
 
     //#########################
     //CloseJet Fake Rate
@@ -242,20 +242,20 @@ void Val2_FRMeasure() {
     M_FR(17, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Loose_CloseJet_E", "FakeRate_TT_Tau_Pt_Before_CloseJet_E", Fit_Value_tau, fMin, fMax);
     //    M_FR(18, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Medium_E", "FakeRate_TT_Tau_Pt_Before_E", Fit_Value_tau, fMin, fMax);
     //    M_FR(19, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_E", "FakeRate_TT_Tau_Pt_Before_E", Fit_Value_tau, fMin, fMax);
-    M_FR(20, "Line2Par", "valid_Mega.root", "FakeRate_TT_Tau_Eta_After_Loose_CloseJet", "FakeRate_TT_Tau_Eta_Before_CloseJet", Fit_Value_tau, fMin, fMax);
+//    M_FR(20, "Line2Par", "valid_Mega.root", "FakeRate_TT_Tau_Eta_After_Loose_CloseJet", "FakeRate_TT_Tau_Eta_Before_CloseJet", Fit_Value_tau, fMin, fMax);
 
     //#########################
     //RefJet Fake Rate
-    M_FR(21, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Loose_RefJet", "FakeRate_TT_Tau_Pt_Before_RefJet", Fit_Value_tau, fMin, fMax);
+//    M_FR(21, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Loose_RefJet", "FakeRate_TT_Tau_Pt_Before_RefJet", Fit_Value_tau, fMin, fMax);
     //    M_FR(22, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Medium_RefJet", "FakeRate_TT_Tau_Pt_Before_RefJet", Fit_Value_tau, fMin, fMax);
     //    M_FR(23, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_RefJet", "FakeRate_TT_Tau_Pt_Before_RefJet", Fit_Value_tau, fMin, fMax);
-    M_FR(24, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Loose_RefJet_B", "FakeRate_TT_Tau_Pt_Before_RefJet_B", Fit_Value_tau, fMin, fMax);
+//    M_FR(24, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Loose_RefJet_B", "FakeRate_TT_Tau_Pt_Before_RefJet_B", Fit_Value_tau, fMin, fMax);
     //    M_FR(25, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Medium_B", "FakeRate_TT_Tau_Pt_Before_B", Fit_Value_tau, fMin, fMax);
     //    M_FR(26, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_B", "FakeRate_TT_Tau_Pt_Before_B", Fit_Value_tau, fMin, fMax);
-    M_FR(27, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Loose_RefJet_E", "FakeRate_TT_Tau_Pt_Before_RefJet_E", Fit_Value_tau, fMin, fMax);
+//    M_FR(27, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Loose_RefJet_E", "FakeRate_TT_Tau_Pt_Before_RefJet_E", Fit_Value_tau, fMin, fMax);
     //    M_FR(28, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Medium_E", "FakeRate_TT_Tau_Pt_Before_E", Fit_Value_tau, fMin, fMax);
     //    M_FR(29, "Exp3Par", "valid_Mega.root", "FakeRate_TT_Tau_Pt_After_Tight_E", "FakeRate_TT_Tau_Pt_Before_E", Fit_Value_tau, fMin, fMax);
-    M_FR(30, "Line2Par", "valid_Mega.root", "FakeRate_TT_Tau_Eta_After_Loose_RefJet", "FakeRate_TT_Tau_Eta_Before_RefJet", Fit_Value_tau, fMin, fMax);
+//    M_FR(30, "Line2Par", "valid_Mega.root", "FakeRate_TT_Tau_Eta_After_Loose_RefJet", "FakeRate_TT_Tau_Eta_Before_RefJet", Fit_Value_tau, fMin, fMax);
 
     //#########################
     //Jet-->Tau FR in Ltau Final state
@@ -267,14 +267,19 @@ void Val2_FRMeasure() {
     fMin = 10;
     //    fMax = 90;
     fMax = 200;
-    M_FR(1, "Line2Par", "valid_Mega.root", "4objFR_Ele_NumLoose_0", "4objFR_Ele_Denum_0", Fit_Value_emu, fMin, fMax);
-    M_FR(2, "Line2Par", "valid_Mega.root", "4objFR_Ele_NumTight_0", "4objFR_Ele_Denum_0", Fit_Value_emu, fMin, fMax);
-    M_FR(3, "Line2Par", "valid_Mega.root", "4objFR_Mu_NumLoose_0", "4objFR_Mu_Denum_0", Fit_Value_emu, fMin, fMax);
-    M_FR(4, "Line2Par", "valid_Mega.root", "4objFR_Mu_NumTight_0", "4objFR_Mu_Denum_0", Fit_Value_emu, fMin, fMax);
+//    M_FR(1, "Line2Par", "valid_Mega.root", "4objFR_Ele_NumLoose_0", "4objFR_Ele_Denum_0", Fit_Value_emu, fMin, fMax);
+//    M_FR(2, "Line2Par", "valid_Mega.root", "4objFR_Ele_NumTight_0", "4objFR_Ele_Denum_0", Fit_Value_emu, fMin, fMax);
+//    M_FR(3, "Line2Par", "valid_Mega.root", "4objFR_Mu_NumLoose_0", "4objFR_Mu_Denum_0", Fit_Value_emu, fMin, fMax);
+//    M_FR(4, "Line2Par", "valid_Mega.root", "4objFR_Mu_NumTight_0", "4objFR_Mu_Denum_0", Fit_Value_emu, fMin, fMax);
     M_FR(5, "Exp3Par", "valid_Mega.root", "4objFR_Ele_NumLoose_0_Jet", "4objFR_Ele_Denum_0_Jet", Fit_Value_emu, fMin, fMax);
     M_FR(6, "Exp3Par", "valid_Mega.root", "4objFR_Ele_NumTight_0_Jet", "4objFR_Ele_Denum_0_Jet", Fit_Value_emu, fMin, fMax);
     M_FR(7, "Exp3Par", "valid_Mega.root", "4objFR_Mu_NumLoose_0_Jet", "4objFR_Mu_Denum_0_Jet", Fit_Value_emu, fMin, fMax);
     M_FR(8, "Exp3Par", "valid_Mega.root", "4objFR_Mu_NumTight_0_Jet", "4objFR_Mu_Denum_0_Jet", Fit_Value_emu, fMin, fMax);
+    //3Obj Fake Rate
+    M_FR(9, "Exp3Par", "valid_Mega.root", "3objFR_Ele_NumLoose", "3objFR_Ele_Denum", Fit_Value_emu, fMin, fMax);
+    M_FR(10, "Exp3Par", "valid_Mega.root", "3objFR_Ele_NumTight", "3objFR_Ele_Denum", Fit_Value_emu, fMin, fMax);
+    M_FR(11, "Exp3Par", "valid_Mega.root", "3objFR_Mu_NumLoose", "3objFR_Mu_Denum", Fit_Value_emu, fMin, fMax);
+    M_FR(12, "Exp3Par", "valid_Mega.root", "3objFR_Mu_NumTight", "3objFR_Mu_Denum", Fit_Value_emu, fMin, fMax);
 
 
     FR_File->Write();

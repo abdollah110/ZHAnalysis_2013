@@ -24,8 +24,8 @@ inRootDir = "outRoot_V3/"
 limitDir = "limitDir/"
 
 signal = ['zhtt', 'zhww']
-mass = [110, 115, 120, 125, 130, 135, 140, 145]
-BackGround = ['ZZ4L', 'Data', 'GGToZZ2L2L']
+mass = [90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160]
+BackGround = ['ZZ4L', 'GGToZZ2L2L', 'TTZJets', 'Data']
 
 FitType = ["Visible_","SV_"] #Two types of the limit
 
@@ -56,10 +56,12 @@ def DoTheOptimization(Channel, tauIsolation, leptonIsolation, LTCut,CoMEnergy):
                     outCommand = outCommand + "root .x -q Val2_FRMeasure.cc \n"
                     outCommand = outCommand + "root .x -q Val3_BGestimation.cc \n"
                     outCommand = outCommand + "mv "+ 'Reducible.root  ' + 'Reducible'+str(energy_i)+'.root\n'
+                    outCommand = outCommand + "cp -r "+ 'results  ' + 'results'+str(energy_i)+'\n'
 
 
                 outCommand = outCommand + "python make_Results_2DTable.py \n"
                 outCommand = outCommand + "python make_Results_Histograms.py \n"
+                outCommand = outCommand + "python make_Results_Tex.py \n"
                 OutFile.write(outCommand)
                 
 if __name__ == "__main__":
@@ -67,6 +69,6 @@ if __name__ == "__main__":
     tauIsolation = ["Total"]
     leptonIsolation = [0.3]
     LTCut = [0]
-    comEnergy= ["_8TeV","_7TeV"]
+    comEnergy= ["_7TeV","_8TeV"]
     DoTheOptimization("Total", tauIsolation, leptonIsolation, LTCut,comEnergy)
 

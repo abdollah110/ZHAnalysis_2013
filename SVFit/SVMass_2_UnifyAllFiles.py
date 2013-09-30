@@ -35,8 +35,8 @@ import os
 
 
 if __name__ == "__main__":
-    TextSamples = open("textSample.txt", "r")
-    AllRootDir = "forLaptop_2/"
+    TextSamples = open("textSamples.txt", "r")
+    AllRootDir = "forLaptop/"
 #    FinalState = ['mmet_tot', 'mmmt_tot', 'mmme_tot', 'eett_tot', 'eemt_tot', 'eeet_tot', 'eeem_tot']
     for Sample in TextSamples.readlines():
 
@@ -128,6 +128,29 @@ if __name__ == "__main__":
             outTree.Fill()
 
         File_eeem2.Close()
+        File_eeem1.Close()
+        File_eeem0.Close()
+        File_eeet2.Close()
+        File_eeet1.Close()
+        File_eeet0.Close()
+        File_eemt2.Close()
+        File_eemt1.Close()
+        File_eemt0.Close()
+        File_eett2.Close()
+        File_eett1.Close()
+        File_eett0.Close()
+        File_mmme2.Close()
+        File_mmme1.Close()
+        File_mmme0.Close()
+        File_mmet2.Close()
+        File_mmet1.Close()
+        File_mmet0.Close()
+        File_mmmt2.Close()
+        File_mmmt1.Close()
+        File_mmmt0.Close()
+        File_mmtt2.Close()
+        File_mmtt1.Close()
+#        File_mmtt0.Close()
         outNameTFile.cd()
         outTree.Write()
         outNameTFile.Close()

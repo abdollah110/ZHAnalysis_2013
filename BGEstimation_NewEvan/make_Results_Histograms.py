@@ -25,6 +25,9 @@ import os
 ROOT.gROOT.SetBatch(True)
 #ROOT.gROOT.ProcessLine('.x rootlogon.C')
 
+################################################
+HWWasSignal = False
+################################################
 n_bin = 15
 low_bin = 0
 high_bin = 300
@@ -33,16 +36,18 @@ DIR_ROOT = 'outRoot_V3/'
 channel = ["mmtt", "mmet", "mmmt", "mmme", "eett", "eemt", "eeet", "eeem"]
 signal = ['zhtt','zhww']
 signalname = ['ZH_htt','ZH_hww']
-mass = [110, 115, 120, 125, 130, 135, 140, 145]
+mass = [90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160]
 #BackGround = ['ZZ4L', 'GGToZZ2L2L']
 #BackGroundname = ['ZZ', 'GGToZZ2L2L']
-BackGround = ['ZZ4L', 'GGToZZ2L2L','Data']
-BackGroundname = ['ZZ', 'GGToZZ2L2L','data_obs']
+BackGround = ['ZZ4L', 'GGToZZ2L2L', 'TTZJets', 'Data']
+BackGroundname = ['ZZ', 'GGToZZ2L2L',"TTZ",'data_obs']
 lenghtSig = len(signal) * len(mass)
-
 
 def _Return_Value_Signal(bb,signal, mass, channel,histoName,PostFix,CoMEnergy ):
     myfile = TFile(DIR_ROOT + str(signal) + str(mass) +CoMEnergy+ '.root')
+    #  ####################   This is to use zhww @ 125 GeV as Signal/BG  #  ####################
+    if (HWWasSignal and signal=="zhww"): myfile = TFile(DIR_ROOT + str(signal) + "125" +CoMEnergy+ '.root')
+    #  ####################   #  ####################   #  ####################   #  ############
     Histo =  myfile.Get(histoName + str(channel)+"_pp"+ PostFix)
     binCont = 0
     binErr = 0
@@ -69,10 +74,21 @@ def MakeTheHistogram(histoName,CoMEnergy):
     myOut = TFile("TotalRootForLimit_"+histoName+CoMEnergy+".root" , 'RECREATE')
     Table_File = TFile("Yield"+CoMEnergy+""+".root")
     Table_Hist = Table_File.Get('FullResults')
-    
+    #ScaleUp
+    Table_FileUp = TFile("Yield"+CoMEnergy+"_Up"+".root")
+    Table_HistUp = Table_FileUp.Get('FullResults')
+    #ScaleDown
+    Table_FileDown = TFile("Yield"+CoMEnergy+"_Down"+".root")
+    Table_HistDown = Table_FileDown.Get('FullResults')
+
+
 
     for chl in range(len(channel)):
         print channel[chl]
+        if (channel[chl]=="mmtt" or channel[chl]=="eett") : scaleNameUp = "_CMS_scale_t_llttUp" ; scaleNameDown = "_CMS_scale_t_llttDown"
+        if (channel[chl]=="mmmt" or channel[chl]=="eemt") : scaleNameUp = "_CMS_scale_t_llmtUp" ; scaleNameDown = "_CMS_scale_t_llmtDown"
+        if (channel[chl]=="mmet" or channel[chl]=="eeet") : scaleNameUp = "_CMS_scale_t_lletUp" ; scaleNameDown = "_CMS_scale_t_lletDown"
+        if (channel[chl]=="mmme" or channel[chl]=="eeem") : scaleNameUp = "_CMS_scale_t_llemUp" ; scaleNameDown = "_CMS_scale_t_llemDown"
         MMM= myOut.mkdir(str(channel[chl])+'_zh')
         MMM.cd()
         ###################################### Filling Signal ZH and WH ########
@@ -82,14 +98,38 @@ def MakeTheHistogram(histoName,CoMEnergy):
                 #Norm
                 MMM.cd()
                 NewHist =TH1F(str(signalname[sig]) + str(mass[m]),"",n_bin,low_bin,high_bin)
+                
+
                 for bb in range(0,n_bin):
                     NewHist.SetBinContent(bb,_Return_Value_Signal(bb,signal[sig], mass[m], channel[chl], histoName, "",CoMEnergy)[0])
                     NewHist.SetBinError(bb,_Return_Value_Signal(bb,signal[sig], mass[m], channel[chl],histoName, "",CoMEnergy)[1])
 
                 normal = Table_Hist.GetBinContent(chl + 1, sig * len(mass) + m + 1)
+                if (HWWasSignal and sig==1): normal = Table_Hist.GetBinContent(chl + 1, sig * len(mass) + 7 + 1) #7 is due to 125 GeV
                 if NewHist.Integral(): NewHist.Scale(normal/NewHist.Integral())
-                myOut.Write()
                 ################################################
+                #ScaleUp
+                MMM.cd()
+                NewHistUp =TH1F(str(signalname[sig]) + str(mass[m])+scaleNameUp,"",n_bin,low_bin,high_bin)
+                for bb in range(0,n_bin):
+                    NewHistUp.SetBinContent(bb,_Return_Value_Signal(bb,signal[sig], mass[m], channel[chl], histoName, "_Up",CoMEnergy)[0])
+                    NewHistUp.SetBinError(bb,_Return_Value_Signal(bb,signal[sig], mass[m], channel[chl],histoName, "_Up",CoMEnergy)[1])
+
+                normalUp = Table_HistUp.GetBinContent(chl + 1, sig * len(mass) + m + 1)
+                if (HWWasSignal and sig==1): normalUp = Table_HistUp.GetBinContent(chl + 1, sig * len(mass) + 7 + 1) #7 is due to 125 GeV
+                if NewHistUp.Integral(): NewHistUp.Scale(normalUp/NewHistUp.Integral())
+                ################################################
+                #ScaleDown
+                MMM.cd()
+                NewHistDown =TH1F(str(signalname[sig]) + str(mass[m])+scaleNameDown,"",n_bin,low_bin,high_bin)
+                for bb in range(0,n_bin):
+                    NewHistDown.SetBinContent(bb,_Return_Value_Signal(bb,signal[sig], mass[m], channel[chl], histoName, "_Down",CoMEnergy)[0])
+                    NewHistDown.SetBinError(bb,_Return_Value_Signal(bb,signal[sig], mass[m], channel[chl],histoName, "_Down",CoMEnergy)[1])
+
+                normalDown = Table_HistDown.GetBinContent(chl + 1, sig * len(mass) + m + 1)
+                if (HWWasSignal and sig==1): normalDown = Table_HistDown.GetBinContent(chl + 1, sig * len(mass) + 7 + 1) #7 is due to 125 GeV
+                if NewHistDown.Integral(): NewHistDown.Scale(normalDown/NewHistDown.Integral())
+                myOut.Write()
 
         ###################################### Filling Reducible ########
         MMM.cd()
@@ -115,18 +155,30 @@ def MakeTheHistogram(histoName,CoMEnergy):
 
             normal = Table_Hist.GetBinContent(chl + 1, lenghtSig + bg + 3)
             if NewHist.Integral(): NewHist.Scale(normal/NewHist.Integral())
+            #  ScaleUp   #####################################
+            MMM.cd()
+            NewHistUp =TH1F(BackGroundname[bg]+scaleNameUp,"",n_bin,low_bin,high_bin)
+            for bb in range(0,n_bin):
+                    NewHistUp.SetBinContent(bb,_Return_Value_BG(bb,BackGround[bg], channel[chl], histoName, "_Up",CoMEnergy)[0])
+                    NewHistUp.SetBinError(bb,_Return_Value_BG(bb,BackGround[bg], channel[chl],histoName, "_Up",CoMEnergy)[1])
+
+            normalUp = Table_HistUp.GetBinContent(chl + 1, lenghtSig + bg + 3)
+            if NewHistUp.Integral(): NewHistUp.Scale(normalUp/NewHistUp.Integral())
+            #  ScaleDown   #####################################
+            MMM.cd()
+            NewHistDown =TH1F(BackGroundname[bg]+scaleNameDown,"",n_bin,low_bin,high_bin)
+            for bb in range(0,n_bin):
+                    NewHistDown.SetBinContent(bb,_Return_Value_BG(bb,BackGround[bg], channel[chl], histoName, "_Down",CoMEnergy)[0])
+                    NewHistDown.SetBinError(bb,_Return_Value_BG(bb,BackGround[bg], channel[chl],histoName, "_Down",CoMEnergy)[1])
+
+            normalDown = Table_HistDown.GetBinContent(chl + 1, lenghtSig + bg + 3)
+            if NewHistDown.Integral(): NewHistDown.Scale(normalDown/NewHistDown.Integral())
             myOut.Write()
-            
+
             
 if __name__ == "__main__":
     MakeTheHistogram("SVMass_","_8TeV")
     MakeTheHistogram("VisibleMass_","_8TeV")
-    MakeTheHistogram("LT_","_8TeV")
-    MakeTheHistogram("TMass3_","_8TeV")
-    MakeTheHistogram("TMass4_","_8TeV")
     MakeTheHistogram("SVMass_","_7TeV")
     MakeTheHistogram("VisibleMass_","_7TeV")
-    MakeTheHistogram("LT_","_7TeV")
-    MakeTheHistogram("TMass3_","_7TeV")
-    MakeTheHistogram("TMass4_","_7TeV")
             

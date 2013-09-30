@@ -10,6 +10,8 @@ def system(command):
 
 #Plots= ["SVMass","VisibleMass","LT","Isolation_tau1","Isolation_tau2","Isolation_ele1","Isolation_ele2","Isolation_mu1","Isolation_mu2"]
 Plots= ["SVMass","VisibleMass","LT"]
+#Plots= ["SVMass","VisibleMass","LT","TMass3","TMass4"]
+#Plots= ["TMass3","TMass4"]
 finalstate= ["tt","et","mt","em"]
 year= [7,8]
 DiSign= ["OS","SS"]

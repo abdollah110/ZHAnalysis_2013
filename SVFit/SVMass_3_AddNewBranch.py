@@ -2,6 +2,9 @@
 
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
+# Here we need 3 files, first textSamples.txt, then svmass where the output of the last step is there
+#(mass and uncertainty on the mass) combined and finall Results which the original root files are here
+# the aim here is to add a massTree from svmass/XXX.root to Results/XXX.root
 
 __author__ = "abdollahmohammadi"
 __date__ = "$May 3, 2013 12:13:45 PM$"
@@ -31,9 +34,9 @@ import os
 
 if __name__ == "__main__":
 
-    TextSamples = open("../ROOTFiles_V3/textSample.txt", "r")
-    OriginalFilesLoc = "../ROOTFiles_V3/Results/"
-    MassFileLoc = "../ROOTFiles_V3/svmass/"
+    TextSamples = open("textSamples.txt", "r")
+    OriginalFilesLoc = "Results/"
+    MassFileLoc = "svmass/"
 #    OriginalFilesLoc = "../ROOTFiles/Results/"
 #    MassFileLoc = "../ROOTFiles/svmasses/"
     FinalState = ['mmet_tot', 'mmmt_tot', 'mmme_tot', 'eett_tot', 'eemt_tot', 'eeet_tot', 'eeem_tot']

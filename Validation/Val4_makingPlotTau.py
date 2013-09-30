@@ -105,7 +105,7 @@ if __name__ == "__main__":
     t.SetTextAlign(12)
     t.SetTextSize(0.03)
     t.DrawLatex(0.1, .92, "CMS Preliminary 2012")
-    t.DrawLatex(0.45, .92, "#sqrt{s} = 8 TeV, L = 19.8 fb^{-1}")
+    t.DrawLatex(0.45, .92, "#sqrt{s} = 8 TeV, L = 19.7 fb^{-1}")
     t.DrawLatex(0.80, .92, "ll#tau#tau")
 #    t.DrawLatex(0.5, .60, "Data, SS, 10 GeV Tau LooseIso")
 #    t.DrawLatex(0.5, .52, "Data = " + str(DataNormalization))
@@ -119,5 +119,5 @@ if __name__ == "__main__":
 
 
     canvas.SaveAs("Compare_tauFR2.pdf")
-    canvas.SaveAs("Compare_tauFR2.eps")
-    canvas.SaveAs("Compare_tauFR2.png")
+#    canvas.SaveAs("Compare_tauFR2.eps")
+#    canvas.SaveAs("Compare_tauFR2.png")

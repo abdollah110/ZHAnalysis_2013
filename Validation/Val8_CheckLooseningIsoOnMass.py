@@ -10,6 +10,7 @@ import math
 
 import ROOT
 from ROOT import Double
+from ROOT import TAxis
 from ROOT import TCanvas
 from ROOT import TFile
 from ROOT import TH1F
@@ -23,7 +24,6 @@ from ROOT import gROOT
 from ROOT import gRandom
 from ROOT import gStyle
 from ROOT import gSystem
-from ROOT import TAxis
 
 if __name__ == "__main__":
 
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     hist_Data.GetYaxis().SetTitle("a.u.");
     hist_Data.GetYaxis().SetLabelSize(.03);
     hist_Data.GetXaxis().SetLimits(0, 300)
-    hist_Data.GetXaxis().SetTitle("#tau#tau mass [GeV]");
+    hist_Data.GetXaxis().SetTitle("m_{#tau#tau} [GeV]");
     hist_Data.SetMinimum(0);
     hist_Data.SetMaximum(0.4);
 
@@ -58,8 +58,10 @@ if __name__ == "__main__":
     hist_Data.Draw()
 
 
-#    testFiles = ['SVMass_Shape_lltt_MVAIso0.3_LT70','SVMass_Shape_lltt_MVAIso0.5_LT70', 'SVMass_Shape_lltt_MVAIso0.7_LT70']
-    testFiles = ['SVMass_Shape_lltt_MVAIso0.3_LT30','SVMass_Shape_lltt_MVAIso0.3_LT50', 'SVMass_Shape_lltt_MVAIso0.3_LT70']
+    testFiles = ['SVMass_Shape_lltt_MVAIso0.3_LT70', 'SVMass_Shape_lltt_MVAIso0.5_LT70', 'SVMass_Shape_lltt_MVAIso0.7_LT70']
+    legName = ['MVAIso > 0.3', 'MVAIso > 0.5', 'MVAIso > 0.7']
+#    testFiles = ['SVMass_Shape_lltt_MVAIso0.3_LT30','SVMass_Shape_lltt_MVAIso0.3_LT50', 'SVMass_Shape_lltt_MVAIso0.3_LT70']
+#    legName = ['LT > 30', 'LT > 50', 'LT > 70']
 
     outHist = [0] * 6
     outFile = [0] * 6
@@ -67,12 +69,13 @@ if __name__ == "__main__":
     outEst = [0] * 6
     for i in range(len(testFiles)):
         outHist[i] = _file_input.Get(testFiles[i])
-        print outHist[i].GetName() , outHist[i].Integral()
+        print outHist[i].GetName(), outHist[i].Integral()
         outHist[i].Rebin(reB)
-        outHist[i].SetLineColor(i+1)
-        outHist[i].SetLineWidth(2)
+        outHist[i].SetLineColor(i+1 )
+        outHist[i].SetLineStyle(2*i + 1)
+        outHist[i].SetLineWidth(5)
         outHist[i].DrawNormalized("same")
-        outName[i]=testFiles[i]
+        outName[i] = testFiles[i]
         
     #Text in Histogram
     t = TLatex()
@@ -81,13 +84,19 @@ if __name__ == "__main__":
     t.SetTextAlign(12)
     t.SetTextSize(0.025)
     t.DrawLatex(0.1, .92, "CMS Preliminary 2012")
-    t.DrawLatex(0.4, .92, "#sqrt{s} = 8 TeV, L = 19.8 fb^{-1}")
+    t.DrawLatex(0.4, .92, "#sqrt{s} = 8 TeV, L = 19.7 fb^{-1}")
     t.DrawLatex(0.7, .92, "SS Data")
-    t.DrawLatex(0.8, .92, "#tau#tau")
+    t.DrawLatex(0.8, .92, "ll#tau#tau")
+#    for i in range(len(testFiles)):
+#        t.SetTextColor(i + 1)
+#        t.DrawLatex(0.5, .87-((i + 1) / 20.), legName[i])
+
+    legend_ =  TLegend(0.6, 0.6, 0.9, 0.9)
+    legend_.SetFillColor(0)
+    legend_.SetBorderSize(0)
+    legend_.SetTextSize(.04)
     for i in range(len(testFiles)):
-        t.SetTextColor(i + 1)
-        t.DrawLatex(0.5, .87-((i + 1) / 20.), outName[i] )
+        legend_.AddEntry(outHist[i], legName[i], "l");
+        legend_.Draw();
 
-
-
-    canvas.SaveAs("Compare_Charge.pdf")
+    canvas.SaveAs("ChaeckBias1.pdf")

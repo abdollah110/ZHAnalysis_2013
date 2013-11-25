@@ -305,25 +305,25 @@ float getCorrFactor(std::string channel, std::string type, myobject const& a, my
 
     if (type == "mc11") {
         if (channel == "mm")
-            return Trg_Mu_2012(a, b) * Cor_ID_Iso_Mu_Loose_2012_53X(a) * Cor_ID_Iso_Mu_Loose_2012_53X(b);
+            return Trg_Mu_2011(a, b) * Cor_ID_Iso_Mu_Loose_2011(a) * Cor_ID_Iso_Mu_Loose_2011(b);
         if (channel == "mmtt")
-            return Trg_Mu_2012(a, b) * Cor_ID_Iso_Mu_Loose_2012_53X(a) * Cor_ID_Iso_Mu_Loose_2012_53X(b);
+            return Trg_Mu_2011(a, b) * Cor_ID_Iso_Mu_Loose_2011(a) * Cor_ID_Iso_Mu_Loose_2011(b);
         if (channel == "mmet")
-            return Trg_Mu_2012(a, b) * Cor_ID_Iso_Mu_Loose_2012_53X(a) * Cor_ID_Iso_Mu_Loose_2012_53X(b) * Cor_ID_Iso_Ele_Tight_2012_53X(c);
+            return Trg_Mu_2011(a, b) * Cor_ID_Iso_Mu_Loose_2011(a) * Cor_ID_Iso_Mu_Loose_2011(b) * Cor_ID_Iso_Ele_Tight_2011(c);
         if (channel == "mmmt")
-            return Trg_Mu_2012(a, b) * Cor_ID_Iso_Mu_Loose_2012_53X(a) * Cor_ID_Iso_Mu_Loose_2012_53X(b) * Cor_ID_Iso_Mu_Tight_2012_53X(c);
+            return Trg_Mu_2011(a, b) * Cor_ID_Iso_Mu_Loose_2011(a) * Cor_ID_Iso_Mu_Loose_2011(b) * Cor_ID_Iso_Mu_Tight_2011(c);
         if (channel == "mmme")
-            return Trg_Mu_2012(a, b) * Cor_ID_Iso_Mu_Loose_2012_53X(a) * Cor_ID_Iso_Mu_Loose_2012_53X(b) * Cor_ID_Iso_Mu_Loose_2012_53X(c) * Cor_ID_Iso_Ele_Loose_2012_53X(d);
+            return Trg_Mu_2011(a, b) * Cor_ID_Iso_Mu_Loose_2011(a) * Cor_ID_Iso_Mu_Loose_2011(b) * Cor_ID_Iso_Mu_Loose_2011(c) * Cor_ID_Iso_Ele_Loose_2011(d);
         if (channel == "ee")
-            return Trg_Ele_2012(a, b) * Cor_ID_Iso_Ele_Loose_2012_53X(a) * Cor_ID_Iso_Ele_Loose_2012_53X(b);
+            return Trg_Ele_2011(a, b) * Cor_ID_Iso_Ele_Loose_2011(a) * Cor_ID_Iso_Ele_Loose_2011(b);
         if (channel == "eett")
-            return Trg_Ele_2012(a, b) * Cor_ID_Iso_Ele_Loose_2012_53X(a) * Cor_ID_Iso_Ele_Loose_2012_53X(b);
+            return Trg_Ele_2011(a, b) * Cor_ID_Iso_Ele_Loose_2011(a) * Cor_ID_Iso_Ele_Loose_2011(b);
         if (channel == "eemt")
-            return Trg_Ele_2012(a, b) * Cor_ID_Iso_Ele_Loose_2012_53X(a) * Cor_ID_Iso_Ele_Loose_2012_53X(b) * Cor_ID_Iso_Mu_Tight_2012_53X(c);
+            return Trg_Ele_2011(a, b) * Cor_ID_Iso_Ele_Loose_2011(a) * Cor_ID_Iso_Ele_Loose_2011(b) * Cor_ID_Iso_Mu_Tight_2011(c);
         if (channel == "eeet")
-            return Trg_Ele_2012(a, b) * Cor_ID_Iso_Ele_Loose_2012_53X(a) * Cor_ID_Iso_Ele_Loose_2012_53X(b) * Cor_ID_Iso_Ele_Tight_2012_53X(c);
+            return Trg_Ele_2011(a, b) * Cor_ID_Iso_Ele_Loose_2011(a) * Cor_ID_Iso_Ele_Loose_2011(b) * Cor_ID_Iso_Ele_Tight_2011(c);
         if (channel == "eeem")
-            return Trg_Ele_2012(a, b) * Cor_ID_Iso_Ele_Loose_2012_53X(a) * Cor_ID_Iso_Ele_Loose_2012_53X(b) * Cor_ID_Iso_Ele_Loose_2012_53X(c) * Cor_ID_Iso_Mu_Loose_2012_53X(d);
+            return Trg_Ele_2011(a, b) * Cor_ID_Iso_Ele_Loose_2011(a) * Cor_ID_Iso_Ele_Loose_2011(b) * Cor_ID_Iso_Ele_Loose_2011(c) * Cor_ID_Iso_Mu_Loose_2011(d);
 
     }
 

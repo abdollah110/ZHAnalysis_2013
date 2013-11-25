@@ -102,7 +102,8 @@ int main(int argc, char** argv) {
     reweight::LumiReWeighting* LumiWeights_12;
     LumiWeights_12 = new reweight::LumiReWeighting("interface/Summer12_PU.root", "interface/dataPileUpHistogram_True_2012.root", "mcPU", "pileup");
     reweight::LumiReWeighting* LumiWeights_11;
-    LumiWeights_11 = new reweight::LumiReWeighting("interface/Fall11_PU_observed.root", "interface/dataPileUpHistogram_Observed_2011.root", "mcPU", "pileup");
+    //    LumiWeights_11 = new reweight::LumiReWeighting("interface/Fall11_PU_observed.root", "interface/dataPileUpHistogram_Observed_2011.root", "mcPU", "pileup"); // Last Bug found in 25 Nov
+    LumiWeights_11 = new reweight::LumiReWeighting("interface/Fall11_PU.root", "interface/dataPileUpHistogram_True_2011.root", "mcPU", "pileup");
 
     //#################################################################################################
     //############## defining Tree Branches Filled via fillTree function                ###############
@@ -318,7 +319,8 @@ int main(int argc, char** argv) {
                 PU_Weight = LumiWeights_12->weight(num_PU);
             }
             if (mc11) {
-                num_PU = m->PUInfo;
+                //                num_PU = m->PUInfo; // Last Bug found in 25 Nov
+                num_PU = m->PUInfo_true;
                 PU_Weight = LumiWeights_11->weight(num_PU);
             }
             //*********************************************************************************************

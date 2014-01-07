@@ -87,8 +87,8 @@ def XSection(mX, CoMEnergy):
         if mX == 'WZJets3L':    return 0.868
         if mX == 'DYJets':      return 3048.
 
-#Histogram = "SVMass_"
-Histogram = "VisibleMass_"
+Histogram = "SVMass_"
+#Histogram = "VisibleMass_"
 channel = ["mmtt", "mmet", "mmmt", "mmme", "eett", "eemt", "eeet", "eeem"]
 signal = ['zhtt', 'zhww']
 mass = [90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160]
